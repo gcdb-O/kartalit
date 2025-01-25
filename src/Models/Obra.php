@@ -8,11 +8,14 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\ManyToOne;
 
 #[Entity]
 #[Table(name: 'obres')]
@@ -22,19 +25,28 @@ class Obra
     #[Column(name: 'obraID')]
     #[GeneratedValue]
     private int $id;
-
     #[Column(name: 'titol_original')]
     private ?string $titolOriginal;
     #[Column(name: 'titol_catala')]
     private ?string $titolCatala;
     #[Column(name: 'Any_publicacio')]
     private ?int $anyPublicacio;
-
+    #[ManyToOne(targetEntity: Idioma::class, inversedBy: 'obres')]
+    #[JoinColumn(name: 'idioma_original', referencedColumnName: 'idiomaID')]
+    private ?Idioma $idiomaOriginal;
+    #[ManyToMany(targetEntity: Autor::class, inversedBy: 'obres')]
+    #[JoinTable(
+        name: 'obres_autors',
+        joinColumns: new JoinColumn(name: 'obra', referencedColumnName: 'obraID'),
+        inverseJoinColumns: new JoinColumn(name: 'autor', referencedColumnName: 'autorID')
+    )]
+    private Collection $autors;
     #[OneToMany(targetEntity: Esdeveniment::class, mappedBy: 'obra')]
     private Collection $esdeveniments;
 
     public function __construct()
     {
+        $this->autors = new ArrayCollection();
         $this->esdeveniments = new ArrayCollection();
     }
     public function getId(): int
@@ -77,6 +89,26 @@ class Obra
         $this->anyPublicacio = $anyPublicacio;
     }
 
+    public function getIdiomaOriginal(): ?Idioma
+    {
+        return $this->idiomaOriginal;
+    }
+
+    public function setIdiomaOriginal(Idioma $idioma): void
+    {
+        $this->idiomaOriginal = $idioma;
+    }
+
+    public function getAutors(): Collection
+    {
+        return $this->autors;
+    }
+
+    public function addAutor(Autor $autor): void
+    {
+        $autor->addObra($this);
+        $this->autors->add($autor);
+    }
     public function getEsdeveniments(): Collection
     {
         return $this->esdeveniments;

@@ -17,10 +17,9 @@ use Doctrine\ORM\Mapping\JoinColumn;
 class Esdeveniment
 {
     #[Id]
-    #[Column(name: "esdevenimentID")]
     #[GeneratedValue]
+    #[Column(name: "esdevenimentID")]
     private int $id;
-
     #[Column(nullable: true)]
     private ?int $any;
     #[Column(nullable: true)]

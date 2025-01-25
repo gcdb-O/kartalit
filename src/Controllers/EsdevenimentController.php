@@ -30,8 +30,6 @@ class EsdevenimentController
             array_push($esdevenimentsJson, $esdevenimentJson);
         }
         $res->getBody()->write(json_encode($esdevenimentsJson));
-        return $res
-            ->withHeader("Content-Type", "application/json")
-            ->withStatus(200);
+        return $res->withStatus(200);
     }
 }
