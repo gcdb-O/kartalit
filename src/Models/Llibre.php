@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Kartalit\Models;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 
 #[Entity]
@@ -33,7 +36,14 @@ class Llibre
     #[ManyToOne(targetEntity: Idioma::class, inversedBy: "llibres")]
     #[JoinColumn(name: "idioma", referencedColumnName: "idiomaID")]
     private Idioma $idioma;
+    #[OneToMany(targetEntity: Cita::class, mappedBy: "llibre")]
+    private Collection $cites;
 
+    public function __construct()
+    {
+        $this->cites = new ArrayCollection();
+    }
+    #region Getters and setters
     public function getId(): int
     {
         return $this->id;
@@ -103,4 +113,14 @@ class Llibre
     {
         $this->idioma = $idioma;
     }
+    public function getCites(): Collection
+    {
+        return $this->cites;
+    }
+    public function addCita(Cita $cita): void
+    {
+        $cita->setLlibre($this);
+        $this->cites->add($cita);
+    }
+    #endregion
 }

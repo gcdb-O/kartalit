@@ -23,6 +23,7 @@ class Router
             return $res->withStatus(200);
         });
         $group->group("/autor", AutorRouter::class);
+        $group->group("/cita", CitaRouter::class);
         $group->group("/calendari", CalendariRouter::class);
     }
 }

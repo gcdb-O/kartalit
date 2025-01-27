@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace Kartalit\Models;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 
 #[Entity]
@@ -31,7 +34,14 @@ class Usuari
     private int $nivell;
     #[Column(name: "data_creacio", type: "date")]
     private DateTime $dataCreacio;
+    #[OneToMany(targetEntity: Cita::class, mappedBy: "user")]
+    private Collection $cites;
 
+    public function __construct()
+    {
+        $this->cites = new ArrayCollection();
+    }
+    #region Getters and setters
     public function getId(): int
     {
         return $this->id;
@@ -101,4 +111,14 @@ class Usuari
     {
         $this->dataCreacio = $dataCreacio;
     }
+    public function getCites(): Collection
+    {
+        return $this->cites;
+    }
+    public function addCita(Cita $cita): void
+    {
+        $cita->setUsuari($this);
+        $this->cites->add($cita);
+    }
+    #endregion
 }

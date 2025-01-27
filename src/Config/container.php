@@ -7,6 +7,8 @@ use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 use Kartalit\Config\Config;
+use Kartalit\Helpers\RandomSort;
+
 use function DI\create;
 
 $container_bindings = [
@@ -14,6 +16,7 @@ $container_bindings = [
     EntityManager::class => function (Config $config) {
         $doctConfig = ORMSetup::createAttributeMetadataConfiguration(paths: [__DIR__ . '/../src/Models'], isDevMode: true); // $isDevMode=true ja que sinó tinc problemes de Redis al deployment. 
         $doctConfig->setAutoGenerateProxyClasses(false);
+        $doctConfig->addCustomNumericFunction('RANDOMSORT', RandomSort::class);
         return new EntityManager(
             DriverManager::getConnection($config->db),
             $doctConfig

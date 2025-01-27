@@ -41,12 +41,15 @@ class Obra
         inverseJoinColumns: new JoinColumn(name: 'autor', referencedColumnName: 'autorID')
     )]
     private Collection $autors;
+    #[OneToMany(targetEntity: Cita::class, mappedBy: "obra")]
+    private Collection $cites;
     #[OneToMany(targetEntity: Esdeveniment::class, mappedBy: 'obra')]
     private Collection $esdeveniments;
 
     public function __construct()
     {
         $this->autors = new ArrayCollection();
+        $this->cites = new ArrayCollection();
         $this->esdeveniments = new ArrayCollection();
     }
     #region Getters and setters
@@ -109,6 +112,15 @@ class Obra
     {
         $autor->addObra($this);
         $this->autors->add($autor);
+    }
+    public function getCites(): Collection
+    {
+        return $this->cites;
+    }
+    public function addCita(Cita $cita): void
+    {
+        $cita->setObra($this);
+        $this->cites->add($cita);
     }
     public function getEsdeveniments(): Collection
     {
