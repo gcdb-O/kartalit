@@ -26,7 +26,10 @@ class CitaController
                 "titolOriginal" => $obra?->getTitolOriginal(),
                 "titolCatala" => $obra?->getTitolCatala(),
                 "autors" => array_map(function (Autor $autor) {
-                    return ["nomComplet" => $autor->getNomComplet()];
+                    return [
+                        "nomComplet" => $autor->getNomComplet(),
+                        "pseudonim" => $autor->getPseudonim(),
+                    ];
                 }, $obra->getAutors()->toArray()),
             ]
         ];
