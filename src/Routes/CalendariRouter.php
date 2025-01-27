@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Kartalit\Routes;
 
-use Slim\Routing\RouteCollectorProxy;
 use Kartalit\Controllers\EsdevenimentController;
+use Slim\Routing\RouteCollectorProxy;
 
 class CalendariRouter
 {

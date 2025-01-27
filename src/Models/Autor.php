@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Kartalit\Models;
 
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Table;
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\Table;
 
 #[Entity]
 #[Table(name: 'autors')]
@@ -30,9 +31,9 @@ class Autor
     #[Column]
     private string $ordenador;
     #[Column(name: 'data_naixement', type: 'date',)]
-    private ?\DateTime $dataNaixement;
+    private ?DateTime $dataNaixement;
     #[Column(name: 'data_defuncio', type: 'date',)]
-    private ?\DateTime $dataDefuncio;
+    private ?DateTime $dataDefuncio;
     #[Column()]
     private ?string $nacionalitat;
     #[Column(type: 'text',)]
@@ -44,6 +45,7 @@ class Autor
     {
         $this->obres = new ArrayCollection();
     }
+    #region Getters and setters
     public function getId(): int
     {
         return $this->id;
@@ -94,22 +96,22 @@ class Autor
         $this->ordenador = $ordenador;
     }
 
-    public function getDataNaixement(): \DateTime|null
+    public function getDataNaixement(): DateTime|null
     {
         return $this->dataNaixement;
     }
 
-    public function setDataNaixement(\DateTime $dataNaixement): void
+    public function setDataNaixement(DateTime $dataNaixement): void
     {
         $this->dataNaixement = $dataNaixement;
     }
 
-    public function getDataDefuncio(): \DateTime|null
+    public function getDataDefuncio(): DateTime|null
     {
         return $this->dataDefuncio;
     }
 
-    public function setDataDefuncio(\DateTime $dataDefuncio): void
+    public function setDataDefuncio(DateTime $dataDefuncio): void
     {
         $this->dataDefuncio = $dataDefuncio;
     }
@@ -143,5 +145,20 @@ class Autor
     {
         $obra->addAutor($this);
         $this->obres->add($obra);
+    }
+    #endregion
+    public function getArray(): array
+    {
+        return [
+            "id" => $this->getId(),
+            "nom" => $this->getNom(),
+            "cognoms" => $this->getCognoms(),
+            "pseudonim" => $this->getPseudonim(),
+            "ordenador" => $this->getOrdenador(),
+            "dataNaixement" => $this->getDataNaixement()?->format("Y-m-d"),
+            "dataDefuncio" => $this->getDataDefuncio()?->format("Y-m-d"),
+            "nacionalitat" => $this->getNacionalitat(),
+            "notes" => $this->getNotes()
+        ];
     }
 }

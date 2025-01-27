@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Kartalit\Models;
 
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Table;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\Table;
 
 #[Entity]
 #[Table(name: "idiomes")]
@@ -23,12 +23,15 @@ class Idioma
     private int $id;
     #[Column]
     private string $idioma;
-    #[OneToMany(targetEntity: Obra::class, mappedBy: 'idioma')]
+    #[OneToMany(targetEntity: Obra::class, mappedBy: 'idiomaOriginal')]
     private Collection $obres;
+    #[OneToMany(targetEntity: Llibre::class, mappedBy: 'idioma')]
+    private Collection $llibres;
 
     public function __construct()
     {
         $this->obres = new ArrayCollection();
+        $this->llibres = new ArrayCollection();
     }
 
     public function getId(): int
@@ -60,5 +63,16 @@ class Idioma
     {
         $obra->setIdiomaOriginal($this);
         $this->obres->add($obra);
+    }
+
+    public function getLlibres(): Collection
+    {
+        return $this->llibres;
+    }
+
+    public function addLlibre(Llibre $llibre): void
+    {
+        $llibre->setIdioma($this);
+        $this->llibres->add($llibre);
     }
 }

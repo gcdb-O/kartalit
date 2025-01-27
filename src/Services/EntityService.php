@@ -11,6 +11,10 @@ abstract class EntityService
     protected static string $entity;
     public function __construct(protected EntityManager $em) {}
 
+    public function getAll()
+    {
+        return $this->em->getRepository(static::$entity)->findAll();
+    }
     public function getById(int $id)
     {
         return $this->em->find(static::$entity, $id);

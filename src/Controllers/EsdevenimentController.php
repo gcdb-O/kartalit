@@ -13,10 +13,11 @@ class EsdevenimentController
 {
     public function __construct(private EsdevenimentService $esdevenimentService) {}
 
-    public function getDiaMes(Request $req, Response $res): Response
+    public function getDiaMes(Request $_, Response $res): Response
     {
         $esdeveniments = $this->esdevenimentService->getByDiaMes();
         $esdevenimentsJson = [];
+        /** @var Esdeveniment $esdeveniment */
         foreach ($esdeveniments as $esdeveniment) {
             $obra = $esdeveniment->getObra();
             $obraJson = $obra->getTitolOriginal();
