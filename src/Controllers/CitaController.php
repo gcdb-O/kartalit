@@ -22,6 +22,7 @@ class CitaController
         $citaJson = [
             "cita" => $cita->getCita(),
             "obra" => [
+                "id" => $obra?->getId(),
                 "titolOriginal" => $obra?->getTitolOriginal(),
                 "titolCatala" => $obra?->getTitolCatala(),
                 "autors" => array_map(function (Autor $autor) {
