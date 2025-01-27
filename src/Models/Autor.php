@@ -161,4 +161,13 @@ class Autor
             "notes" => $this->getNotes()
         ];
     }
+    public function getNomComplet(): string
+    {
+        $nomComplet = $this->getNom();
+        $cognoms = $this->getCognoms();
+        if ($cognoms) {
+            $nomComplet .= " " . $cognoms;
+        }
+        return $nomComplet;
+    }
 }

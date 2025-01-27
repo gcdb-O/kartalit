@@ -12,6 +12,7 @@ class CitaService extends EntityService
 
     public function getRandom()
     {
+        // TODO: Excloure etiqueta mapa_literari
         return $this->em->createQueryBuilder()
             ->select('c')
             ->from(self::$entity, 'c')

@@ -18,7 +18,7 @@ $app = require_once __DIR__ . '/../bootstrap.php';
 $app->setBasePath($_ENV['ENV_SERVER_BASEPATH'] ?? '/');
 
 // MW Out
-// $app->add(new ContentLengthMiddleware());
+$app->add(new ContentLengthMiddleware());
 // $app->add(new ErrorHandler);
 $app->add(new AddResponseHeaders);
 $app->add(new GzipEncoder());

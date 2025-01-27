@@ -14,7 +14,7 @@ use function DI\create;
 $container_bindings = [
     Config::class => create(Config::class)->constructor($_ENV),
     EntityManager::class => function (Config $config) {
-        $doctConfig = ORMSetup::createAttributeMetadataConfiguration(paths: [__DIR__ . '/../src/Models'], isDevMode: true); // $isDevMode=true ja que sinó tinc problemes de Redis al deployment. 
+        $doctConfig = ORMSetup::createAttributeMetadataConfiguration(paths: [__DIR__ . '/../src/Models'], isDevMode: true); // $isDevMode=true ja que sinó tinc problemes de Redis al deployment.
         $doctConfig->setAutoGenerateProxyClasses(false);
         $doctConfig->addCustomNumericFunction('RANDOMSORT', RandomSort::class);
         return new EntityManager(
