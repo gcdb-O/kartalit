@@ -20,17 +20,21 @@ class EsdevenimentController
         /** @var Esdeveniment $esdeveniment */
         foreach ($esdeveniments as $esdeveniment) {
             $obra = $esdeveniment->getObra();
-            $obraJson = $obra->getTitolOriginal();
-            if ($obra->getTitolCatala() != null) {
-                $obraJson .= " (" . $obra->getTitolCatala() . ")";
-            }
+            $obraJson = [
+                "id" => $obra->getId(),
+                "titolOriginal" => $obra->getTitolOriginal(),
+                "titolCatala" => $obra->getTitolCatala(),
+            ];
             $esdevenimentJson = [
                 "esdeveniment" => $esdeveniment->getExtra(),
+                "any" => $esdeveniment->getAny(),
+                "mes" => $esdeveniment->getMes(),
+                "dia" => $esdeveniment->getDia(),
                 "obra" => $obraJson,
             ];
             array_push($esdevenimentsJson, $esdevenimentJson);
         }
-        $res->getBody()->write(json_encode($esdevenimentsJson));
+        $res->getBody()->write(json_encode(["data" => $esdevenimentsJson]));
         return $res->withStatus(200);
     }
 }
