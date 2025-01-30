@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Kartalit\Routes;
 
-use Kartalit\Controllers\CitaController;
+use Kartalit\Controllers\WebController;
 use Slim\Routing\RouteCollectorProxy;
 
-class CitaRouter
+class WebRouter
 {
     public function __invoke(RouteCollectorProxy $group): void
     {
-        $group->get("/random", [CitaController::class, "getRandom"]);
+        $group->get("[/]", [WebController::class, "index"]);
     }
 }

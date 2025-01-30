@@ -22,6 +22,7 @@ class Config
                 'secret' => $env["ENV_JWT_SECRET"]
             ],
             'server' => [
+                'isProd' => ($env["ENV_SERVER_PROD"] === "true") ? true : false,
                 'basePath' => $env["ENV_SERVER_BASEPATH"],
                 'salt' => $env["ENV_SERVER_SALT"]
             ]

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Kartalit\Routes;
+namespace Kartalit\Routes\api;
 
-use Kartalit\Controllers\AutorController;
+use Kartalit\Controllers\api\AutorController;
 use Slim\Routing\RouteCollectorProxy;
 
 class AutorRouter

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kartalit\Controllers;
+namespace Kartalit\Controllers\api;
 
 use Kartalit\Models\Esdeveniment;
 use Kartalit\Services\EsdevenimentService;

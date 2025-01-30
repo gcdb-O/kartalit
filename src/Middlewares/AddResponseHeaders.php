@@ -22,7 +22,6 @@ class AddResponseHeaders
 
         return $response
             ->withHeader("Content-Language", "ca")
-            ->withHeader("Content-Type", "application/json")
             ->withHeader("Date", gmdate("D, d M Y H:i:s T"));
     }
 }

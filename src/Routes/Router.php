@@ -4,26 +4,25 @@ declare(strict_types=1);
 
 namespace Kartalit\Routes;
 
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Kartalit\Middlewares\AddJsonResponseHeader;
+use Slim\App;
+use Slim\Middleware\BodyParsingMiddleware;
 use Slim\Routing\RouteCollectorProxy;
+use Slim\Views\Twig;
+use Slim\Views\TwigMiddleware;
 
 class Router
 {
-    public function __invoke(RouteCollectorProxy $group)
+    public function __construct(private App $app) {}
+    public function __invoke(RouteCollectorProxy $group): void
     {
-        $group->get("/", function (Request $_, Response $res): Response {
-            $res->getBody()->write(json_encode([
-                "API" => [
-                    "nom" => "Kartalit",
-                    "version" => "1.0.0",
-                    "docs" => "In Progress..."
-                ]
-            ]));
-            return $res->withStatus(200);
-        });
-        $group->group("/autor", AutorRouter::class);
-        $group->group("/cita", CitaRouter::class);
-        $group->group("/calendari", CalendariRouter::class);
+        $group->group("/api", ApiRouter::class)
+            // MW In
+            ->add(new BodyParsingMiddleware)
+            // MW Out
+            ->add(new AddJsonResponseHeader);
+        $group->group("", WebRouter::class)
+            // MW In
+            ->add(TwigMiddleware::create($this->app, $this->app->getContainer()->get(Twig::class)));
     }
 }

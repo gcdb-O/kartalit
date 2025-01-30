@@ -14,7 +14,6 @@ $app = require_once __DIR__ . '/../bootstrap.php';
 $app->setBasePath($_ENV['ENV_SERVER_BASEPATH'] ?? '/');
 
 // MW In
-$app->addBodyParsingMiddleware();
 // MW Out
 // $app->add(new ErrorHandler);
 $app->add(new AddResponseHeaders);
@@ -22,6 +21,6 @@ $app->add(EncodeContent::class);
 $errMw = $app->addErrorMiddleware(true, false, false);
 $errorHandler = $errMw->getDefaultErrorHandler();
 $errorHandler->forceContentType("application/json");
-$app->group('', Router::class);
+$app->group('', new Router($app));
 
 $app->run();
