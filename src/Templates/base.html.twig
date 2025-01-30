@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+	{% block head %}
+	<meta charset="UTF8">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>{{ titol }}</title>
+	<link rel="icon" type="image/ico" href="logo.ico"/>
+	<link rel="stylesheet" type="text/css" href="css/kartalit.css">
+	{% endblock %}
+</head>
+<body class="bg-color: #57c">
+	<div id="header">{% block header %}{% endblock %}</div>
+	<div id="content" class="container">{% block content %}{% endblock %}</div>
+	<div id="footer">{% block footer %}Footer{% endblock %}</div>
+</body>
+</html>

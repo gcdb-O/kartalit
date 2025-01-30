@@ -11,14 +11,14 @@ class TwigContext
     public function __construct(
         private array $data = [],
         private ?Usuari $usuari = null,
-        private string $titol = "Kartalit"
+        private ?string $titol = null,
     ) {}
 
     public function getContext(): array
     {
         $context = $this->data;
         $context["usuari"] = $this->usuari;
-        $context["titol"] = $this->titol;
+        $context["titol"] = ltrim($this->titol . " 📖 Kartalit");
         return $context;
     }
 }

@@ -25,10 +25,7 @@ $container_bindings = [
         );
     },
     Twig::class => function (Config $config) {
-        $cacheRoute = false;
-        if ($config->server['isProd'] === true) {
-            $cacheRoute = __DIR__ . '/../../var/cache/twig';
-        }
+        $cacheRoute = $config->server['isProd'] === true ? __DIR__ . '/../../var/cache/twig' : false;
         return Twig::create(__DIR__ . "/../Templates", ["cache" => $cacheRoute]);
     }
 ];

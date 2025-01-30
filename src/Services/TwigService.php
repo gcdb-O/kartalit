@@ -12,8 +12,8 @@ class TwigService
     public function __construct(private readonly Twig $twig) {}
 
     // TODO: $data ha d'implementar una interfície que conté nom de pàgina, dades d'usuari provenint del token, i context normal.
-    public function render(Response $res, string $template, array $data = []): Response
+    public function render(Response $res, string $template, TwigContext $context): Response
     {
-        return $this->twig->render($res, $template, $data);
+        return $this->twig->render($res, $template, $context->getContext());
     }
 }

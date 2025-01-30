@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
+use Kartalit\Config\Config;
 
 #[Entity]
 #[Table(name: "user")]
@@ -37,7 +38,7 @@ class Usuari
     #[OneToMany(targetEntity: Cita::class, mappedBy: "user")]
     private Collection $cites;
 
-    public function __construct()
+    public function __construct(private Config $config)
     {
         $this->cites = new ArrayCollection();
     }
@@ -121,4 +122,10 @@ class Usuari
         $this->cites->add($cita);
     }
     #endregion
+
+    public function checkPassword(string $password): bool
+    {
+        $hash = md5($this->config->server['salt'] . $this->getSalt() . $password);
+        return $hash === $this->getHash();
+    }
 }
