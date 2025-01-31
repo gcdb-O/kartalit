@@ -9,11 +9,13 @@
 	<link rel="stylesheet" type="text/css" href="css/kartalit.css">
 	{% endblock %}
 </head>
-<body class="bg-orange-500">
-	<div id="header">{% block header %}{% endblock %}</div>
+<body class="bg-orange-500 px-5 sm:px-10 md:px-30 lg:px-50">
+	<div id="header">{% block header %}{{ include("./Components/header.html.twig") }}{% endblock %}</div>
 	<div id="content">{% block content %}{% endblock %}</div>
-	<div id="footer" class="text-xs text-center fixed bottom-0 w-full p-4">{% block footer %}
+	<div id="footer" class="text-xs text-center fixed bottom-0 left-0 w-full p-2">
+	{% block footer %}
 		<p>Kartalit - 2025</p>
-{% endblock %}</div>
+	{% endblock %}
+	</div>
 </body>
 </html>
