@@ -12,5 +12,6 @@ class WebRouter
     public function __invoke(RouteCollectorProxy $group): void
     {
         $group->get("[/]", [WebController::class, "index"]);
+        $group->get("/login", [WebController::class, "login"]);
     }
 }

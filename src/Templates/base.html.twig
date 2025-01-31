@@ -9,9 +9,11 @@
 	<link rel="stylesheet" type="text/css" href="css/kartalit.css">
 	{% endblock %}
 </head>
-<body class="bg-color: #57c">
+<body class="bg-orange-500">
 	<div id="header">{% block header %}{% endblock %}</div>
-	<div id="content" class="container">{% block content %}{% endblock %}</div>
-	<div id="footer">{% block footer %}Footer{% endblock %}</div>
+	<div id="content">{% block content %}{% endblock %}</div>
+	<div id="footer" class="text-xs text-center fixed bottom-0 w-full p-4">{% block footer %}
+		<p>Kartalit - 2025</p>
+{% endblock %}</div>
 </body>
 </html>

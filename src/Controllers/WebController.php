@@ -18,4 +18,8 @@ class WebController
         $context = new TwigContext(["name" => "Kartalit"]);
         return $this->twig->render($res, "index.html.twig", $context);
     }
+    public function login(Request $_, Response $res): Response
+    {
+        return $this->twig->render($res, "login.html.twig", new TwigContext([], "Inicia sessió"));
+    }
 }

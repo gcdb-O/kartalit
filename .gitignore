@@ -1,2 +1,4 @@
 /vendor
 .env
+/public/css/kartalit.css
+/tailwindcss*

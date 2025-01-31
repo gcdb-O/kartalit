@@ -10,8 +10,8 @@ class TwigContext
 {
     public function __construct(
         private array $data = [],
-        private ?Usuari $usuari = null,
         private ?string $titol = null,
+        private ?Usuari $usuari = null,
     ) {}
 
     public function getContext(): array
