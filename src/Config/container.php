@@ -8,9 +8,13 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 use Kartalit\Config\Config;
 use Kartalit\Helpers\RandomSort;
+use Kartalit\Interfaces\AuthServiceInterface;
+use Kartalit\Services\AuthService;
+use Kartalit\Services\EntityService;
 use Slim\Views\Twig;
 
 use function DI\create;
+use function DI\get;
 
 $envConfig = new Config($_ENV);
 $container_bindings = [
@@ -27,7 +31,8 @@ $container_bindings = [
     Twig::class => function (Config $config) {
         $cacheRoute = $config->server['isProd'] === true ? __DIR__ . '/../../var/cache/twig' : false;
         return Twig::create(__DIR__ . "/../Templates", ["cache" => $cacheRoute]);
-    }
+    },
+    AuthServiceInterface::class => get(AuthService::class),
 ];
 
 $containerBuilder = new ContainerBuilder();

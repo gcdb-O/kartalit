@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kartalit\Routes;
 
+use Kartalit\Controllers\api\AuthController;
 use Kartalit\Routes\api\AutorRouter;
 use Kartalit\Routes\api\CalendariRouter;
 use Kartalit\Routes\api\CitaRouter;
@@ -25,6 +26,7 @@ class ApiRouter
             ]));
             return $res->withStatus(200);
         });
+        $group->post("/login", [AuthController::class, "login"]);
         $group->group("/autor", AutorRouter::class);
         $group->group("/cita", CitaRouter::class);
         $group->group("/calendari", CalendariRouter::class);

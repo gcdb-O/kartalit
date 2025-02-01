@@ -7,13 +7,14 @@ namespace Kartalit\Middlewares;
 use Kartalit\Errors\NotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Psr7\Response;
 use Throwable;
 
-class ErrorHandler
+class ErrorHandler implements MiddlewareInterface
 {
-    public function __invoke(Request $request, RequestHandler $handler): ResponseInterface
+    public function process(Request $request, RequestHandler $handler): Response
     {
         try {
             return $handler->handle($request);

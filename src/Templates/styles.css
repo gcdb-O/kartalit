@@ -1,1 +1,8 @@
 @import "tailwindcss" source("/");
+
+@theme {
+    /* --color-klit: #b84000; */
+    --color-klit: #ff8847;
+    --color-klit-dark: #32373b;
+    --color-klit-text: #131516;
+}

@@ -25,6 +25,7 @@ class AutorController
     public function getById(Request $_, Response $res, array $args): Response
     {
         $id = (int) $args["id"];
+        /** @var ?Autor $autor */
         $autor = $this->autorService->getById($id);
         if (!$autor) {
             throw new NotFoundException((string)$id);
