@@ -2,3 +2,4 @@
 .env
 # /public/css/kartalit.css
 /tailwindcss*
+tailwind.config.js

@@ -18,11 +18,11 @@ class Router
     {
         $group->group("/api", ApiRouter::class)
             // MW In
-            ->add(new BodyParsingMiddleware)
+            ->addMiddleware(new BodyParsingMiddleware)
             // MW Out
-            ->add(new AddJsonResponseHeader);
+            ->addMiddleware(new AddJsonResponseHeader);
         $group->group("", WebRouter::class)
             // MW In
-            ->add(TwigMiddleware::create($this->app, $this->app->getContainer()->get(Twig::class)));
+            ->addMiddleware(TwigMiddleware::create($this->app, $this->app->getContainer()->get(Twig::class)));
     }
 }

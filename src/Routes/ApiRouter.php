@@ -26,7 +26,7 @@ class ApiRouter
             ]));
             return $res->withStatus(200);
         });
-        $group->post("/login", [AuthController::class, "login"]);
+        $group->post("/login", [AuthController::class, "login"])->setName("login");
         $group->group("/autor", AutorRouter::class);
         $group->group("/cita", CitaRouter::class);
         $group->group("/calendari", CalendariRouter::class);
