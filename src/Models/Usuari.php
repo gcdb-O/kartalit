@@ -121,4 +121,13 @@ class Usuari
         $this->cites->add($cita);
     }
     #endregion
+    public function getArray(): array
+    {
+        return [
+            "id" => $this->getId(),
+            "usuari" => $this->getUsuari(),
+            "email" => $this->getEmail(),
+            "nivell" => $this->getNivell(),
+        ];
+    }
 }

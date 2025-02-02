@@ -15,12 +15,12 @@ class JwtService
         date_default_timezone_set("Europe/Berlin");
     }
 
-    public function jwtEncode(array $payload): string
+    public function jwtEncode(array $payload, int $expirationTime = 3600): string
     {
         $token = [
             "iss" => "Kartalit",
             "iat" => time(),
-            "exp" => time() + 3600,
+            "exp" => time() + $expirationTime,
             "data" => $payload,
         ];
         return JWT::encode($token, $this->config->jwt["secret"], "HS256");

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kartalit\Routes;
 
 use Kartalit\Middlewares\AddJsonResponseHeader;
+use Kartalit\Middlewares\ErrorHandler;
 use Slim\App;
 use Slim\Middleware\BodyParsingMiddleware;
 use Slim\Routing\RouteCollectorProxy;
@@ -21,6 +22,7 @@ class Router
             ->addMiddleware(new BodyParsingMiddleware)
             // MW Out
             ->addMiddleware(new AddJsonResponseHeader);
+        // ->addMiddleware(new ErrorHandler);
         $group->group("", WebRouter::class)
             // MW In
             ->addMiddleware(TwigMiddleware::create($this->app, $this->app->getContainer()->get(Twig::class)));

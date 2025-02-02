@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kartalit\Services;
 
+use Firebase\JWT\ExpiredException;
 use Kartalit\Config\Config;
 use Kartalit\Interfaces\AuthServiceInterface;
 use Kartalit\Models\Usuari;
@@ -17,7 +18,7 @@ class AuthService implements AuthServiceInterface
     ) {}
 
     // #region Token
-    public function createToken(Usuari $usuari): string
+    public function createToken(Usuari $usuari, int $expirationTime = 3600): string
     {
         $payload = [
             "id" => $usuari->getId(),
@@ -25,7 +26,7 @@ class AuthService implements AuthServiceInterface
             "nivell" => $usuari->getNivell(),
             "email" => $usuari->getEmail(),
         ];
-        return $this->jwtService->jwtEncode($payload);
+        return $this->jwtService->jwtEncode($payload, $expirationTime);
     }
     public function getUserFromToken(string $token): ?Usuari
     {
@@ -33,6 +34,9 @@ class AuthService implements AuthServiceInterface
             $payload = $this->jwtService->jwtDecode($token);
             return $this->usuariService->getById($payload["id"]);
         } catch (\Throwable $th) {
+            if ($th instanceof ExpiredException) {
+                return null;
+            }
             //TODO: Error propi
             throw $th;
         }

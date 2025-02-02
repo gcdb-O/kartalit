@@ -13,13 +13,13 @@ class WebController
 {
     public function __construct(private TwigService $twig) {}
 
-    public function index(Request $_, Response $res): Response
+    public function index(Request $req, Response $res): Response
     {
-        $context = new TwigContext(["name" => "Kartalit"]);
+        $context = new TwigContext($req, "", ["name" => "Kartalit"]);
         return $this->twig->render($res, "index.html.twig", $context);
     }
-    public function login(Request $_, Response $res): Response
+    public function login(Request $req, Response $res): Response
     {
-        return $this->twig->render($res, "login.html.twig", new TwigContext([], "Inicia sessió"));
+        return $this->twig->render($res, "login.html.twig", new TwigContext($req, "Inicia sessió"));
     }
 }

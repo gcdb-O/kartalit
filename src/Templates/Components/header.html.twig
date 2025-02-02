@@ -1,12 +1,24 @@
 <header class="bg-klit-dark text-white p-4 flex justify-between items-center">
-    <div class="logo">
-      <a href="./"><img src="img/kartalit_logo.png" alt="Logo Kartalit" class="w-32 ml-1 sm:ml-5"></a>
-    </div>
-    <nav class="flex">
-      <ul class="flex items-center">
-        <li class="mr-4"><a href="./" class="text-white hover:text-gray-300">Inici</a></li>
-        <li class="mr-4"><a href="#" class="text-white hover:text-gray-300">Sobre nosaltres</a></li>
-        <li><a href="./login" class="text-white hover:text-gray-300">Inicia sessió</a></li>
-      </ul>
-    </nav>
-  </header>
+	<div class="logo">
+		<a href="{{basePath}}"><img src="{{basePath}}/img/kartalit_logo.png" alt="Logo Kartalit" class="w-32 ml-1 sm:ml-5"></a>
+	</div>
+	<nav class="flex">
+		<ul class="flex items-center">
+			<li class="mr-4">
+				<a href="{{basePath}}" class="text-white hover:text-gray-300">Inici</a>
+			</li>
+			<li class="mr-4">
+				<a href="#" class="text-white hover:text-gray-300">Sobre nosaltres</a>
+			</li>
+			{% if usuari == null %}
+				<li>
+					<a href="{{basePath}}/login" class="text-white hover:text-gray-300">Inicia sessió</a>
+				</li>
+			{% else %}
+				<li>
+					<a href="#" class="text-white hover:text-gray-300">{{ usuari.usuari }}</a>
+				</li>
+			{% endif %}
+		</ul>
+	</nav>
+</header>

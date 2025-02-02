@@ -30,7 +30,9 @@ $container_bindings = [
     },
     Twig::class => function (Config $config) {
         $cacheRoute = $config->server['isProd'] === true ? __DIR__ . '/../../var/cache/twig' : false;
-        return Twig::create(__DIR__ . "/../Templates", ["cache" => $cacheRoute]);
+        $twig = Twig::create(__DIR__ . "/../Templates", ["cache" => $cacheRoute]);
+        $twig->getEnvironment()->addGlobal("basePath", $config->server["basePath"]);
+        return $twig;
     },
     AuthServiceInterface::class => get(AuthService::class),
 ];
