@@ -24,21 +24,7 @@ class CitaController
     {
         /** @var Cita $cita */
         $cita = $this->citaService->getRandom();
-        $obra = $cita->getObra();
-        $citaJson = [
-            "cita" => $cita->getCita(),
-            "obra" => [
-                "id" => $obra?->getId(),
-                "titolOriginal" => $obra?->getTitolOriginal(),
-                "titolCatala" => $obra?->getTitolCatala(),
-                "autors" => array_map(function (Autor $autor) {
-                    return [
-                        "nomComplet" => $autor->getNomComplet(),
-                        "pseudonim" => $autor->getPseudonim(),
-                    ];
-                }, $obra->getAutors()->toArray()),
-            ]
-        ];
+        $citaJson = $cita->getCitaObraArray();
         $apiRes = new ApiResponse(data: $citaJson);
         return $this->apiResponseService->toJson($res, $apiRes, HttpResponseCode::OK);
     }

@@ -28,12 +28,7 @@ class JwtService
 
     public function jwtDecode(string $jwt): array
     {
-        try {
-            $decodedJwt = JWT::decode($jwt, new Key($this->config->jwt["secret"], "HS256"));
-            return (array) $decodedJwt->data;
-        } catch (\Throwable $th) {
-            //TODO: Llançar un error propi de Jwt dolent o similar
-            throw $th;
-        }
+        $decodedJwt = JWT::decode($jwt, new Key($this->config->jwt["secret"], "HS256"));
+        return (array) $decodedJwt->data;
     }
 }

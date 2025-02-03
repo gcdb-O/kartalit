@@ -140,4 +140,22 @@ class Cita
             "comentari" => $this->getComentari(),
         ];
     }
+    public function getCitaObraArray(): array
+    {
+        $obra = $this->getObra();
+        return [
+            "cita" => $this->getCita(),
+            "obra" => [
+                "id" => $obra?->getId(),
+                "titolOriginal" => $obra?->getTitolOriginal(),
+                "titolCatala" => $obra?->getTitolCatala(),
+                "autors" => array_map(function (Autor $autor) {
+                    return [
+                        "nomComplet" => $autor->getNomComplet(),
+                        "pseudonim" => $autor->getPseudonim(),
+                    ];
+                }, $obra->getAutors()->toArray()),
+            ]
+        ];
+    }
 }

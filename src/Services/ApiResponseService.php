@@ -13,7 +13,7 @@ class ApiResponseService
     public function toJson(Response $response, ApiResponse $apiResponse, HttpResponseCode|int|null $status = null): Response
     {
         $response->getBody()->write(json_encode($apiResponse(), JSON_PRETTY_PRINT));
-        if ($status !== null) {
+        if ($status !== null && $status !== 0) {
             $statusCode = $status instanceof HttpResponseCode ? $status->value : $status;
             $response = $response->withStatus($statusCode);
         }

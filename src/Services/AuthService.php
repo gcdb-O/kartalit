@@ -41,6 +41,7 @@ class AuthService implements AuthServiceInterface
     // #region Cookie
     public function setCookie(string $token): void
     {
+        //TODO: Controlar si hauria de posar la propietat SameSite
         setcookie(
             name: "token",
             value: $token,

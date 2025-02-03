@@ -123,4 +123,14 @@ class Llibre
         $this->cites->add($cita);
     }
     #endregion
+    public function getCobertesBasic(): array
+    {
+        //TODO: Afegir informació d'autor?
+        return [
+            "id" => $this->getId(),
+            "titol" => $this->getTitol(),
+            // "coberta" => $this->getCoberta(),
+            "coberta" => is_resource($this->getCoberta()) ? base64_encode(stream_get_contents($this->getCoberta(), -1, 0)) : "null",
+        ];
+    }
 }

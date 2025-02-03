@@ -48,6 +48,7 @@ class ErrorHandler implements ErrorHandlerInterface
         ) {
             return $this->handleApiError($throwable);
         } else {
+            return $this->handleApiError($throwable);
             return $this->handleWebError($request);
         }
     }
@@ -61,17 +62,18 @@ class ErrorHandler implements ErrorHandlerInterface
         if ($this->displayErrorDetails) {
             $apiResponse->setExcepion($throwable);
         }
-        switch (get_class($throwable)) {
-            case NotFoundException::class:
-                $apiResponse->setStatus(ApiResponseStatus::NOT_FOUND);
-                break;
-        }
+        // switch (get_class($throwable)) {
+        //     case NotFoundException::class:
+        //         $apiResponse->setStatus(ApiResponseStatus::NOT_FOUND);
+        //         break;
+        // }
         $response = $this->apiResponseService->toJson($response, $apiResponse, $throwable->getCode());
         $response = $response->withHeader("Content-Type", "application/json");
         return $response;
     }
     private function handleWebError(Request $request): ResponseInterface
     {
+        //TODO: Separar els 404 dels 500 i mostrar error per consola i noProd
         $response = new Response();
         $response->withStatus(HttpResponseCode::NOT_FOUND->value);
         return $this->twig->render($response, "notFound.html.twig", new TwigContext($request, "Pàgina no trobada"));
