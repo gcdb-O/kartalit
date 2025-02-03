@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace Kartalit\Services;
 
 use Doctrine\ORM\EntityManager;
+use Kartalit\Config\Config;
 use Kartalit\Interfaces\EntityServiceInterface;
 
 abstract class EntityService implements EntityServiceInterface
 {
     protected static string $entity;
-    public function __construct(protected EntityManager $em) {}
+    public function __construct(
+        protected Config $config,
+        protected EntityManager $em
+    ) {}
 
     public function getAll(): array
     {

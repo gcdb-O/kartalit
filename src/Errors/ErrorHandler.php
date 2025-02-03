@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace Kartalit\Errors;
 
 use Kartalit\Config\Config;
-use Kartalit\Services\TwigContext;
+use Kartalit\Enums\ApiResponseStatus;
+use Kartalit\Enums\HttpResponseCode;
+use Kartalit\Schemas\ApiResponse;
+use Kartalit\Schemas\TwigContext;
+use Kartalit\Services\ApiResponseService;
 use Kartalit\Services\TwigService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -16,9 +20,11 @@ use Throwable;
 
 class ErrorHandler implements ErrorHandlerInterface
 {
+    private bool $displayErrorDetails = false;
     public function __construct(
         private Config $config,
         private TwigService $twig,
+        private ApiResponseService $apiResponseService,
         protected ?LoggerInterface $logger = null,
     ) {}
     public function __invoke(
@@ -28,6 +34,7 @@ class ErrorHandler implements ErrorHandlerInterface
         bool $logErrors,
         bool $logErrorDetails
     ): Response {
+        $this->displayErrorDetails = $displayErrorDetails;
         //TODO: Gestionar si $logErrors
         if ($logErrors && $this->logger !== null) {
             $this->logger->error($throwable->getMessage());
@@ -35,8 +42,9 @@ class ErrorHandler implements ErrorHandlerInterface
         $route = $request->getUri()->getPath();
         $acceptHeader = explode(",", $request->getHeaderLine("Accept")) ?? [];
         if (
-            strpos($route, $this->config->server["basePath"] . "/api") === 0 &&
-            in_array("application/json", $acceptHeader)
+            (strpos($route, $this->config->server["basePath"] . "/api") === 0 &&
+                in_array("application/json", $acceptHeader)) ||
+            $acceptHeader === ["*/*"]
         ) {
             return $this->handleApiError($throwable);
         } else {
@@ -46,34 +54,26 @@ class ErrorHandler implements ErrorHandlerInterface
     private function handleApiError(Throwable $throwable): ResponseInterface
     {
         $response = new Response();
-        $response->getBody()->write(json_encode([
-            "message" => $throwable->getMessage(),
-            "exception" => [
-                "type" => get_class($throwable),
-                "code" => $throwable->getCode(),
-            ]
-        ]));
-
+        $apiResponse = new ApiResponse(
+            message: $throwable->getMessage(),
+            status: ApiResponseStatus::ERROR,
+        );
+        if ($this->displayErrorDetails) {
+            $apiResponse->setExcepion($throwable);
+        }
+        switch (get_class($throwable)) {
+            case NotFoundException::class:
+                $apiResponse->setStatus(ApiResponseStatus::NOT_FOUND);
+                break;
+        }
+        $response = $this->apiResponseService->toJson($response, $apiResponse, $throwable->getCode());
         $response = $response->withHeader("Content-Type", "application/json");
-
-        return $response->withStatus($throwable->getCode());
+        return $response;
     }
     private function handleWebError(Request $request): ResponseInterface
     {
         $response = new Response();
-        $response->withStatus(404);
+        $response->withStatus(HttpResponseCode::NOT_FOUND->value);
         return $this->twig->render($response, "notFound.html.twig", new TwigContext($request, "Pàgina no trobada"));
-    }
-    private function handleNotFoundException(NotFoundException $throwable): ResponseInterface
-    {
-        $response = new Response();
-        $response->getBody()->write(json_encode([
-            "message" => $throwable->getMessage(),
-            "exception" => [
-                "type" => get_class($throwable),
-                "code" => $throwable->getCode(),
-            ]
-        ]));
-        return $response->withStatus($throwable->getCode());
     }
 }

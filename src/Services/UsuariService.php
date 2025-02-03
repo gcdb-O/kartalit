@@ -4,19 +4,12 @@ declare(strict_types=1);
 
 namespace Kartalit\Services;
 
-use Doctrine\ORM\EntityManager;
-use Kartalit\Config\Config;
 use Kartalit\Models\Usuari;
 
 class UsuariService extends EntityService
 {
     protected static string $entity = Usuari::class;
 
-    //TODO: Mirar si aquesta injecció EM es pot fer diferent, aprofitant la del parent
-    public function __construct(protected EntityManager $em, private Config $config)
-    {
-        // parent::__construct($this->em);
-    }
     public function getByUsername(string $username): ?Usuari
     {
         return $this->em->createQueryBuilder()

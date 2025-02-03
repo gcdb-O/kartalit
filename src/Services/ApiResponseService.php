@@ -1,0 +1,22 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Kartalit\Services;
+
+use Kartalit\Enums\HttpResponseCode;
+use Kartalit\Schemas\ApiResponse;
+use Psr\Http\Message\ResponseInterface as Response;
+
+class ApiResponseService
+{
+    public function toJson(Response $response, ApiResponse $apiResponse, HttpResponseCode|int|null $status = null): Response
+    {
+        $response->getBody()->write(json_encode($apiResponse(), JSON_PRETTY_PRINT));
+        if ($status !== null) {
+            $statusCode = $status instanceof HttpResponseCode ? $status->value : $status;
+            $response = $response->withStatus($statusCode);
+        }
+        return $response;
+    }
+}

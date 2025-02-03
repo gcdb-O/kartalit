@@ -10,7 +10,6 @@ use Kartalit\Config\Config;
 use Kartalit\Helpers\RandomSort;
 use Kartalit\Interfaces\AuthServiceInterface;
 use Kartalit\Services\AuthService;
-use Kartalit\Services\EntityService;
 use Slim\Views\Twig;
 
 use function DI\create;

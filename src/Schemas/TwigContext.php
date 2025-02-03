@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kartalit\Services;
+namespace Kartalit\Schemas;
 
 use Kartalit\Models\Usuari;
 use Psr\Http\Message\ServerRequestInterface as Request;

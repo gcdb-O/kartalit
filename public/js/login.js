@@ -8,14 +8,14 @@ formLogin.addEventListener('submit', (e) => {
         method: 'POST',
         body: formData
     })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
+        .then(response => {
+            if (response.status === 204) {
                 window.location.href = './';
-            } else {
-                alert(data.error);
+                return;
             }
+            return response.json()
         })
+        .then(data => alert(data.message))
         .catch(error => {
             console.error('Error:', error);
         });

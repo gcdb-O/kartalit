@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Kartalit\Services;
 
-use Firebase\JWT\ExpiredException;
 use Kartalit\Config\Config;
 use Kartalit\Interfaces\AuthServiceInterface;
 use Kartalit\Models\Usuari;
@@ -34,11 +33,8 @@ class AuthService implements AuthServiceInterface
             $payload = $this->jwtService->jwtDecode($token);
             return $this->usuariService->getById($payload["id"]);
         } catch (\Throwable $th) {
-            if ($th instanceof ExpiredException) {
-                return null;
-            }
-            //TODO: Error propi
-            throw $th;
+            // El MW d'autentificació ja s'encarregarà de gestionar errors de token.
+            return null;
         }
     }
     // #endregion
