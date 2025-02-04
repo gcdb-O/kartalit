@@ -10,19 +10,17 @@
 		{% endblock %}
 	</head>
 	<body class="bg-klit text-klit-text flex flex-col">
-		<div id="header" class="w-full">
-			{% block header %}
-				{{ include("./Components/header.html.twig") }}
-			{% endblock %}
-		</div>
+		{% block header %}
+			{{ include("./Components/header.html.twig") }}
+		{% endblock %}
 		<div id="content" class="px-5 sm:px-10 md:px-30 lg:px-50 xl:px-75 mt-10"> {% block content %}{% endblock %}
 			</div>
-			<div id="footer" class="text-xs text-center bottom-0 inset-x-0 w-full p-2 mt-20">
+			<footer id="footer" class="text-xs text-center bottom-0 inset-x-0 w-full p-2 mt-20">
 				{% block footer %}
 					<p>Kartalit -
 						{{"now"|date("Y")}}</p>
 				{% endblock %}
-			</div>
+			</footer>
 			{% block js %}{% endblock %}
 		</body>
 	</html>

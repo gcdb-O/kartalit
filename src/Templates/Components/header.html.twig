@@ -1,4 +1,4 @@
-<header class="bg-klit-dark text-white p-4 flex justify-between items-center">
+<header id="header" class="bg-klit-dark w-full text-white p-4 flex justify-between items-center">
 	<div>
 		<a href="{{basePath}}"><img src="{{basePath}}/img/kartalit_logo.png" alt="Logo Kartalit" class="w-32 ml-1 sm:ml-5"></a>
 	</div>
@@ -6,11 +6,11 @@
 		<ul
 			class="flex items-center">
 			{# <li class="mr-4">
-										<a href="{{basePath}}" class="text-white hover:text-gray-300">Inici</a>
-									</li>
-									<li class="mr-4">
-										<a href="#" class="text-white hover:text-gray-300">Sobre nosaltres</a>
-									</li> #}
+					<a href="{{basePath}}" class="text-white hover:text-gray-300">Inici</a>
+				</li>
+				<li class="mr-4">
+					<a href="#" class="text-white hover:text-gray-300">Sobre nosaltres</a>
+				</li> #}
 			{% if usuari == null %}
 				<li>
 					<a href="{{basePath}}/login" class="text-white hover:text-gray-300">Inicia sessió</a>

@@ -6,13 +6,14 @@ namespace Kartalit\Services;
 
 use Kartalit\Config\Config;
 use Kartalit\Interfaces\AuthServiceInterface;
+use Kartalit\Interfaces\TokenServiceInterface;
 use Kartalit\Models\Usuari;
 
 class AuthService implements AuthServiceInterface
 {
     public function __construct(
         private Config $config,
-        private JwtService $jwtService,
+        private TokenServiceInterface $tokenService,
         private UsuariService $usuariService
     ) {}
 
@@ -25,12 +26,12 @@ class AuthService implements AuthServiceInterface
             "nivell" => $usuari->getNivell(),
             "email" => $usuari->getEmail(),
         ];
-        return $this->jwtService->jwtEncode($payload, $expirationTime);
+        return $this->tokenService->encodeToken($payload, $expirationTime);
     }
     public function getUserFromToken(string $token): ?Usuari
     {
         try {
-            $payload = $this->jwtService->jwtDecode($token);
+            $payload = $this->tokenService->decodeToken($token);
             return $this->usuariService->getById($payload["id"]);
         } catch (\Throwable $th) {
             // El MW d'autentificació ja s'encarregarà de gestionar errors de token.

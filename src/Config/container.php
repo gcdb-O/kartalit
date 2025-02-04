@@ -9,7 +9,9 @@ use Doctrine\ORM\ORMSetup;
 use Kartalit\Config\Config;
 use Kartalit\Helpers\RandomSort;
 use Kartalit\Interfaces\AuthServiceInterface;
+use Kartalit\Interfaces\TokenServiceInterface;
 use Kartalit\Services\AuthService;
+use Kartalit\Services\JwtService;
 use Slim\Views\Twig;
 
 use function DI\create;
@@ -34,6 +36,7 @@ $container_bindings = [
         return $twig;
     },
     AuthServiceInterface::class => get(AuthService::class),
+    TokenServiceInterface::class => get(JwtService::class),
 ];
 
 $containerBuilder = new ContainerBuilder();
