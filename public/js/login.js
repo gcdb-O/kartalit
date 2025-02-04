@@ -10,7 +10,7 @@ formLogin.addEventListener('submit', (e) => {
     })
         .then(response => {
             if (response.status === 204) {
-                window.location.href = './';
+                window.location.replace('./');
                 return;
             }
             return response.json()

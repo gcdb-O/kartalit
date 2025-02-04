@@ -32,7 +32,6 @@ class AuthController
         //TODO: Headers de no cache max-age=0 no store must-revalidate
         return $response->withStatus(HttpResponseCode::NO_CONTENT->value);
     }
-    //TODO: Portegir ruta?
     public function logout(Request $_, Response $response): Response
     {
         $this->authService->deleteCookie();

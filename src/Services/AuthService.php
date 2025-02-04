@@ -40,12 +40,12 @@ class AuthService implements AuthServiceInterface
     }
     // #endregion
     // #region Cookie
-    public function setCookie(string $token): void
+    public function setCookie(string $value, string $name = "token"): void
     {
         //TODO: Controlar si hauria de posar la propietat SameSite
         setcookie(
-            name: "token",
-            value: $token,
+            name: $name,
+            value: $value,
             httponly: true,
             secure: false,
             domain: $this->config->server["domain"],
@@ -53,16 +53,16 @@ class AuthService implements AuthServiceInterface
             expires_or_options: time() + (365 * 24 * 60 * 60),
         );
     }
-    public function deleteCookie(): void
+    public function deleteCookie(string $name = "token"): void
     {
         setcookie(
-            name: "token",
+            name: $name,
             value: "",
             domain: $this->config->server["domain"],
             path: $this->config->server["basePath"],
             expires_or_options: time() - (60 * 60 * 24),
         );
-        unset($_COOKIE["token"]);
+        unset($_COOKIE[$name]);
     }
     // #endregion
 

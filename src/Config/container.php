@@ -14,6 +14,8 @@ use Kartalit\Services\AuthService;
 use Kartalit\Services\JwtService;
 use Slim\Views\Twig;
 
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
+use Symfony\Component\Cache\Adapter\PhpFilesAdapter;
 use function DI\create;
 use function DI\get;
 
@@ -21,12 +23,25 @@ $envConfig = new Config($_ENV);
 $container_bindings = [
     Config::class => create(Config::class)->constructor($_ENV),
     EntityManager::class => function (Config $config) {
-        $doctConfig = ORMSetup::createAttributeMetadataConfiguration(paths: [__DIR__ . '/../src/Models'], isDevMode: true); // $isDevMode=true ja que sinó tinc problemes de Redis al deployment.
-        $doctConfig->setAutoGenerateProxyClasses(true);
-        $doctConfig->addCustomNumericFunction('RANDOMSORT', RandomSort::class);
+        $isProd = (bool) $config->server['isProd'];
+
+        $doctrineConfig = ORMSetup::createAttributeMetadataConfiguration(paths: [__DIR__ . '/../src/Models'], isDevMode: true); // $isDevMode=true ja que sinó tinc problemes de Redis al deployment.
+
+        $doctrineConfig->setProxyDir(__DIR__ . '/../../var/tmp/doctrine/proxies');
+        $doctrineConfig->setProxyNamespace('DoctrineProxies');
+        //TODO: Ideal en producció seria false però hauria de trobar la manera de generar les proxyclasses
+        $doctrineConfig->setAutoGenerateProxyClasses(true);
+
+        $queryCache = $isProd ? new PhpFilesAdapter(namespace: "doctrine_queries", directory: __DIR__ . '/../../var/cache/doctrine') : new ArrayAdapter();
+        $metadataCache = $isProd ? new PhpFilesAdapter(namespace: "doctrine_metadata", directory: __DIR__ . '/../../var/cache/doctrine') : new ArrayAdapter();
+        $doctrineConfig->setQueryCache($queryCache);
+        $doctrineConfig->setMetadataCache($metadataCache);
+        //TODO: Pensar si resultCache, però com ho aplico en funció de isProd als serveis sense massa complicació...
+
+        $doctrineConfig->addCustomNumericFunction('RANDOMSORT', RandomSort::class);
         return new EntityManager(
             DriverManager::getConnection($config->db),
-            $doctConfig
+            $doctrineConfig
         );
     },
     Twig::class => function (Config $config) {

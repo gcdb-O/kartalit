@@ -19,9 +19,10 @@ class TwigContext
     }
     public function getContext(): array
     {
+        $titol = $this->titol === null ? "" : $this->titol . " 📖 ";
         $context = $this->data;
         $context["usuari"] = $this->usuari?->getArray();
-        $context["titol"] = ltrim($this->titol . " 📖 Kartalit");
+        $context["titol"] = ltrim($titol . "Kartalit");
         return $context;
     }
 }

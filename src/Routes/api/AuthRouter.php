@@ -12,6 +12,7 @@ class AuthRouter
     public function __invoke(RouteCollectorProxy $group): void
     {
         $group->post("/login", [AuthController::class, "login"])->setName("login");
+        //TODO: Protegir ruta logout?
         $group->any("/logout", [AuthController::class, "logout"]);
     }
 }
