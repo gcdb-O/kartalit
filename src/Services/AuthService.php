@@ -52,6 +52,17 @@ class AuthService implements AuthServiceInterface
             expires_or_options: time() + (365 * 24 * 60 * 60),
         );
     }
+    public function deleteCookie(): void
+    {
+        setcookie(
+            name: "token",
+            value: "",
+            domain: $this->config->server["domain"],
+            path: $this->config->server["basePath"],
+            expires_or_options: time() - (60 * 60 * 24),
+        );
+        unset($_COOKIE["token"]);
+    }
     // #endregion
 
 }
