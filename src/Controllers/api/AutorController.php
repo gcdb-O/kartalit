@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Kartalit\Controllers\api;
 
+use Kartalit\Enums\Entity;
 use Kartalit\Enums\HttpStatusCode;
-use Kartalit\Errors\NotFoundException;
+use Kartalit\Errors\EntityNotFoundException;
 use Kartalit\Models\Autor;
 use Kartalit\Models\Obra;
 use Kartalit\Schemas\ApiResponse;
@@ -34,7 +35,7 @@ class AutorController
         /** @var ?Autor $autor */
         $autor = $this->autorService->getById($id);
         if (!$autor) {
-            throw new NotFoundException("No s'ha trobat autor amb  id: " . (string) $id);
+            throw new EntityNotFoundException(Entity::AUTOR, $id);
         }
         $autorJson = $autor->getArray();
         $autorJson["obres"] = array_map(fn(Obra $obra) => $obra->getArray(), $autor->getObres()->getValues());

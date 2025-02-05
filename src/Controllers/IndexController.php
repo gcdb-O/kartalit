@@ -13,7 +13,7 @@ use Kartalit\Services\TwigService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class IndexController
+class IndexController extends WebController
 {
     public function __construct(
         private TwigService $twigService,

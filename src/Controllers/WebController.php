@@ -11,13 +11,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class WebController
 {
-    public function __construct(private TwigService $twig) {}
+    public function __construct(protected TwigService $twig) {}
 
-    public function index(Request $req, Response $res): Response
-    {
-        $context = new TwigContext($req, "", ["name" => "Kartalit"]);
-        return $this->twig->render($res, "index.html.twig", $context);
-    }
     public function login(Request $req, Response $res): Response
     {
         return $this->twig->render($res, "login.html.twig", new TwigContext($req, "Inicia sessió"));

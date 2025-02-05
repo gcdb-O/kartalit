@@ -16,5 +16,6 @@ class WebRouter extends Router
         $group->get("[/]", IndexController::class);
         $group->get("/login", [WebController::class, "login"])
             ->addMiddleware(new RedirectToMain(true));
+        $group->group("/llibre", LlibreRouter::class);
     }
 }

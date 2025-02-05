@@ -123,14 +123,29 @@ class Llibre
         $this->cites->add($cita);
     }
     #endregion
+    public function getCobertaBase64(): string|bool|null
+    {
+        return is_resource($this->getCoberta()) ? base64_encode(stream_get_contents($this->getCoberta(), -1, 0)) : null;
+    }
+    public function getArray(): array
+    {
+        return [
+            "id" => $this->getId(),
+            "titol" => $this->getTitol(),
+            "coberta" => $this->getCobertaBase64(),
+            "isbn" => $this->getIsbn(),
+            "editorial" => $this->getEditorial(),
+            "pagines" => $this->getPagines(),
+            "idioma" => $this->getIdioma()->getIdioma(),
+        ];
+    }
     public function getCobertesBasic(): array
     {
         //TODO: Afegir informació d'autor?
         return [
             "id" => $this->getId(),
             "titol" => $this->getTitol(),
-            // "coberta" => $this->getCoberta(),
-            "coberta" => is_resource($this->getCoberta()) ? base64_encode(stream_get_contents($this->getCoberta(), -1, 0)) : "null",
+            "coberta" => $this->getCobertaBase64(),
         ];
     }
 }

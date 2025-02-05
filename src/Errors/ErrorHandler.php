@@ -61,11 +61,7 @@ class ErrorHandler implements ErrorHandlerInterface
         if ($this->displayErrorDetails) {
             $apiResponse->setExcepion($throwable);
         }
-        // switch (get_class($throwable)) {
-        //     case NotFoundException::class:
-        //         $apiResponse->setStatus(ApiResponseStatus::NOT_FOUND);
-        //         break;
-        // }
+
         $response = $this->apiResponseService->toJson($response, $apiResponse, $throwable->getCode());
         $response = $response->withHeader("Content-Type", "application/json");
         return $response;
