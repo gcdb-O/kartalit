@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Kartalit\Enums;
 
-enum HttpResponseCode: int
+enum HttpStatusCode: int
 {
     case OK = 200;
     case CREATED = 201;

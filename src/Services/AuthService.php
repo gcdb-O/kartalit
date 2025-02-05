@@ -8,31 +8,27 @@ use Kartalit\Config\Config;
 use Kartalit\Interfaces\AuthServiceInterface;
 use Kartalit\Interfaces\TokenServiceInterface;
 use Kartalit\Models\Usuari;
+use Kartalit\Schemas\TokenPayload;
 
 class AuthService implements AuthServiceInterface
 {
     public function __construct(
         private Config $config,
-        private TokenServiceInterface $tokenService,
+        public TokenServiceInterface $tokenService,
         private UsuariService $usuariService
     ) {}
 
     // #region Token
     public function createToken(Usuari $usuari, int $expirationTime = 3600): string
     {
-        $payload = [
-            "id" => $usuari->getId(),
-            "usuari" => $usuari->getUsuari(),
-            "nivell" => $usuari->getNivell(),
-            "email" => $usuari->getEmail(),
-        ];
+        $payload = TokenPayload::createFromUsuari($usuari);
         return $this->tokenService->encodeToken($payload, $expirationTime);
     }
     public function getUserFromToken(string $token): ?Usuari
     {
         try {
             $payload = $this->tokenService->decodeToken($token);
-            return $this->usuariService->getById($payload["id"]);
+            return $this->usuariService->getById($payload->id);
         } catch (\Throwable $th) {
             // El MW d'autentificació ja s'encarregarà de gestionar errors de token.
             return null;

@@ -9,7 +9,7 @@ use Kartalit\Controllers\WebController;
 use Kartalit\Middlewares\RedirectToMain;
 use Slim\Routing\RouteCollectorProxy;
 
-class WebRouter
+class WebRouter extends Router
 {
     public function __invoke(RouteCollectorProxy $group): void
     {

@@ -4,10 +4,16 @@ declare(strict_types=1);
 
 namespace Kartalit\Services;
 
+use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Kartalit\Config\Config;
+use Kartalit\Errors\ExpiredTokenException;
+use Kartalit\Errors\InvalidTokenException;
 use Kartalit\Interfaces\TokenServiceInterface;
+use Kartalit\Schemas\TokenPayload;
+use LogicException;
+use UnexpectedValueException;
 
 class JwtService implements TokenServiceInterface
 {
@@ -16,20 +22,32 @@ class JwtService implements TokenServiceInterface
         date_default_timezone_set("Europe/Berlin");
     }
 
-    public function encodeToken(array $payload, int $expirationTime = 3600): string
+    public function encodeToken(TokenPayload $payload, int $expirationTime = 3600): string
     {
         $token = [
             "iss" => "Kartalit",
             "iat" => time(),
             "exp" => time() + $expirationTime,
-            "data" => $payload,
+            "data" => $payload->getArray(),
         ];
         return JWT::encode($token, $this->config->jwt["secret"], "HS256");
     }
 
-    public function decodeToken(string $jwt): array
+    public function decodeToken(string $jwt): TokenPayload
     {
-        $decodedJwt = JWT::decode($jwt, new Key($this->config->jwt["secret"], "HS256"));
-        return (array) $decodedJwt->data;
+        try {
+            $decodedJwt = JWT::decode($jwt, new Key($this->config->jwt["secret"], "HS256"));
+            return  TokenPayload::readFromObject($decodedJwt->data);
+        } catch (\Throwable $th) {
+            switch (get_class($th)) {
+                case ExpiredException::class:
+                    throw new ExpiredTokenException(previous: $th);
+                case UnexpectedValueException::class:
+                case LogicException::class:
+                    throw new InvalidTokenException(previous: $th);
+                default:
+                    throw $th;
+            }
+        }
     }
 }

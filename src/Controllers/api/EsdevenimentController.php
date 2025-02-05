@@ -6,7 +6,7 @@ namespace Kartalit\Controllers\api;
 
 use DateTime;
 use Kartalit\Enums\ApiResponseStatus;
-use Kartalit\Enums\HttpResponseCode;
+use Kartalit\Enums\HttpStatusCode;
 use Kartalit\Models\Esdeveniment;
 use Kartalit\Schemas\ApiResponse;
 use Kartalit\Services\ApiResponseService;
@@ -50,6 +50,6 @@ class EsdevenimentController
         $expires = (new DateTime())->setTime(23, 59, 59);
         $res = $res->withHeader("Cache-Control", "public, max-age=86400");
         $res = $res->withHeader("Expires", $expires->format(DateTime::RFC1123));
-        return $this->apiResponseService->toJson($res, $apiResponse, HttpResponseCode::OK);
+        return $this->apiResponseService->toJson($res, $apiResponse, HttpStatusCode::OK);
     }
 }

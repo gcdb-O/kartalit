@@ -24,7 +24,7 @@ class Config
             'server' => [
                 'isProd' => ($env["ENV_SERVER_PROD"] === "true") ? true : false,
                 'domain' => $env["ENV_SERVER_DOMAIN"] ?? 'localhost',
-                'basePath' => $env["ENV_SERVER_BASEPATH"] ?? '/',
+                'basePath' => $env["ENV_SERVER_BASEPATH"] ?? '',
                 'salt' => $env["ENV_SERVER_SALT"]
             ]
         ];

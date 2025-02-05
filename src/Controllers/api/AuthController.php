@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Kartalit\Controllers\api;
 
 use Kartalit\Config\Config;
-use Kartalit\Enums\HttpResponseCode;
+use Kartalit\Enums\HttpStatusCode;
 use Kartalit\Errors\BadRequestException;
 use Kartalit\Interfaces\AuthServiceInterface;
 use Kartalit\Services\UsuariService;
@@ -30,13 +30,13 @@ class AuthController
         $jwtToken = $this->authService->createToken($usuari, 3600);
         $this->authService->setCookie($jwtToken);
         //TODO: Headers de no cache max-age=0 no store must-revalidate
-        return $response->withStatus(HttpResponseCode::NO_CONTENT->value);
+        return $response->withStatus(HttpStatusCode::NO_CONTENT->value);
     }
     public function logout(Request $_, Response $response): Response
     {
         $this->authService->deleteCookie();
         return $response
             ->withHeader("Location", $this->config->server["basePath"])
-            ->withStatus(HttpResponseCode::REDIRECT_TEMP->value);
+            ->withStatus(HttpStatusCode::REDIRECT_TEMP->value);
     }
 }

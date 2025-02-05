@@ -4,9 +4,17 @@ declare(strict_types=1);
 
 namespace Kartalit\Interfaces;
 
+use Kartalit\Schemas\TokenPayload;
+
 interface TokenServiceInterface
 {
-    public function encodeToken(array $payload, int $expirationTime): string;
-    //TODO: Documentar els throws. Expiration, invalid
-    public function decodeToken(string $token): array;
+    public function encodeToken(TokenPayload $payload, int $expirationTime): string;
+    /**
+     * Summary of decodeToken
+     * @param string $token
+     * @return TokenPayload
+     * @throws \Kartalit\Errors\InvalidTokenException
+     * @throws \Kartalit\Errors\ExpiredTokenException
+     */
+    public function decodeToken(string $token): TokenPayload;
 }

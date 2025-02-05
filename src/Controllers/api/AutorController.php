@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Kartalit\Controllers\api;
 
-use Kartalit\Enums\HttpResponseCode;
+use Kartalit\Enums\HttpStatusCode;
 use Kartalit\Errors\NotFoundException;
 use Kartalit\Models\Autor;
 use Kartalit\Models\Obra;
@@ -26,7 +26,7 @@ class AutorController
         $autors = $this->autorService->getAll();
         $autorsJson = array_map(fn(Autor $autor) => $autor->getArray(), $autors);
         $apiRes = new ApiResponse($autorsJson, "Tots els autors.");
-        return $this->apiResponseService->toJson($res, $apiRes, HttpResponseCode::OK);
+        return $this->apiResponseService->toJson($res, $apiRes, HttpStatusCode::OK);
     }
     public function getById(Request $_, Response $res, array $args): Response
     {
@@ -39,6 +39,6 @@ class AutorController
         $autorJson = $autor->getArray();
         $autorJson["obres"] = array_map(fn(Obra $obra) => $obra->getArray(), $autor->getObres()->getValues());
         $apiRes = new ApiResponse(data: $autorJson);
-        return $this->apiResponseService->toJson($res, $apiRes, HttpResponseCode::OK);
+        return $this->apiResponseService->toJson($res, $apiRes, HttpStatusCode::OK);
     }
 }

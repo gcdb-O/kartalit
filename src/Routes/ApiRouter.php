@@ -12,7 +12,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Routing\RouteCollectorProxy;
 
-class ApiRouter
+class ApiRouter extends Router
 {
     public function __invoke(RouteCollectorProxy $group): void
     {
@@ -26,7 +26,7 @@ class ApiRouter
             ]));
             return $res->withStatus(200);
         });
-        $group->group("/auth", AuthRouter::class);
+        $group->group("/auth", new AuthRouter($this->app));
         $group->group("/autor", AutorRouter::class);
         $group->group("/cita", CitaRouter::class);
         $group->group("/calendari", CalendariRouter::class);

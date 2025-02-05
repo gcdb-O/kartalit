@@ -4,26 +4,25 @@ declare(strict_types=1);
 
 namespace Kartalit\Routes;
 
+use Kartalit\Interfaces\RouterInterface;
 use Kartalit\Middlewares\AddJsonResponseHeader;
-use Kartalit\Middlewares\ErrorHandler;
 use Slim\App;
 use Slim\Middleware\BodyParsingMiddleware;
 use Slim\Routing\RouteCollectorProxy;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
 
-class Router
+class Router implements RouterInterface
 {
-    public function __construct(private App $app) {}
+    public function __construct(protected App $app) {}
     public function __invoke(RouteCollectorProxy $group): void
     {
-        $group->group("/api", ApiRouter::class)
+        $group->group("/api", new ApiRouter($this->app))
             // MW In
             ->addMiddleware(new BodyParsingMiddleware)
             // MW Out
             ->addMiddleware(new AddJsonResponseHeader);
-        // ->addMiddleware(new ErrorHandler);
-        $group->group("", WebRouter::class)
+        $group->group("", new WebRouter($this->app))
             // MW In
             ->addMiddleware(TwigMiddleware::create($this->app, $this->app->getContainer()->get(Twig::class)));
     }

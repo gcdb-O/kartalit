@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Kartalit\Controllers\api;
 
-use Kartalit\Enums\HttpResponseCode;
+use Kartalit\Enums\HttpStatusCode;
 use Kartalit\Models\Autor;
 use Kartalit\Models\Cita;
 use Kartalit\Schemas\ApiResponse;
@@ -26,6 +26,6 @@ class CitaController
         $cita = $this->citaService->getRandom();
         $citaJson = $cita->getCitaObraArray();
         $apiRes = new ApiResponse(data: $citaJson);
-        return $this->apiResponseService->toJson($res, $apiRes, HttpResponseCode::OK);
+        return $this->apiResponseService->toJson($res, $apiRes, HttpStatusCode::OK);
     }
 }

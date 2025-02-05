@@ -12,21 +12,22 @@ use Slim\App;
 
 
 /** @var App $app */
-$app = require_once __DIR__ . '/../bootstrap.php';
+$app = require_once __DIR__ . '/../src/Config/bootstrap.php';
 
 $envConfig = new Config($_ENV);
 
-$app->setBasePath($envConfig->server['basePath'] ?? '/');
+$app->setBasePath($envConfig->server['basePath'] ?? '');
 
-// MW In
+// Primer MW
 $app->addRoutingMiddleware();
-$app->add(ReadUserFromToken::class);
 // MW Out
-// $app->add(new ErrorHandler);
 $app->addMiddleware(new AddResponseHeaders);
 $app->add(EncodeContent::class);
-$errMw = $app->addErrorMiddleware(!$envConfig->server['isProd'], false, false);
-$errMw->setDefaultErrorHandler(ErrorHandler::class);
+$app->addErrorMiddleware(!$envConfig->server['isProd'], false, false)->setDefaultErrorHandler(ErrorHandler::class);
+// MW In
+$app->add(ReadUserFromToken::class);
+
+// Routes
 $app->group('', new Router($app));
 
 $app->run();
