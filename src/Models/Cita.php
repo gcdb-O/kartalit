@@ -151,6 +151,7 @@ class Cita
                 "titolCatala" => $obra?->getTitolCatala(),
                 "autors" => array_map(function (Autor $autor) {
                     return [
+                        "id" => $autor->getId(),
                         "nomComplet" => $autor->getNomComplet(),
                         "pseudonim" => $autor->getPseudonim(),
                     ];

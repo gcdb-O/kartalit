@@ -11,6 +11,7 @@ class LlibreRouter
 {
     public function __invoke(RouteCollectorProxy $group): void
     {
+        $group->get("/tots", [LlibreController::class, "getAll"]);
         $group->get("/{id:[0-9]+}", [LlibreController::class, "getById"]);
     }
 }

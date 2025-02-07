@@ -41,6 +41,8 @@ class Obra
         inverseJoinColumns: new JoinColumn(name: 'autor', referencedColumnName: 'autorID')
     )]
     private Collection $autors;
+    #[ManyToMany(targetEntity: Llibre::class, mappedBy: 'obres')]
+    private Collection $llibres;
     #[OneToMany(targetEntity: Cita::class, mappedBy: "obra")]
     private Collection $cites;
     #[OneToMany(targetEntity: Esdeveniment::class, mappedBy: 'obra')]
@@ -49,6 +51,7 @@ class Obra
     public function __construct()
     {
         $this->autors = new ArrayCollection();
+        $this->llibres = new ArrayCollection();
         $this->cites = new ArrayCollection();
         $this->esdeveniments = new ArrayCollection();
     }
@@ -113,6 +116,15 @@ class Obra
         $autor->addObra($this);
         $this->autors->add($autor);
     }
+    public function getLlibres(): Collection
+    {
+        return $this->llibres;
+    }
+    public function addLlibre(Llibre $llibre): void
+    {
+        $llibre->addObra($this);
+        $this->llibres->add($llibre);
+    }
     public function getCites(): Collection
     {
         return $this->cites;
@@ -139,6 +151,7 @@ class Obra
             "id" => $this->getId(),
             "titolOriginal" => $this->getTitolOriginal(),
             "titolCatala" => $this->getTitolCatala(),
+            "autors" => $this->getAutors()->toArray(),
             "anyPublicacio" => $this->getAnyPublicacio(),
             "idiomaOriginal" => $this->getIdiomaOriginal()?->getIdioma(),
         ];

@@ -15,6 +15,6 @@ class WebController
 
     public function login(Request $req, Response $res): Response
     {
-        return $this->twig->render($res, "login.html.twig", new TwigContext($req, "Inicia sessió"));
+        return $this->twig->render($res, "Pages/login.html.twig", new TwigContext($req, "Inicia sessió"));
     }
 }

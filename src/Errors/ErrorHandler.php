@@ -71,6 +71,6 @@ class ErrorHandler implements ErrorHandlerInterface
         //TODO: Separar els 404 dels 401, 403, 500 i mostrar error per consola i noProd
         $response = new Response();
         $response->withStatus(HttpStatusCode::NOT_FOUND->value);
-        return $this->twig->render($response, "notFound.html.twig", new TwigContext($request, "Pàgina no trobada"));
+        return $this->twig->render($response, "Pages/notFound.html.twig", new TwigContext($request, "Pàgina no trobada"));
     }
 }

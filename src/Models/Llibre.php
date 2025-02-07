@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
@@ -36,11 +38,20 @@ class Llibre
     #[ManyToOne(targetEntity: Idioma::class, inversedBy: "llibres")]
     #[JoinColumn(name: "idioma", referencedColumnName: "idiomaID")]
     private Idioma $idioma;
+
+    #[ManyToMany(targetEntity: Obra::class, inversedBy: "llibres")]
+    #[JoinTable(
+        name: "obres_llibres",
+        joinColumns: new JoinColumn(name: 'llibre', referencedColumnName: 'llibreID'),
+        inverseJoinColumns: new JoinColumn(name: 'obra', referencedColumnName: 'obraID')
+    )]
+    private Collection $obres;
     #[OneToMany(targetEntity: Cita::class, mappedBy: "llibre")]
     private Collection $cites;
 
     public function __construct()
     {
+        $this->obres = new ArrayCollection();
         $this->cites = new ArrayCollection();
     }
     #region Getters and setters
@@ -113,6 +124,17 @@ class Llibre
     {
         $this->idioma = $idioma;
     }
+
+    public function getObres(): Collection
+    {
+        return $this->obres;
+    }
+
+    public function addObra(Obra $obra): void
+    {
+        $obra->addLlibre($this);
+        $this->obres->add($obra);
+    }
     public function getCites(): Collection
     {
         return $this->cites;
@@ -123,6 +145,22 @@ class Llibre
         $this->cites->add($cita);
     }
     #endregion
+    public function getAutors(): array
+    {
+        $autors = [];
+        /** @var Obra $obra */
+        foreach ($this->getObres() as $obra) {
+            /** @var Autor $autor */
+            foreach ($obra->getAutors() as $autor) {
+                array_push($autors, [
+                    "id" => $autor->getId(),
+                    "nomComplet" => $autor->getNomComplet(),
+                    "pseudonim" => $autor->getPseudonim(),
+                ]);
+            }
+        }
+        return array_unique($autors, SORT_REGULAR);
+    }
     public function getCobertaBase64(): string|bool|null
     {
         return is_resource($this->getCoberta()) ? base64_encode(stream_get_contents($this->getCoberta(), -1, 0)) : null;
@@ -132,6 +170,7 @@ class Llibre
         return [
             "id" => $this->getId(),
             "titol" => $this->getTitol(),
+            "autors" => $this->getAutors(),
             "coberta" => $this->getCobertaBase64(),
             "isbn" => $this->getIsbn(),
             "editorial" => $this->getEditorial(),
@@ -141,11 +180,11 @@ class Llibre
     }
     public function getCobertesBasic(): array
     {
-        //TODO: Afegir informació d'autor?
         return [
             "id" => $this->getId(),
             "titol" => $this->getTitol(),
             "coberta" => $this->getCobertaBase64(),
+            "autors" => $this->getAutors(),
         ];
     }
 }

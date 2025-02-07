@@ -1,0 +1,10 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+	{% include "Components/randomCita.html.twig" %}
+	{% set llibres = llibresNous %}
+	<div class="mt-4">
+		<h1>Últimes incorporacions</h1>
+		{% include "Components/carrousselLibres.html.twig" %}
+	</div>
+{% endblock %}

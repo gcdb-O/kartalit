@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+
+
+{% block content %}
+	<div class="grid justify-items-center sm:justify-items-start grid-cols-1 sm:grid-cols-4 lg:grid-cols-5 gap-4 mt-10">
+		<div id="llibre-coberta" class="max-w-[225px] sm:w-full sm:col-span-1 lg:col-span-1">
+			<img class="object-contain " src="data:image/jpg;base64,{{llibre.coberta}}" alt="{{llibre.titol}}">
+		</div>
+		<div id="llibre-info" class="w-full sm:col-span-3 lg:col-span-4 sm:ml-8 md:ml-4 ms:ml-2">
+			<h1>{{llibre.titol}}</h1>
+			<h2 class="italic">{{llibre.autors|map(a => a.nomComplet)|join(", ", " i ")}}</h2>
+		</div>
+	</div>
+{% endblock %}

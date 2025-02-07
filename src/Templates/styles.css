@@ -1,8 +1,25 @@
 @import "tailwindcss" source("/");
 
+@layer base {
+    #llibre-info h1, #llibre-info h2, #llibre-info h3 {
+        @apply font-heading;
+    }
+    
+    p, h1, h2, h3 {
+        font-family: "EB Garamond", serif;
+    }
+    h1 {
+        @apply text-3xl lg:text-4xl
+    }
+    h2 {
+        @apply text-xl lg:text-2xl
+    }
+}
+
 @theme {
-    /* --color-klit: #b84000; */
     --color-klit: #ff8847;
     --color-klit-dark: #32373b;
     --color-klit-text: #131516;
+    --font-heading: "Fondamento", serif;
 }
+

@@ -20,6 +20,14 @@ class LlibreController extends WebController
         private TwigService $twigService,
         private LlibreService $llibreService
     ) {}
+    public function getAll(Request $req, Response $res): Response
+    {
+        $llibres = $this->llibreService->getAll();
+        $twigContext = new TwigContext($req, "Tots els llibres", [
+            "llibres" => array_map(fn(Llibre $llibre) => $llibre->getCobertesBasic(), $llibres),
+        ]);
+        return $this->twigService->render($res, "Pages/llibres.html.twig", $twigContext);
+    }
     public function getById(Request $req, Response $res, array $args): Response
     {
         $id = (int) $args["id"];
@@ -33,7 +41,7 @@ class LlibreController extends WebController
         ]);
         return $this->twigService->render(
             $res,
-            "llibre.html.twig",
+            "Pages/llibre.html.twig",
             $twigContext
         );
     }

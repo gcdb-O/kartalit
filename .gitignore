@@ -3,3 +3,4 @@
 # /public/css/kartalit.css
 /tailwindcss*
 tailwind.config.js
+/public/fonts/*

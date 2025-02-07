@@ -29,6 +29,6 @@ class IndexController extends WebController
             "citaRandom" => $citaRandom->getCitaObraArray(),
             "llibresNous" => array_map(fn(Llibre $llibre) => $llibre->getCobertesBasic(), $llibresNous)
         ]);
-        return $this->twigService->render($response, "index.html.twig", $twigContext);
+        return $this->twigService->render($response, "Pages/index.html.twig", $twigContext);
     }
 }
