@@ -2,7 +2,7 @@
 	{% for llibre in llibres %}
 		<div>
 			<a href="{{basePath}}/llibre/{{llibre.id}}">
-				<img class="h-[175px] object-contain hover:shadow-xl" src="data:image/jpg;base64,{{llibre.coberta}}" title="{{llibre.titol}}" alt="{{llibre.titol}}">
+				<img class="h-[175px] object-contain rounded-sm hover:shadow-xl" src="data:image/jpg;base64,{{llibre.coberta}}" title="{{llibre.titol}}" alt="{{llibre.titol}}">
 			</a>
 		</div>
 	{% endfor %}
