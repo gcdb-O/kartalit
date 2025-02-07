@@ -5,10 +5,63 @@
 	<div class="grid justify-items-center sm:justify-items-start grid-cols-1 sm:grid-cols-4 lg:grid-cols-5 gap-4 mt-10">
 		<div id="llibre-coberta" class="max-w-[225px] sm:w-full sm:col-span-1 lg:col-span-1">
 			<img class="object-contain " src="data:image/jpg;base64,{{llibre.coberta}}" alt="{{llibre.titol}}">
+			{% if usuari and biblioteca == null %}
+				<p>Afegir a la biblioteca</p>
+			{% endif %}
 		</div>
 		<div id="llibre-info" class="w-full sm:col-span-3 lg:col-span-4 sm:ml-8 md:ml-4 ms:ml-2">
 			<h1>{{llibre.titol}}</h1>
 			<h2 class="italic">{{llibre.autors|map(a => a.nomComplet)|join(", ", " i ")}}</h2>
+			<div class="table table-auto border-separate border-spacing-x-2 text-left w-auto -ml-2">
+				<dl class="table-row">
+					<dt class="table-cell font-bold">Editorial</dt>
+					<dd class="table-cell">{{llibre.editorial}}</dd>
+				</dl>
+				<dl class="table-row">
+					<dt class="table-cell font-bold">Isbn</dt>
+					<dd class="table-cell">{{llibre.isbn}}</dd>
+				</dl>
+				<dl class="table-row">
+					<dt class="table-cell font-bold">Pàgines</dt>
+					<dd class="table-cell">{{llibre.pagines}}</dd>
+				</dl>
+				<dl class="table-row">
+					<dt class="table-cell font-bold">Idioma</dt>
+					<dd class="table-cell">{{llibre.idioma}}</dd>
+				</dl>
+				{% if biblioteca %}
+					{% if biblioteca.condicio %}
+						<dl class="table-row">
+							<dt class="table-cell font-bold">Tipus:</dt>
+							<dd class="table-cell">{{biblioteca.condicio}}</dd>
+						</dl>
+					{% endif %}
+					<dl class="table-row">
+						{% if biblioteca.obtingut %}
+							<dt class="table-cell font-bold">Obtingut de:</dt>
+							<dd class="table-cell">{{biblioteca.obtingut}}</dd>
+						{% endif %}
+						{% if biblioteca.motiu %}
+							<dt class="table-cell font-bold">Motiu:</dt>
+							<dd class="table-cell">{{biblioteca.motiu}}</dd>
+						{% endif %}
+					</dl>
+					{% if biblioteca.dataObtencio %}
+						<dl class="table-row">
+							<dt class="table-cell font-bold">Obtingut el:</dt>
+							<dd class="table-cell">{{biblioteca.dataObtencio}}</dd>
+						</dl>
+					{% endif %}
+				</dl>
+				<dl
+					class="table-row">
+					{# TODO: Lloc de compra #}
+					{% if biblioteca.preu %}
+						<dt class="table-cell font-bold">Preu:</dt>
+						<dd class="table-cell">{{biblioteca.preu}}€</dd>
+					{% endif %}
+				</dl>
+			{% endif %}
 		</div>
 	</div>
-{% endblock %}
+</div>{% endblock %}

@@ -46,12 +46,15 @@ class Llibre
         inverseJoinColumns: new JoinColumn(name: 'obra', referencedColumnName: 'obraID')
     )]
     private Collection $obres;
+    #[OneToMany(targetEntity: Biblioteca::class, mappedBy: 'llibre')]
+    private Collection $biblioteca;
     #[OneToMany(targetEntity: Cita::class, mappedBy: "llibre")]
     private Collection $cites;
 
     public function __construct()
     {
         $this->obres = new ArrayCollection();
+        $this->biblioteca = new ArrayCollection();
         $this->cites = new ArrayCollection();
     }
     #region Getters and setters
@@ -134,6 +137,15 @@ class Llibre
     {
         $obra->addLlibre($this);
         $this->obres->add($obra);
+    }
+    public function getBiblioteca(): Collection
+    {
+        return $this->biblioteca;
+    }
+    public function addBiblioteca(Biblioteca $biblioteca): void
+    {
+        $biblioteca->setLlibre($this);
+        $this->biblioteca->add($biblioteca);
     }
     public function getCites(): Collection
     {

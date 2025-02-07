@@ -8,6 +8,7 @@ use Kartalit\Config\Config;
 use Kartalit\Enums\ApiResponseStatus;
 use Kartalit\Enums\HttpStatusCode;
 use Kartalit\Schemas\ApiResponse;
+use Kartalit\Schemas\ExceptionDisplayDetails;
 use Kartalit\Schemas\TwigContext;
 use Kartalit\Services\ApiResponseService;
 use Kartalit\Services\TwigService;
@@ -48,7 +49,7 @@ class ErrorHandler implements ErrorHandlerInterface
         ) {
             return $this->handleApiError($throwable);
         } else {
-            return $this->handleWebError($request);
+            return $this->handleWebError($request, $throwable);
         }
     }
     private function handleApiError(Throwable $throwable): ResponseInterface
@@ -66,11 +67,14 @@ class ErrorHandler implements ErrorHandlerInterface
         $response = $response->withHeader("Content-Type", "application/json");
         return $response;
     }
-    private function handleWebError(Request $request): ResponseInterface
+    private function handleWebError(Request $request, Throwable $throwable): ResponseInterface
     {
         //TODO: Separar els 404 dels 401, 403, 500 i mostrar error per consola i noProd
         $response = new Response();
         $response->withStatus(HttpStatusCode::NOT_FOUND->value);
-        return $this->twig->render($response, "Pages/notFound.html.twig", new TwigContext($request, "Pàgina no trobada"));
+        return $this->twig->render($response, "Pages/notFound.html.twig", new TwigContext($request, "Pàgina no trobada", [
+            "displayErrorDetails" => $this->displayErrorDetails,
+            "error" => ExceptionDisplayDetails::toArray($throwable),
+        ]));
     }
 }

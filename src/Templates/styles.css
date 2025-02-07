@@ -4,10 +4,6 @@
     #llibre-info h1, #llibre-info h2, #llibre-info h3 {
         @apply font-heading;
     }
-    
-    p, h1, h2, h3 {
-        font-family: "EB Garamond", serif;
-    }
     h1 {
         @apply text-3xl lg:text-4xl
     }
@@ -21,5 +17,6 @@
     --color-klit-dark: #32373b;
     --color-klit-text: #131516;
     --font-heading: "Fondamento", serif;
+    --font-text: "EB Garamond", serif;
 }
 

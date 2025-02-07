@@ -5,4 +5,10 @@
 		<h1 class="text-5xl">404</h1>
 		<h2>Pàgina no trobada</h2>
 	</div>
+	{% if displayErrorDetails %}
+		<div class="text-center">
+			{{ error|json_encode(constant('JSON_PRETTY_PRINT')) }}
+		</div>
+	{% endif %}
+
 {% endblock %}

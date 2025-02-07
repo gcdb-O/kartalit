@@ -30,13 +30,7 @@ class ApiResponse
             unset($response['data']);
         }
         if ($this->exception !== null) {
-            $response["error"] = [
-                "type" => get_class($this->exception),
-                "code" => $this->exception->getCode(),
-                "file" => $this->exception->getFile(),
-                "line" => $this->exception->getLine(),
-                "trace" => $this->exception->getTrace()
-            ];
+            $response["error"] = ExceptionDisplayDetails::toArray($this->exception);
         }
         return $response;
     }
