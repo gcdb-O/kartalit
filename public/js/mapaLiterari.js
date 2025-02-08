@@ -55,14 +55,20 @@ obres.forEach(obraId => {
         .then(res => res.json())
         .then(({ data }) => {
             data.forEach(({ latitud, longitud, precisio, tipus, usuari }) => {
-                console.log({ latitud, longitud, precisio, tipus, usuari });
                 const markerGroup = usuari === usuariId ? mapaPropi : mapaAltres;
                 L.marker(
                     [latitud, longitud],
                     { icon: icones[`${tipus}`][precisio ? 1 : 0] ?? iconLite }
                 ).addTo(markerGroup);
             })
-            const marges = mapaPropi.getBounds();
-            mapaLiterari.fitBounds(marges);
+            //TODO: Refactoritzar això..
+            if (usuariId === null) {
+                const marges = mapaAltres.getBounds();
+                mapaLiterari.fitBounds(marges);
+            } else {
+                const boundGroup = mapaPropi.getLayers().length === 0 ? mapaAltres : mapaPropi;
+                const marges = boundGroup.getBounds();
+                mapaLiterari.fitBounds(marges);
+            }
         })
 });
