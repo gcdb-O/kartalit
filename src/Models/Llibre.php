@@ -141,6 +141,17 @@ class Llibre
         $this->cites->add($cita);
     }
     #endregion
+    public function getMapaLiterari(): Collection
+    {
+        $mapaLiterari = new ArrayCollection();
+        /** @var Obra $obra */
+        foreach ($this->getObres() as $obra) {
+            foreach ($obra->getMapaLiterari() as $ubicacio) {
+                $mapaLiterari->add($ubicacio);
+            }
+        }
+        return $mapaLiterari;
+    }
     public function getAutors(): array
     {
         $autors = [];
@@ -167,6 +178,7 @@ class Llibre
             "id" => $this->getId(),
             "titol" => $this->getTitol(),
             "autors" => $this->getAutors(),
+            "obresId" => array_map(fn(Obra $obra) => $obra->getId(), $this->getObres()->toArray()),
             "coberta" => $this->getCobertaBase64(),
             "isbn" => $this->getIsbn(),
             "editorial" => $this->getEditorial(),

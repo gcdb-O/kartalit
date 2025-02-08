@@ -4,7 +4,7 @@ formLogin.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(formLogin);
 
-    fetch('./api/auth/login', {
+    fetch(`${BASE_PATH}/api/auth/login`, {
         method: 'POST',
         body: formData
     })

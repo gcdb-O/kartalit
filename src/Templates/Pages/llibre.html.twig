@@ -1,5 +1,13 @@
 {% extends "base.html.twig" %}
 
+{% block head %}
+	{{ parent() }}
+	{% if mapaLiterari %}
+		{% include "leaflet.twig" %}
+	{% endif %}
+{% endblock %}
+
+
 {% block content %}
 	<div class="grid justify-items-center sm:justify-items-start grid-cols-1 sm:grid-cols-4 lg:grid-cols-5 gap-4 mt-10">
 		<div id="llibre-coberta" class="max-w-[225px] sm:w-full sm:col-span-1 lg:col-span-1">
@@ -31,36 +39,44 @@
 				{% if biblioteca %}
 					{% if biblioteca.condicio %}
 						<dl class="table-row">
-							<dt class="table-cell font-bold">Tipus:</dt>
+							<dt class="table-cell font-bold">Tipus</dt>
 							<dd class="table-cell">{{biblioteca.condicio}}</dd>
 						</dl>
 					{% endif %}
 					<dl class="table-row">
 						{% if biblioteca.obtingut %}
-							<dt class="table-cell font-bold">Obtingut de:</dt>
+							<dt class="table-cell font-bold">Obtingut de</dt>
 							<dd class="table-cell">{{biblioteca.obtingut}}</dd>
 						{% endif %}
 						{% if biblioteca.motiu %}
-							<dt class="table-cell font-bold">Motiu:</dt>
+							<dt class="table-cell font-bold">Motiu</dt>
 							<dd class="table-cell">{{biblioteca.motiu}}</dd>
 						{% endif %}
 					</dl>
 					{% if biblioteca.dataObtencio %}
 						<dl class="table-row">
-							<dt class="table-cell font-bold">Obtingut el:</dt>
+							<dt class="table-cell font-bold">Obtingut el</dt>
 							<dd class="table-cell">{{biblioteca.dataObtencio}}</dd>
 						</dl>
 					{% endif %}
 				</dl>
-				<dl
-					class="table-row">
-					{# TODO: Lloc de compra #}
+				<dl class="table-row">
 					{% if biblioteca.preu %}
 						<dt class="table-cell font-bold">Preu:</dt>
 						<dd class="table-cell">{{biblioteca.preu}}€</dd>
 					{% endif %}
+					{# TODO: Lloc de compra #}
 				</dl>
 			{% endif %}
 		</div>
 	</div>
-</div>{% endblock %}
+</div>
+{% include "Components/Llibre/mapaLiterari.html.twig" %}{% endblock %}{% block js %}
+{% if mapaLiterari %}
+	<script src="{{basePath}}/js/constants.js"></script>
+	<script>
+		const usuariId = {{ usuari.id }};
+const obres = {{ llibre.obresId|json_encode() }};
+	</script>
+	<script src="{{basePath}}/js/mapaLiterari.js"></script>
+{% endif %}{% endblock %}

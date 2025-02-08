@@ -1,7 +1,8 @@
 {# TODO: Afegir enllaç a obra #}
 <div class="mx-auto w-9/10 sm:w-4/5 md:w-3/4 xl:w-2/3">
 	<p class="text-justify italic">{{citaRandom.cita|nl2br}}</p>
-	<p class="text-right text-sm">{{citaRandom.obra.titolOriginal}}
+	<p class="text-right text-sm">
+		<a href="{{basePath}}/obra/{{citaRandom.obra.id}}" class="hover:underline hover:text-klit-dark">{{citaRandom.obra.titolOriginal}}</a>
 		-
 		{{ citaRandom.obra.autors | map(a =>a.nomComplet)|join(",") }}</p>
 </div>

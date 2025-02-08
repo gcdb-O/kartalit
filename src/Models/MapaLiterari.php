@@ -33,9 +33,9 @@ class MapaLiterari
     #[Column]
     private bool $precisio;
     #[Column(name: "coordenada_X")]
-    private float $coordenadaX;
+    private float $longitud;
     #[Column(name: "coordenada_Y")]
-    private float $coordenadaY;
+    private float $latitud;
     #[Column]
     private ?string $adreca;
     #[Column(type: "text")]
@@ -67,7 +67,7 @@ class MapaLiterari
     {
         $this->usuari = $usuari;
     }
-    public function isPrivat(): bool
+    public function getPrivat(): bool
     {
         return $this->privat;
     }
@@ -83,7 +83,7 @@ class MapaLiterari
     {
         $this->tipus = $tipus;
     }
-    public function isPrecisio(): bool
+    public function getPrecisio(): bool
     {
         return $this->precisio;
     }
@@ -91,21 +91,21 @@ class MapaLiterari
     {
         $this->precisio = $precisio;
     }
-    public function getCoordenadaX(): float
+    public function getLongitud(): float
     {
-        return $this->coordenadaX;
+        return $this->longitud;
     }
-    public function setCoordenadaX(float $coordenadaX): void
+    public function setLongitud(float $longitud): void
     {
-        $this->coordenadaX = $coordenadaX;
+        $this->longitud = $longitud;
     }
-    public function getCoordenadaY(): float
+    public function getLatitud(): float
     {
-        return $this->coordenadaY;
+        return $this->latitud;
     }
-    public function setCoordenadaY(float $coordenadaY): void
+    public function setLatitud(float $latitud): void
     {
-        $this->coordenadaY = $coordenadaY;
+        $this->latitud = $latitud;
     }
     public function getAdreca(): ?string
     {
@@ -124,4 +124,21 @@ class MapaLiterari
         $this->comentari = $comentari;
     }
     #endregion
+    public function getArray(): array
+    {
+        return [
+            "obra" => [
+                "titolOriginal" => $this->obra->getTitolOriginal(),
+                "titolCatala" => $this->obra->getTitolCatala(),
+            ],
+            "tipus" => $this->getTipus(),
+            "precisio" => $this->getPrecisio(),
+            "longitud" => $this->getLongitud(),
+            "latitud" => $this->getLatitud(),
+            "adreca" => $this->getAdreca(),
+            "comentari" => $this->getComentari(),
+            "privat" => $this->getPrivat(),
+            "usuari" => $this->getUsuari()->getId()
+        ];
+    }
 }

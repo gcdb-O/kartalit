@@ -1,0 +1,8 @@
+{# Requereix propietat mapaLiterari #}
+{% if mapaLiterari %}
+	<div id="mapa-literari-block" class="w-full mt-8">
+		<h1>Mapa literari</h1>
+		<div id="mapa-literari" class="min-h-[450px] h-[60vh] mt-2 mx-2 rounded-sm"></div>
+		{# {{mapaLiterari|json_encode()}} #}
+	</div>
+{% endif %}
