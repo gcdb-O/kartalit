@@ -8,7 +8,7 @@ use Kartalit\Enums\HttpStatusCode;
 use Kartalit\Schemas\ApiResponse;
 use Psr\Http\Message\ResponseInterface as Response;
 
-class ApiResponseService
+readonly class ApiResponseService
 {
     public function toJson(Response $response, ApiResponse $apiResponse, HttpStatusCode|int|null $status = null): Response
     {

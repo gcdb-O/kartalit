@@ -38,11 +38,14 @@ class Usuari
     private Collection $biblioteca;
     #[OneToMany(targetEntity: Cita::class, mappedBy: "user")]
     private Collection $cites;
+    #[OneToMany(targetEntity: MapaLiterari::class, mappedBy: "user")]
+    private Collection $mapaLiterari;
 
     public function __construct()
     {
         $this->biblioteca = new ArrayCollection();
         $this->cites = new ArrayCollection();
+        $this->mapaLiterari = new ArrayCollection();
     }
     #region Getters and setters
     public function getId(): int
@@ -118,6 +121,15 @@ class Usuari
     {
         $cita->setUsuari($this);
         $this->cites->add($cita);
+    }
+    public function getMapaLiterari(): Collection
+    {
+        return $this->mapaLiterari;
+    }
+    public function addMapaLiterari(MapaLiterari $mapaLiterari): void
+    {
+        $mapaLiterari->setUsuari($this);
+        $this->mapaLiterari->add($mapaLiterari);
     }
     #endregion
     public function getArray(): array

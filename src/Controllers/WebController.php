@@ -9,7 +9,7 @@ use Kartalit\Services\TwigService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class WebController
+readonly class WebController
 {
     public function __construct(protected TwigService $twig) {}
 

@@ -10,7 +10,7 @@ use Kartalit\Interfaces\TokenServiceInterface;
 use Kartalit\Models\Usuari;
 use Kartalit\Schemas\TokenPayload;
 
-class AuthService implements AuthServiceInterface
+readonly class AuthService implements AuthServiceInterface
 {
     public function __construct(
         private Config $config,

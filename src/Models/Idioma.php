@@ -23,56 +23,50 @@ class Idioma
     private int $id;
     #[Column]
     private string $idioma;
-    #[OneToMany(targetEntity: Obra::class, mappedBy: 'idiomaOriginal')]
-    private Collection $obres;
-    #[OneToMany(targetEntity: Llibre::class, mappedBy: 'idioma')]
-    private Collection $llibres;
+    // #[OneToMany(targetEntity: Obra::class, mappedBy: 'idiomaOriginal')]
+    // private Collection $obres;
+    // #[OneToMany(targetEntity: Llibre::class, mappedBy: 'idioma')]
+    // private Collection $llibres;
 
     public function __construct()
     {
-        $this->obres = new ArrayCollection();
-        $this->llibres = new ArrayCollection();
+        // $this->obres = new ArrayCollection();
+        // $this->llibres = new ArrayCollection();
     }
-
+    #region Getters and setters
     public function getId(): int
     {
         return $this->id;
     }
-
     public function setId(int $id): void
     {
         $this->id = $id;
     }
-
     public function getIdioma(): string
     {
         return $this->idioma;
     }
-
     public function setIdioma(string $idioma): void
     {
         $this->idioma = $idioma;
     }
-
-    public function getObres(): Collection
-    {
-        return $this->obres;
-    }
-
-    public function addObra(Obra $obra): void
-    {
-        $obra->setIdiomaOriginal($this);
-        $this->obres->add($obra);
-    }
-
-    public function getLlibres(): Collection
-    {
-        return $this->llibres;
-    }
-
-    public function addLlibre(Llibre $llibre): void
-    {
-        $llibre->setIdioma($this);
-        $this->llibres->add($llibre);
-    }
+    // public function getObres(): Collection
+    // {
+    //     return $this->obres;
+    // }
+    // public function addObra(Obra $obra): void
+    // {
+    //     $obra->setIdiomaOriginal($this);
+    //     $this->obres->add($obra);
+    // }
+    // public function getLlibres(): Collection
+    // {
+    //     return $this->llibres;
+    // }
+    // public function addLlibre(Llibre $llibre): void
+    // {
+    //     $llibre->setIdioma($this);
+    //     $this->llibres->add($llibre);
+    // }
+    #endregion
 }

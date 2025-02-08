@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Kartalit\Config;
 
-class Config
+readonly class Config
 {
     protected array $config;
 

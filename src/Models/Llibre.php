@@ -35,10 +35,9 @@ class Llibre
     private ?string $editorial;
     #[Column(type: "smallint")]
     private ?int $pagines;
-    #[ManyToOne(targetEntity: Idioma::class, inversedBy: "llibres")]
+    #[ManyToOne(targetEntity: Idioma::class)]
     #[JoinColumn(name: "idioma", referencedColumnName: "idiomaID")]
     private Idioma $idioma;
-
     #[ManyToMany(targetEntity: Obra::class, inversedBy: "llibres")]
     #[JoinTable(
         name: "obres_llibres",
@@ -62,77 +61,62 @@ class Llibre
     {
         return $this->id;
     }
-
     public function setId(int $id): void
     {
         $this->id = $id;
     }
-
     public function getTitol(): string
     {
         return $this->titol;
     }
-
     public function setTitol(string $titol): void
     {
         $this->titol = $titol;
     }
-
     public function getCoberta()
     {
         return $this->coberta;
     }
-
     public function setCoberta($coberta): void
     {
         $this->coberta = $coberta;
     }
-
     public function getIsbn(): ?string
     {
         return $this->isbn;
     }
-
     public function setIsbn(?string $isbn): void
     {
         $this->isbn = $isbn;
     }
-
     public function getEditorial(): ?string
     {
         return $this->editorial;
     }
-
     public function setEditorial(?string $editorial): void
     {
         $this->editorial = $editorial;
     }
-
     public function getPagines(): ?int
     {
         return $this->pagines;
     }
-
     public function setPagines(?int $pagines): void
     {
         $this->pagines = $pagines;
     }
-
     public function getIdioma(): Idioma
     {
         return $this->idioma;
     }
-
     public function setIdioma(Idioma $idioma): void
     {
         $this->idioma = $idioma;
     }
-
     public function getObres(): Collection
     {
         return $this->obres;
     }
-
     public function addObra(Obra $obra): void
     {
         $obra->addLlibre($this);

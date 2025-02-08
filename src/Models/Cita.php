@@ -28,7 +28,7 @@ class Cita
     private ?Llibre $llibre;
     #[ManyToOne(targetEntity: Usuari::class, inversedBy: "cites")]
     #[JoinColumn(name: "user", referencedColumnName: "userID")]
-    private ?Usuari $usuari;
+    private Usuari $usuari;
     #[Column]
     private bool $privat;
     #[Column(type: "smallint")]
@@ -45,77 +45,62 @@ class Cita
     {
         return $this->id;
     }
-
     public function setId(int $id): void
     {
         $this->id = $id;
     }
-
     public function getObra(): ?Obra
     {
         return $this->obra;
     }
-
-    public function setObra(?Obra $obra): void
+    public function setObra(Obra $obra): void
     {
         $this->obra = $obra;
     }
-
     public function getLlibre(): ?Llibre
     {
         return $this->llibre;
     }
-
-    public function setLlibre(?Llibre $llibre): void
+    public function setLlibre(Llibre $llibre): void
     {
         $this->llibre = $llibre;
     }
-
-    public function getUsuari(): ?Usuari
+    public function getUsuari(): Usuari
     {
         return $this->usuari;
     }
-
-    public function setUsuari(?Usuari $usuari): void
+    public function setUsuari(Usuari $usuari): void
     {
         $this->usuari = $usuari;
     }
-
     public function getPrivat(): bool
     {
         return $this->privat;
     }
-
     public function setPrivat(bool $privat): void
     {
         $this->privat = $privat;
     }
-
     public function getPagina(): ?int
     {
         return $this->pagina;
     }
-
     public function setPagina(?int $pagina): void
     {
         $this->pagina = $pagina;
     }
-
     public function getOrdre(): ?int
     {
         return $this->ordre;
     }
-
     public function setOrdre(?int $ordre): void
     {
         $this->ordre = $ordre;
     }
-
     public function getCita(): ?string
     {
         return $this->cita;
     }
-
     public function setCita(?string $cita): void
     {
         $this->cita = $cita;

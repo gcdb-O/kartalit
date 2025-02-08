@@ -1,0 +1,13 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+	<div class="grid grid-cols-1">
+		<div id="obra-info">
+			<h1>{{obra.titolOriginal}}</h1>
+			{% if obra.titolCatala %}
+				<h3>({{obra.titolCatala}})</h3>
+			{% endif %}
+			<h2>{{obra.autors|map(a => a.nomComplet)|join(",")}}</h2>
+		</div>
+	</div>
+{% endblock %}

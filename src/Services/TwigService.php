@@ -8,7 +8,7 @@ use Kartalit\Schemas\TwigContext;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Views\Twig;
 
-class TwigService
+readonly class TwigService
 {
     public function __construct(private readonly Twig $twig) {}
 

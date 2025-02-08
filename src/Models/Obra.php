@@ -45,6 +45,8 @@ class Obra
     private Collection $llibres;
     #[OneToMany(targetEntity: Cita::class, mappedBy: "obra")]
     private Collection $cites;
+    #[OneToMany(targetEntity: MapaLiterari::class, mappedBy: "obra")]
+    private Collection $mapaLiterari;
     #[OneToMany(targetEntity: Esdeveniment::class, mappedBy: 'obra')]
     private Collection $esdeveniments;
 
@@ -53,6 +55,7 @@ class Obra
         $this->autors = new ArrayCollection();
         $this->llibres = new ArrayCollection();
         $this->cites = new ArrayCollection();
+        $this->mapaLiterari = new ArrayCollection();
         $this->esdeveniments = new ArrayCollection();
     }
     #region Getters and setters
@@ -60,57 +63,46 @@ class Obra
     {
         return $this->id;
     }
-
     public function setId(int $id): void
     {
         $this->id = $id;
     }
-
     public function getTitolOriginal(): ?string
     {
         return $this->titolOriginal;
     }
-
     public function setTitolOriginal(?string $titolOriginal): void
     {
         $this->titolOriginal = $titolOriginal;
     }
-
     public function getTitolCatala(): ?string
     {
         return $this->titolCatala;
     }
-
     public function setTitolCatala(?string $titolCatala): void
     {
         $this->titolCatala = $titolCatala;
     }
-
     public function getAnyPublicacio(): ?int
     {
         return $this->anyPublicacio;
     }
-
     public function setAnyPublicacio(?int $anyPublicacio): void
     {
         $this->anyPublicacio = $anyPublicacio;
     }
-
     public function getIdiomaOriginal(): ?Idioma
     {
         return $this->idiomaOriginal;
     }
-
     public function setIdiomaOriginal(Idioma $idioma): void
     {
         $this->idiomaOriginal = $idioma;
     }
-
     public function getAutors(): Collection
     {
         return $this->autors;
     }
-
     public function addAutor(Autor $autor): void
     {
         $autor->addObra($this);
@@ -134,11 +126,19 @@ class Obra
         $cita->setObra($this);
         $this->cites->add($cita);
     }
+    public function getMapaLiterari(): Collection
+    {
+        return $this->mapaLiterari;
+    }
+    public function addMapaLiterari(MapaLiterari $mapaLiterari): void
+    {
+        $mapaLiterari->setObra($this);
+        $this->mapaLiterari->add($mapaLiterari);
+    }
     public function getEsdeveniments(): Collection
     {
         return $this->esdeveniments;
     }
-
     public function addEsdeveniment(Esdeveniment $esdeveniment): void
     {
         $esdeveniment->setObra($this);
@@ -151,7 +151,11 @@ class Obra
             "id" => $this->getId(),
             "titolOriginal" => $this->getTitolOriginal(),
             "titolCatala" => $this->getTitolCatala(),
-            "autors" => $this->getAutors()->toArray(),
+            "autors" => array_map(fn(Autor $autor) => [
+                "id" => $autor->getId(),
+                "nomComplet" => $autor->getNomComplet(),
+                "pseudonim" => $autor->getPseudonim(),
+            ], $this->getAutors()->toArray()),
             "anyPublicacio" => $this->getAnyPublicacio(),
             "idiomaOriginal" => $this->getIdiomaOriginal()?->getIdioma(),
         ];

@@ -1,7 +1,8 @@
 @import "tailwindcss" source("/");
 
 @layer base {
-    #llibre-info h1, #llibre-info h2, #llibre-info h3 {
+    #llibre-info h1, #llibre-info h2, #llibre-info h3,
+    #obra-indfo h1, #obra-info h2, #obra-info h3{
         @apply font-heading;
     }
     h1 {

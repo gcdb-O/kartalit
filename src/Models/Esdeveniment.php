@@ -35,47 +35,38 @@ class Esdeveniment
     {
         return $this->id;
     }
-
     public function setId(int $id): void
     {
         $this->id = $id;
     }
-
     public function getAny(): ?int
     {
         return $this->any;
     }
-
     public function setAny(?int $any): void
     {
         $this->any = $any;
     }
-
     public function getMes(): ?int
     {
         return $this->mes;
     }
-
     public function setMes(?int $mes): void
     {
         $this->mes = $mes;
     }
-
     public function getDia(): ?int
     {
         return $this->dia;
     }
-
     public function setDia(?int $dia): void
     {
         $this->dia = $dia;
     }
-
     public function getExtra(): string
     {
         return $this->extra;
     }
-
     public function setExtra(string $extra): void
     {
         $this->extra = $extra;
