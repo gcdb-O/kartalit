@@ -23,16 +23,16 @@ const iconCasa = new iconImprecis({ iconUrl: `${iconsMapaPath}/casa_lite.png` })
 const iconEstrella = new iconImprecis({ iconUrl: `${iconsMapaPath}/estrella_lite.png` });
 const icones = {
     "Lloc puntual": [
+        iconLlibre,
+        iconLlibrePin,
+    ],
+    "Ubicació general": [
         iconLite,
         iconLitePin,
     ],
-    "Ubicacio general": [
-        iconLlibre,
-        iconLlibrePin,
-    ],
     "UbicaciÃ³ general": [
-        iconLlibre,
-        iconLlibrePin,
+        iconLite,
+        iconLitePin,
     ],
     "Lloc on viu": [iconCasa, iconCasa],
     "Lloc permanent": [iconEstrella, iconEstrella],

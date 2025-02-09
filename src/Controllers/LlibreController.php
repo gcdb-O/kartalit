@@ -6,6 +6,7 @@ namespace Kartalit\Controllers;
 
 use Kartalit\Enums\Entity;
 use Kartalit\Errors\EntityNotFoundException;
+use Kartalit\Models\Cita;
 use Kartalit\Models\Llibre;
 use Kartalit\Models\MapaLiterari;
 use Kartalit\Models\Usuari;
@@ -36,14 +37,14 @@ readonly class LlibreController extends WebController
         $id = (int) $args["id"];
         /** @var ?Usuari $usuari */
         $usuari = $req->getAttribute("usuari");
-        /** @var ?Llibre $llibre */
-        $llibre = $this->llibreService->getById($id);
+        $llibre = $this->llibreService->getByIdWithCites($id, $usuari?->getId() ?? null);
         if (!$llibre) {
             throw new EntityNotFoundException(Entity::LLIBRE, $id);
         }
         //TODO: Hauria d'incloure ja també en una sola crida les obres, cites, esdeveniments, mapa literari?
         $twigContextData = ["llibre" => $llibre->getArray()];
         $twigContextData["mapaLiterari"] = array_map(fn(MapaLiterari $mapaLiterari) => $mapaLiterari->getArray(), $llibre->getMapaLiterari()->toArray());
+        $twigContextData["cites"] = array_map(fn(Cita $cita) => $cita->getArray(), $llibre->getCites()->toArray());
         if ($usuari !== null) {
             $twigContextData["biblioteca"] = $this->bibliotecaService->getBibliotecaFromLlibreUser($llibre, $usuari)?->getArray();
         }

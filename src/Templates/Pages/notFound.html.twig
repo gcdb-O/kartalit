@@ -2,8 +2,8 @@
 
 {% block content %}
 	<div class="text-center">
-		<h1 class="text-5xl">404</h1>
-		<h2>Pàgina no trobada</h2>
+		<h1 class="text-5xl">{{ code ?? 404}}</h1>
+		<h2>{{message ?? "Ha fallat alguna cosa"}}</h2>
 	</div>
 	{% if displayErrorDetails %}
 		<div class="text-center">

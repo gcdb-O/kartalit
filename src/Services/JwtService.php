@@ -41,7 +41,7 @@ class JwtService implements TokenServiceInterface
         } catch (\Throwable $th) {
             switch (get_class($th)) {
                 case ExpiredException::class:
-                    throw new ExpiredTokenException(previous: $th);
+                    throw new ExpiredTokenException();
                 case UnexpectedValueException::class:
                 case LogicException::class:
                     throw new InvalidTokenException(previous: $th);

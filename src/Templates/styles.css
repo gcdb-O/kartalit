@@ -18,9 +18,18 @@
     --color-klit-dark: #32373b;
     --color-klit-text: #131516;
     /* --color-klit-lila: #332233; */
-    /* --color-klit-light: #30E7ED; */
+    --color-klit-light: #30E7ED;
     /* --color-klit-oposite-klit: #47b2ff */
     --font-heading: "Fondamento", serif;
     --font-text: "EB Garamond", serif;
 }
 
+.header-item {
+    height: fit-content;
+    padding: calc(var(--spacing) * 4);
+}
+.header-item:hover {
+    height: fit-content;
+    padding: calc(var(--spacing) * 4);
+    box-shadow: inset -5px 0 var(--color-klit-dark),inset 4px 0 0px -1px var(--color-klit-dark),inset 0 -4px 1px -1px var(--color-klit-light);
+}

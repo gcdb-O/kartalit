@@ -3,7 +3,6 @@
         "php": "^8.2",
         "doctrine/dbal": "^4.2",
         "doctrine/orm": "^3.3",
-        "middlewares/encoder": "^2.1",
         "php-di/php-di": "^7.0",
         "slim/psr7": "^1.7",
         "slim/slim": "4.*",

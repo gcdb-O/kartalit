@@ -22,7 +22,6 @@ class CitaController
 
     public function getRandom(Request $_, Response $res): Response
     {
-        /** @var Cita $cita */
         $cita = $this->citaService->getRandom();
         $citaJson = $cita->getCitaObraArray();
         $apiRes = new ApiResponse(data: $citaJson);

@@ -10,10 +10,14 @@
 
 {% block content %}
 	<div class="grid justify-items-center sm:justify-items-start grid-cols-1 sm:grid-cols-4 lg:grid-cols-5 gap-4 mt-10">
-		<div id="llibre-coberta" class="max-w-[225px] sm:w-full sm:col-span-1 lg:col-span-1">
+		<div id="llibre-coberta" class="max-w-[225px] sm:w-full sm:col-span-1 lg:col-span-1 text-center">
 			<img class="object-contain rounded-md shadow-klit-dark shadow-lg" src="data:image/jpg;base64,{{llibre.coberta}}" alt="{{llibre.titol}}">
 			{% if usuari and biblioteca == null %}
-				<p>Afegir a la biblioteca</p>
+				<div class="mt-3 grid justify-items-center">
+					<div class="w-fit p-2 border-3 border-klit-dark hover:bg-klit-dark text-klit-text hover:text-white rounded-2xl">
+						<p>Afegir a la biblioteca</p>
+					</div>
+				</div>
 			{% endif %}
 		</div>
 		<div id="llibre-info" class="w-full sm:col-span-3 lg:col-span-4 sm:ml-8 md:ml-4 ms:ml-2">
@@ -71,7 +75,8 @@
 		</div>
 	</div>
 </div>
-{% include "Components/Llibre/mapaLiterari.html.twig" %}{% endblock %}{% block js %}
+{% include "Components/Llibre/mapaLiterari.html.twig" %}
+{% include "Components/Llibre/cites.html.twig" %}{% endblock %}{% block js %}
 {% if mapaLiterari %}
 	<script src="{{basePath}}/js/constants.js"></script>
 	<script>

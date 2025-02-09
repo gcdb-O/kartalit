@@ -5,7 +5,6 @@ declare(strict_types=1);
 use Kartalit\Config\Config;
 use Kartalit\Errors\ErrorHandler;
 use Kartalit\Middlewares\AddResponseHeaders;
-use Kartalit\Middlewares\EncodeContent;
 use Kartalit\Middlewares\ReadUserFromToken;
 use Kartalit\Routes\Router;
 use Slim\App;
@@ -22,7 +21,6 @@ $app->setBasePath($envConfig->server['basePath'] ?? '');
 $app->addRoutingMiddleware();
 // MW Out
 $app->addMiddleware(new AddResponseHeaders);
-$app->add(EncodeContent::class);
 $app->addErrorMiddleware(!$envConfig->server['isProd'], false, false)->setDefaultErrorHandler(ErrorHandler::class);
 // MW In
 $app->add(ReadUserFromToken::class);

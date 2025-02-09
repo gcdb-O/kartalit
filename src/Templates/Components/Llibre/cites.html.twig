@@ -1,0 +1,14 @@
+{# Requereix propietat cites #}
+{% if cites %}
+	<div id="cites-block" class="w-full mt-8">
+		<h1>Cites</h1>
+		<div class="px-1">
+			{% for cita in cites %}
+				<p>{{cita.cita|nl2br}}</p>
+				<p class="text-right italic">Pag.
+					{{cita.pagina}}</p>
+				<br>
+			{% endfor %}
+		</div>
+	</div>
+{% endif %}

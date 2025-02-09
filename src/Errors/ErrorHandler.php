@@ -7,6 +7,7 @@ namespace Kartalit\Errors;
 use Kartalit\Config\Config;
 use Kartalit\Enums\ApiResponseStatus;
 use Kartalit\Enums\HttpStatusCode;
+use Kartalit\Interfaces\AuthServiceInterface;
 use Kartalit\Schemas\ApiResponse;
 use Kartalit\Schemas\ExceptionDisplayDetails;
 use Kartalit\Schemas\TwigContext;
@@ -15,6 +16,7 @@ use Kartalit\Services\TwigService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
+use Slim\Exception\HttpNotFoundException;
 use Slim\Interfaces\ErrorHandlerInterface;
 use Slim\Psr7\Response;
 use Throwable;
@@ -26,6 +28,7 @@ class ErrorHandler implements ErrorHandlerInterface
         private Config $config,
         private TwigService $twig,
         private ApiResponseService $apiResponseService,
+        private AuthServiceInterface $authService,
         protected ?LoggerInterface $logger = null,
     ) {}
     public function __invoke(
@@ -69,12 +72,28 @@ class ErrorHandler implements ErrorHandlerInterface
     }
     private function handleWebError(Request $request, Throwable $throwable): ResponseInterface
     {
-        //TODO: Separar els 404 dels 401, 403, 500 i mostrar error per consola i noProd
+        //TODO: Separar els 404 dels 401, 403, 500
         $response = new Response();
-        $response->withStatus(HttpStatusCode::NOT_FOUND->value);
-        return $this->twig->render($response, "Pages/notFound.html.twig", new TwigContext($request, "Pàgina no trobada", [
+        $twigContextData = [
+            "code" => $throwable->getCode(),
+            "message" => $throwable->getMessage(),
             "displayErrorDetails" => $this->displayErrorDetails,
             "error" => ExceptionDisplayDetails::toArray($throwable),
-        ]));
+        ];
+        switch (get_class($throwable)) {
+            case ExpiredTokenException::class:
+                $this->authService->deleteCookie();
+                return $response
+                    ->withStatus(HttpStatusCode::REDIRECT_TEMP->value)
+                    ->withHeader("Location", $this->config->server["basePath"]);
+            case HttpNotFoundException::class:
+                $twigContextData['message'] = "Pàgina no trobada";
+                break;
+            default:
+                $response = $response->withStatus(HttpStatusCode::NOT_FOUND->value);
+                break;
+        }
+        $twigContext = new TwigContext($request, "Error", $twigContextData);
+        return $this->twig->render($response, "Pages/notFound.html.twig", $twigContext);
     }
 }

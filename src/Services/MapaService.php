@@ -14,17 +14,13 @@ class MapaService extends EntityService
     {
         $qb = $this->repository->createQueryBuilder('m');
         $qb = $qb
-            ->select('m')
             ->where('m.obra = :obraId')
             ->setParameter('obraId', $obraId);
         if ($usuariId) {
             $qb = $qb->andWhere(
                 $qb->expr()->orX(
                     $qb->expr()->eq('m.usuari', ':usuariId'),
-                    $qb->expr()->andX(
-                        $qb->expr()->neq('m.usuari', ':usuariId'),
-                        $qb->expr()->eq('m.privat', '0'),
-                    )
+                    $qb->expr()->eq('m.privat', '0'),
                 )
             )->setParameter('usuariId', $usuariId);
         } else {

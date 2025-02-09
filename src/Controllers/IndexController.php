@@ -22,7 +22,6 @@ readonly class IndexController extends WebController
     ) {}
     public function __invoke(Request $request, Response $response): Response
     {
-        /** @var Cita $citaRandom */
         $citaRandom = $this->citaService->getRandom();
         $llibresNous = $this->llibreService->getNous();
         $twigContext = new TwigContext($request, data: [
