@@ -2,20 +2,31 @@
 	<div>
 		<a href="{{basePath}}"><img src="{{basePath}}/img/kartalit_logo.png" alt="Logo Kartalit" class="w-32 ml-1 sm:ml-5"></a>
 	</div>
-	<nav class="flex">
-		<div class="flex items-center">
-			<div class="header-item mr-2">
-				<a href="{{basePath}}/llibre/tots" class="text-white">Tots els llibres</a>
-			</div>
+	<nav class="">
+		<ul class="list-none text-white">
+			<li class="header-item block float-left relative">
+				<a href="{{basePath}}/llibre/tots">Tots els llibres</a>
+			</li>
 			{% if usuari == null %}
-				<div class="header-item">
-					<a href="{{basePath}}/login" class="text-white">Inicia sessió</a>
-				</div>
+				<li class="header-item block float-right relative">
+					<a href="{{basePath}}/login">Inicia sessió</a>
+				</li>
 			{% else %}
-				<div class="header-item">
-					<a href="{{basePath}}/api/auth/logout" class="text-white">{{ usuari.usuari }}</a>
-				</div>
+				<li id="desplegable" class="header-item block float-right relative mr-2">
+					<a href="#">{{ usuari.usuari }}</a>
+					<ul class="absolute bg-klit-dark mt-3 -mr-2 right-0 w-max hidden">
+						<li class="header-item">
+							<a href="">Perfil</a>
+						</li>
+						<li class="header-item">
+							<a href="">Mapa Literari</a>
+						</li>
+						<li class="header-item">
+							<a href="{{basePath}}/api/auth/logout" title="Tanca la sessió">Tanca la sessió</a>
+						</li>
+					</ul>
+				</li>
 			{% endif %}
-		</div>
+		</ul>
 	</nav>
 </header>

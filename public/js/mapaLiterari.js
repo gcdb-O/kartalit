@@ -54,12 +54,19 @@ obres.forEach(obraId => {
     fetch(`${BASE_PATH}/api/mapa/obra/${obraId}`)
         .then(res => res.json())
         .then(({ data }) => {
-            data.forEach(({ latitud, longitud, precisio, tipus, usuari }) => {
+            data.forEach(({ latitud, longitud, precisio, tipus, usuari, adreca, comentari }) => {
                 const markerGroup = usuari === usuariId ? mapaPropi : mapaAltres;
+                let desc = `<p>${comentari}</p>`;
+                if (adreca) { desc += `<p><i>${adreca}</i></p>`; }
                 L.marker(
                     [latitud, longitud],
-                    { icon: icones[`${tipus}`][precisio ? 1 : 0] ?? iconLite }
-                ).addTo(markerGroup);
+                    {
+                        icon: icones[`${tipus}`][precisio ? 1 : 0] ?? iconLite,
+                        title: tipus,
+                        alt: tipus,
+                        riseOnHover: true,
+                    }
+                ).addTo(markerGroup).bindPopup(desc);
             })
             //TODO: Refactoritzar això..
             if (usuariId === null) {

@@ -80,7 +80,8 @@
 {% if mapaLiterari %}
 	<script src="{{basePath}}/js/constants.js"></script>
 	<script>
-		const usuariId = {{ usuari.id ?? "null" }};
+		// TODO: Posar-ho en etiquetes meta
+const usuariId = {{ usuari.id ?? "null" }};
 const obres = {{ llibre.obresId|json_encode() }};
 	</script>
 	<script src="{{basePath}}/js/mapaLiterari.js"></script>

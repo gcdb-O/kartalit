@@ -43,7 +43,10 @@ readonly class LlibreController extends WebController
         }
         //TODO: Hauria d'incloure ja també en una sola crida les obres, cites, esdeveniments, mapa literari?
         $twigContextData = ["llibre" => $llibre->getArray()];
-        $twigContextData["mapaLiterari"] = array_map(fn(MapaLiterari $mapaLiterari) => $mapaLiterari->getArray(), $llibre->getMapaLiterari()->toArray());
+        $mapaLiterari = $llibre->getMapaLiterari()->filter(function (MapaLiterari $mapa) use ($usuari) {
+            return $mapa->getUsuari()->getId() === $usuari?->getId() || $mapa->getPrivat() === false;
+        });
+        $twigContextData["mapaLiterari"] = array_map(fn(MapaLiterari $ubicacio) => $ubicacio->getArray(), $mapaLiterari->toArray());
         $twigContextData["cites"] = array_map(fn(Cita $cita) => $cita->getArray(), $llibre->getCites()->toArray());
         if ($usuari !== null) {
             $twigContextData["biblioteca"] = $this->bibliotecaService->getBibliotecaFromLlibreUser($llibre, $usuari)?->getArray();

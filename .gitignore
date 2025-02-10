@@ -4,3 +4,4 @@
 /tailwindcss*
 tailwind.config.js
 /public/fonts/*
+/assets

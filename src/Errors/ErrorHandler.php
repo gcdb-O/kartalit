@@ -75,8 +75,8 @@ class ErrorHandler implements ErrorHandlerInterface
         //TODO: Separar els 404 dels 401, 403, 500
         $response = new Response();
         $twigContextData = [
-            "code" => $throwable->getCode(),
-            "message" => $throwable->getMessage(),
+            "code" => HttpStatusCode::SERVER_ERROR->value,
+            "message" => "Alguna cosa ha fallat.",
             "displayErrorDetails" => $this->displayErrorDetails,
             "error" => ExceptionDisplayDetails::toArray($throwable),
         ];
@@ -87,10 +87,12 @@ class ErrorHandler implements ErrorHandlerInterface
                     ->withStatus(HttpStatusCode::REDIRECT_TEMP->value)
                     ->withHeader("Location", $this->config->server["basePath"]);
             case HttpNotFoundException::class:
+                $twigContextData["code"] = HttpStatusCode::NOT_FOUND->value;
                 $twigContextData['message'] = "Pàgina no trobada";
+                $response = $response->withStatus(HttpStatusCode::NOT_FOUND->value);
                 break;
             default:
-                $response = $response->withStatus(HttpStatusCode::NOT_FOUND->value);
+                $response = $response->withStatus(HttpStatusCode::SERVER_ERROR->value);
                 break;
         }
         $twigContext = new TwigContext($request, "Error", $twigContextData);
