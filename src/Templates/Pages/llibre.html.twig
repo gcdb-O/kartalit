@@ -4,6 +4,8 @@
 	{{ parent() }}
 	{% if mapaLiterari %}
 		{% include "leaflet.twig" %}
+		<meta name="usuariId" value="{{ usuari.id ?? "null" }}">
+		<meta name="obres" value="{{ llibre.obresId|join(",") }}">
 	{% endif %}
 {% endblock %}
 
@@ -79,10 +81,5 @@
 {% include "Components/Llibre/cites.html.twig" %}{% endblock %}{% block js %}
 {% if mapaLiterari %}
 	<script src="{{basePath}}/js/constants.js"></script>
-	<script>
-		// TODO: Posar-ho en etiquetes meta
-const usuariId = {{ usuari.id ?? "null" }};
-const obres = {{ llibre.obresId|json_encode() }};
-	</script>
 	<script src="{{basePath}}/js/mapaLiterari.js"></script>
 {% endif %}{% endblock %}

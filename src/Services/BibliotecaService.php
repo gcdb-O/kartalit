@@ -18,6 +18,7 @@ class BibliotecaService extends EntityService
     {
         $llibreId = $llibre instanceof Llibre ? $llibre->getId() : $llibre;
         $usuariId = $usuari instanceof Usuari ? $usuari->getId() : $usuari;
+        // TODO: Gestionar llibre privat
         return $this->repository->createQueryBuilder("b")
             ->select("b")
             ->where("b.llibre = :llibreId")

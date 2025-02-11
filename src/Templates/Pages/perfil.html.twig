@@ -1,0 +1,11 @@
+{% extends "base.html.twig" %}
+{% set socJo = usuari.id == perfilId %}
+{% block content %}
+	<h1>Perfil</h1>
+	{# TODO: Estàs llegint #}
+	{% include "Components/Perfil/llegint.html.twig" with {llegint: llegits|filter(l => l.dataAcabat is null)} %}
+	<h2>Últimes lectures</h2>
+	{% include "Components/carrousselLlibres.html.twig" with {llibres: llegits|filter(l => l.dataAcabat is not null)|map(l => l.llibre)|slice(0,8)} %}
+{# TODO: Estadístiques? #}
+	{# TODO: Historial #}
+{% endblock %}

@@ -9,5 +9,9 @@
 			{% endif %}
 			<h2>{{obra.autors|map(a => a.nomComplet)|join(",")}}</h2>
 		</div>
+		<div id="llibres">
+			<h1>Llibres</h1>
+			{% include "Components/carrousselLlibres.html.twig" %}
+		</div>
 	</div>
 {% endblock %}

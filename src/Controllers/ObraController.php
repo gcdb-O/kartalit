@@ -6,6 +6,7 @@ namespace Kartalit\Controllers;
 
 use Kartalit\Enums\Entity;
 use Kartalit\Errors\EntityNotFoundException;
+use Kartalit\Models\Llibre;
 use Kartalit\Models\Obra;
 use Kartalit\Schemas\TwigContext;
 use Kartalit\Services\ObraService;
@@ -30,6 +31,7 @@ readonly class ObraController extends WebController
             throw new EntityNotFoundException(Entity::OBRA, $id);
         }
         $twigContextData = ["obra" => $obra->getArray()];
+        $twigContextData["llibres"] = array_map(fn(Llibre $llibre) => $llibre->getCobertesBasic(), $obra->getLlibres()->toArray());
         $twigContext = new TwigContext($req, $obra->getTitolOriginal(), $twigContextData);
         return $this->twigService->render(
             $res,

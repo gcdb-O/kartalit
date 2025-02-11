@@ -86,6 +86,10 @@ class ErrorHandler implements ErrorHandlerInterface
                 return $response
                     ->withStatus(HttpStatusCode::REDIRECT_TEMP->value)
                     ->withHeader("Location", $this->config->server["basePath"]);
+            case UnauthorizedException::class:
+                return $response
+                    ->withStatus(HttpStatusCode::REDIRECT_TEMP->value)
+                    ->withHeader("Location", $this->config->server["basePath"] . "/login");
             case HttpNotFoundException::class:
                 $twigContextData["code"] = HttpStatusCode::NOT_FOUND->value;
                 $twigContextData['message'] = "Pàgina no trobada";

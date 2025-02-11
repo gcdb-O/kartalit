@@ -1,9 +1,0 @@
-<div class="mt-3 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 mx-auto place-items-center">
-	{% for llibre in llibres %}
-		<div>
-			<a href="{{basePath}}/llibre/{{llibre.id}}">
-				<img class="h-[175px] object-contain rounded-sm hover:shadow-xl" src="data:image/jpg;base64,{{llibre.coberta}}" title="{{llibre.titol}}" alt="{{llibre.titol}}">
-			</a>
-		</div>
-	{% endfor %}
-</div>

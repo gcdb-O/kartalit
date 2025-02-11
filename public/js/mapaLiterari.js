@@ -50,6 +50,8 @@ const mapaLiterari = L.map('mapa-literari', {
     layers: [mapaCapa, mapaPropi, mapaAltres],
 });
 
+const obres = document.head.querySelector('meta[name="obres"]').getAttribute("value").split(",");
+const usuariId = document.head.querySelector('meta[name="usuariId"]').getAttribute("value");
 obres.forEach(obraId => {
     fetch(`${BASE_PATH}/api/mapa/obra/${obraId}`)
         .then(res => res.json())

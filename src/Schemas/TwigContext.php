@@ -37,7 +37,7 @@ class TwigContext
     {
         $titol = $this->titol === null ? "" : $this->titol . " 📖 ";
         $context = $this->data;
-        $context["usuari"] = $this->usuari?->getArray();
+        $context["usuari"] = $this->usuari?->getArray($this->usuari);
         $context["titol"] = ltrim($titol . "Kartalit");
         return $context;
     }

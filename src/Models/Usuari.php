@@ -40,12 +40,15 @@ class Usuari
     private Collection $cites;
     #[OneToMany(targetEntity: MapaLiterari::class, mappedBy: "user")]
     private Collection $mapaLiterari;
+    #[OneToMany(targetEntity: Llegit::class, mappedBy: "user")]
+    private Collection $llegits;
 
     public function __construct()
     {
         $this->biblioteca = new ArrayCollection();
         $this->cites = new ArrayCollection();
         $this->mapaLiterari = new ArrayCollection();
+        $this->llegits = new ArrayCollection();
     }
     #region Getters and setters
     public function getId(): int
@@ -131,14 +134,27 @@ class Usuari
         $mapaLiterari->setUsuari($this);
         $this->mapaLiterari->add($mapaLiterari);
     }
-    #endregion
-    public function getArray(): array
+    public function getLlegits(): Collection
     {
-        return [
+        return $this->llegits;
+    }
+    public function addLlegit(Llegit $llegit): void
+    {
+        $llegit->setUsuari($this);
+        $this->llegits->add($llegit);
+    }
+    #endregion
+    public function getArray(Usuari|int|null $reqUsuari): array
+    {
+        $reqUsuariId = $reqUsuari instanceof Usuari ? $reqUsuari->getId() : $reqUsuari;
+        $arrayUsuari = [
             "id" => $this->getId(),
             "usuari" => $this->getUsuari(),
-            "email" => $this->getEmail(),
-            "nivell" => $this->getNivell(),
         ];
+        if ($reqUsuariId !== null && $reqUsuariId === $this->getId()) {
+            $arrayUsuari["email"] = $this->getEmail();
+            $arrayUsuari["nivell"] = $this->getNivell();
+        }
+        return $arrayUsuari;
     }
 }

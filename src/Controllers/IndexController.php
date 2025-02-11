@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Kartalit\Controllers;
 
-use Kartalit\Models\Cita;
 use Kartalit\Models\Llibre;
 use Kartalit\Schemas\TwigContext;
 use Kartalit\Services\CitaService;

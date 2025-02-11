@@ -22,6 +22,7 @@ class RedirectToMain implements MiddlewareInterface
         if (($usuari instanceof Usuari) == $this->logged) {
             $response = new Response();
             //TODO: Hauria de fer servir basePath de config?
+            //TODO: En cas d'usuari no regisrat, redirigir a login?
             return $response->withHeader("Location", "./")->withStatus(302);
         }
         return $handler->handle($request);

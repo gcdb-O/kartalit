@@ -8,11 +8,11 @@ use Kartalit\Enums\HttpStatusCode;
 use RuntimeException;
 use Throwable;
 
-class ForbiddenException extends RuntimeException
+class UnauthorizedException extends RuntimeException
 {
     public function __construct(
-        string $message = "No tens permís per realitzar aquesta acció.",
-        HttpStatusCode $code = HttpStatusCode::FORBIDDEN,
+        string $message = "Si us plau, inicia sessió.",
+        HttpStatusCode $code = HttpStatusCode::UNAUTHORIZED,
         Throwable $previous = null
     ) {
         parent::__construct($message, $code->value, $previous);

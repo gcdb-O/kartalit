@@ -34,9 +34,8 @@ class LlibreService extends EntityService
         $qb = $qb->leftJoin("l.cites", "c", Expr\Join::WITH, $qb->expr()->orX(
             $qb->expr()->eq("c.usuari", ":usuariId"),
             $qb->expr()->eq("c.privat", "0")
-        ))->setParameter("usuariId", $usuariId);
+        ))->orderBy("c.pagina", "ASC")->setParameter("usuariId", $usuariId);
         $qb = $qb->select("l, c");
-        // var_dump($qb->getQuery()->getArrayResult());
         return $qb->getQuery()->getOneOrNullResult();
     }
 }

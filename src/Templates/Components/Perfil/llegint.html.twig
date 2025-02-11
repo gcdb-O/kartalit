@@ -1,0 +1,9 @@
+{# Requereix array llegint #}
+{% if llegint %}
+	<div>
+		<h2>Llegint</h2>
+		{% for llegintLlibre in llegint %}
+			<p>{{llegintLlibre.llibre.titol}}</p>
+		{% endfor %}
+	</div>
+{% endif %}

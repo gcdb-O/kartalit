@@ -9,13 +9,15 @@ enum Entity: string
     case AUTOR = "autor";
     case LLIBRE = "llibre";
     case OBRA = "obra";
+    case USUARI = "usuari";
 
     public function ambArticle(): string
     {
         return match ($this) {
             Entity::LLIBRE => 'el ' . $this->value,
             Entity::AUTOR,
-            Entity::OBRA => "l'" . $this->value,
+            Entity::OBRA,
+            Entity::USUARI => "l'" . $this->value,
         };
     }
 }
