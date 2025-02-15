@@ -5,6 +5,7 @@
 	{% if mapaLiterari %}
 		{% include "leaflet.twig" %}
 		<meta name="usuariId" value="{{ usuari.id ?? "null" }}">
+		<meta name="llibre" value="{{ llibre.id }}">
 		<meta name="obres" value="{{ llibre.obresId|join(",") }}">
 	{% endif %}
 {% endblock %}
@@ -79,7 +80,8 @@
 </div>
 {% include "Components/Llibre/mapaLiterari.html.twig" %}
 {% include "Components/Llibre/cites.html.twig" %}{% endblock %}{% block js %}
+<script src="{{basePath}}/js/constants.js"></script>
+<script src="{{basePath}}/js/cites.js"></script>
 {% if mapaLiterari %}
-	<script src="{{basePath}}/js/constants.js"></script>
 	<script src="{{basePath}}/js/mapaLiterari.js"></script>
 {% endif %}{% endblock %}

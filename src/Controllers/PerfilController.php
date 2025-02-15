@@ -39,8 +39,8 @@ readonly class PerfilController extends WebController
         $llegits = $this->llegitService->getByUsuari($perfilUsuari, $reqUsuari);
         $llegitsJson = array_map(fn(Llegit $llegit) => $llegit->getArray(), $llegits);
         $twigContextData = [
+            "perfilUsuari" => $perfilUsuari->getArray($reqUsuari),
             "llegits" => $llegitsJson,
-            "perfilUsuari" => $perfilUsuari->getArray($reqUsuari)
         ];
         $twigContext = new TwigContext($request, "Perfil", $twigContextData);
         return $this->twigService->render($response, "Pages/perfil.html.twig", $twigContext);

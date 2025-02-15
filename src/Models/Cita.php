@@ -34,7 +34,7 @@ class Cita
     #[Column(type: "smallint")]
     private ?int $pagina;
     #[Column(type: "smallint")]
-    private ?int $ordre;
+    private ?int $ordre = null;
     #[Column(type: "text")]
     private ?string $cita;
     #[Column(type: "text")]

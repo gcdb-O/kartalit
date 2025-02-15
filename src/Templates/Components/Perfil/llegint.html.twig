@@ -1,9 +1,9 @@
 {# Requereix array llegint #}
 {% if llegint %}
 	<div>
-		<h2>Llegint</h2>
+		<h2 class="mb-2">Llegint</h2>
 		{% for llegintLlibre in llegint %}
-			<p>{{llegintLlibre.llibre.titol}}</p>
+			{% include "Components/Atoms/coberta.html.twig" with {llibre: llegintLlibre.llibre} %}
 		{% endfor %}
 	</div>
 {% endif %}

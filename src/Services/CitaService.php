@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Kartalit\Services;
 
 use Kartalit\Models\Cita;
+use Kartalit\Models\Llibre;
+use Kartalit\Models\Obra;
+use Kartalit\Models\Usuari;
 
 class CitaService extends EntityService
 {
@@ -39,5 +42,28 @@ class CitaService extends EntityService
             $qb = $qb->andWhere('c.privat = 0');
         }
         return $qb->getQuery()->getResult();
+    }
+    public function create(
+        string $cita,
+        ?int $pagina,
+        ?string $comentari,
+        Usuari $usuari,
+        Llibre $llibre,
+        Obra $obra,
+        bool $privat = false,
+    ): Cita {
+        $novaCita = new Cita();
+        $novaCita->setCita($cita);
+        $novaCita->setPagina($pagina);
+        $novaCita->setComentari($comentari);
+        $novaCita->setLlibre($llibre);
+        $novaCita->setObra($obra);
+        $novaCita->setUsuari($usuari);
+        $novaCita->setPrivat($privat);
+
+        $this->em->persist($novaCita);
+        $this->em->flush();
+
+        return $novaCita;
     }
 }

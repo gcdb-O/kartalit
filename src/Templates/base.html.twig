@@ -9,15 +9,16 @@
 			{% include "googleFonts.twig" %}
 			<link rel="icon" type="image/ico" href="{{basePath}}/logo.ico"/>
 			<link rel="stylesheet" type="text/css" href="{{basePath}}/css/kartalit.css">
+			<script src="https://kit.fontawesome.com/5d896814dd.js" crossorigin="anonymous"></script>
 		{% endblock %}
 	</head>
 	<body class="bg-klit text-klit-text font-text flex flex-col">
 		{% block header %}
 			{% include "header.html.twig" %}
 		{% endblock %}
-		<div id="content" class="px-5 sm:px-15 md:px-30 lg:px-35 xl:px-50 2xl:px-75 mt-10"> {% block content %}{% endblock %}
+		<div id="content" class="px-5 sm:px-15 md:px-30 lg:px-35 xl:px-50 2xl:px-75 mt-10 min-h-[90dvh]"> {% block content %}{% endblock %}
 			</div>
-			<footer id="footer" class="text-xs text-center bottom-0 inset-x-0 w-full p-2 mt-20">
+			<footer id="footer" class="text-xs text-center bottom-0 inset-x-0 w-full p-2 mt-5">
 				{% block footer %}
 					<p>Kartalit -
 						{{"now"|date("Y")}}</p>

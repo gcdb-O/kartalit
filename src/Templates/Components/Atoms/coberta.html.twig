@@ -1,0 +1,5 @@
+{# Requereix llibre, alcada #}
+{% set alcada = alcada ? alcada : "175px" %}
+<a href="{{basePath}}/llibre/{{llibre.id}}">
+	<img class="h-[{{alcada}}] object-contain rounded-sm shadow-klit-dark shadow-lg hover:shadow-xl" src="data:image/jpg;base64,{{llibre.coberta}}" title="{{llibre.titol}}" alt="{{llibre.titol}}" onerror="this.src='{{basePath}}/img/no_coberta.png'">
+</a>

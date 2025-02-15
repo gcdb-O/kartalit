@@ -16,7 +16,7 @@ const iconImprecis = L.Icon.extend({
     }
 })
 const iconLitePin = new iconPrecis({ iconUrl: `${iconsMapaPath}/lite_pin.png` });
-const iconLlibrePin = new iconImprecis({ iconUrl: `${iconsMapaPath}/llibre_pin.png` });
+const iconLlibrePin = new iconPrecis({ iconUrl: `${iconsMapaPath}/llibre_pin.png` });
 const iconLite = new iconImprecis({ iconUrl: `${iconsMapaPath}/lite.png` });
 const iconLlibre = new iconImprecis({ iconUrl: `${iconsMapaPath}/llibre.png` });
 const iconCasa = new iconImprecis({ iconUrl: `${iconsMapaPath}/casa_lite.png` });
@@ -50,8 +50,6 @@ const mapaLiterari = L.map('mapa-literari', {
     layers: [mapaCapa, mapaPropi, mapaAltres],
 });
 
-const obres = document.head.querySelector('meta[name="obres"]').getAttribute("value").split(",");
-const usuariId = document.head.querySelector('meta[name="usuariId"]').getAttribute("value");
 obres.forEach(obraId => {
     fetch(`${BASE_PATH}/api/mapa/obra/${obraId}`)
         .then(res => res.json())
