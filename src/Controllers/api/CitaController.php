@@ -49,15 +49,14 @@ class CitaController
         }
         $novaCitaData = $req->getParsedBody();
         $novaCita = $this->citaService->create(
-            cita: $novaCitaData["cita"],
-            pagina: (int) $novaCitaData["pagina"] ?? null,
-            comentari: $novaCitaData["comentari"] ?? null, //TODO: Que sigui null i no pas string buit.
+            cita: (string) $novaCitaData["cita"],
+            pagina: isset($novaCitaData["pagina"]) ? (int) $novaCitaData["pagina"] : null,
+            comentari: isset($novaCitaData["comentari"]) ? (string) $novaCitaData["comentari"] : null,
             usuari: $usuari,
             llibre: $llibre,
             obra: $obra,
-            privat: (bool) $novaCitaData["privat"] ?? false
+            privat: isset($novaCitaData["privat"]) ? (bool) $novaCitaData["privat"] : false
         );
-
         $apiRes = new ApiResponse($novaCita->getArray(), "Cita creada correctament");
         return $this->apiResponseService->toJson($res, $apiRes, HttpStatusCode::CREATED);
     }

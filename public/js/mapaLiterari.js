@@ -1,3 +1,15 @@
+const divMapa = document.getElementById("mapa-literari");
+const divMapaBuit = document.getElementById("mapa-buit");
+
+// Nova ubicacio
+const nouMapaTipus = document.getElementById("nou_mapa_tipus");
+const nouMapaPrivat = document.getElementById("nou_mapa_privat");
+const nouMapaAdreca = document.getElementById("nou_mapa_adreca");
+const nouMapaUbicacio = document.getElementById("nou_mapa_ubicacio");
+const nouMapaLat = document.getElementById("nou_mapa_lat");
+const nouMapaLon = document.getElementById("nou_mapa_lon");
+const nouMapaPrecisio = document.getElementById("nou_mapa_precisio");
+
 // Icones
 const iconsMapaPath = PATHS["icons"]["mapa"];
 
@@ -39,21 +51,28 @@ const icones = {
 };
 
 const mapaCapa = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
     maxZoom: 18,
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
     id: 'osm',
 })
-const [mapaPropi, mapaAltres] = [new L.featureGroup(), new L.featureGroup()];
+const [mapaPropi, mapaAltres, nouMapa] = [new L.featureGroup(), new L.featureGroup(), new L.featureGroup()];
 
 const mapaLiterari = L.map('mapa-literari', {
     maxZoom: 18,
-    layers: [mapaCapa, mapaPropi, mapaAltres],
+    layers: [mapaCapa, mapaPropi, mapaAltres, nouMapa],
 });
+L.control.scale({ imperial: false }).addTo(mapaLiterari);
+// L.control.layers({ "OpenStreetMap": mapaCapa }, { "Propis": mapaPropi, "Altres": mapaAltres }).addTo(mapaLiterari);
 
 obres.forEach(obraId => {
     fetch(`${BASE_PATH}/api/mapa/obra/${obraId}`)
         .then(res => res.json())
         .then(({ data }) => {
+            if (!data || data.length === 0) {
+                divMapaBuit.classList.remove("hidden");
+                return;
+            }
+            divMapa.classList.remove("hidden");
             data.forEach(({ latitud, longitud, precisio, tipus, usuari, adreca, comentari }) => {
                 const markerGroup = usuari === usuariId ? mapaPropi : mapaAltres;
                 let desc = `<p>${comentari}</p>`;

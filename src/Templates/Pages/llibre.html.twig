@@ -2,11 +2,11 @@
 
 {% block head %}
 	{{ parent() }}
-	{% if mapaLiterari %}
+	<meta name="usuariId" value="{{ usuari.id ?? "null" }}">
+	<meta name="llibre" value="{{ llibre.id }}">
+	<meta name="obres" value="{{ llibre.obres|map(o => o.id)|join(",") }}">
+	{% if mapaLiterari or usuari %}
 		{% include "leaflet.twig" %}
-		<meta name="usuariId" value="{{ usuari.id ?? "null" }}">
-		<meta name="llibre" value="{{ llibre.id }}">
-		<meta name="obres" value="{{ llibre.obresId|join(",") }}">
 	{% endif %}
 {% endblock %}
 
@@ -79,9 +79,14 @@
 	</div>
 </div>
 {% include "Components/Llibre/mapaLiterari.html.twig" %}
-{% include "Components/Llibre/cites.html.twig" %}{% endblock %}{% block js %}
+{% if cites or usuari %}
+	{% include "Components/Llibre/cites.html.twig" %}
+{% endif %}{% endblock %}{% block js %}
 <script src="{{basePath}}/js/constants.js"></script>
-<script src="{{basePath}}/js/cites.js"></script>
-{% if mapaLiterari %}
+{% if mapaLiterari or usuari %}
 	<script src="{{basePath}}/js/mapaLiterari.js"></script>
+{% endif %}
+{% if usuari and biblioteca %}
+	<script src="{{basePath}}/js/cites.js"></script>
+	<script src="{{basePath}}/js/mapaLiterariDin.js"></script>
 {% endif %}{% endblock %}

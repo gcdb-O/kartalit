@@ -7,7 +7,7 @@
 		{% if usuari and biblioteca != null %}
 			<div class="px-2 text-right text-3xl text-klit-dark">
 				<button id="add-cita-boto" class="hover:text-klit-lila cursor-pointer">
-					<i class="fa-solid fa-square-plus" title="Afegeix una cita"></i>
+					<i class="fa-solid fa-feather-pointed" title="Afegeix una cita"></i>
 				</button>
 			</div>
 		{% endif %}
@@ -17,17 +17,17 @@
 		<div id="cita-nova" class="mb-4 p-2 rounded-lg shadow-xs shadow-klit-dark hidden">
 			<form id="form-cita-nova">
 				<p class="mb-2">
-					<input type="text" name="pagina" id="nou_cita_pagina" size="5" class="shadow-xs shadow-klit-dark rounded-lg p-2 mr-2 focus:border-klit-lila" placeholder="Pàg.">
+					<input type="text" name="pagina" id="nou_cita_pagina" size="5" class="input-item mr-2 focus:border-klit-lila" placeholder="Pàg.">
 					<label for="nou_cita_privat" class="font-semibold">Privat
-					</label><input type="checkbox" name="privat" id="nou_cita_privat" label="Privada">
+					</label><input type="checkbox" name="privat" id="nou_cita_privat">
 				{# TODO: Avisar que conté spoilers #}
 					{# TODO: Afegir llista d'obres per quan n'hi hagi més d'una #}
 				</p>
 				<p class="mb-2">
-					<textarea name="cita" id="nou_cita_cita" rows="5" class="w-full shadow-xs shadow-klit-dark rounded-lg p-2" placeholder="Cita" required="true"></textarea>
+					<textarea name="cita" id="nou_cita_cita" rows="5" class="w-full input-item" placeholder="Cita" required="true"></textarea>
 				</p>
 				<p class="mb-2">
-					<textarea name="comentari" id="nou_cita_comentari" rows="5" class="w-full shadow-xs shadow-klit-dark rounded-lg p-2" placeholder="Comenatri sobre la cita (opcional)"></textarea>
+					<textarea name="comentari" id="nou_cita_comentari" rows="5" class="w-full input-item" placeholder="Comenatri sobre la cita (opcional)"></textarea>
 				</p>
 				<p class="text-right">
 					<input type="submit" class="px-1 mt-2 border-2 rounded-lg cursor-pointer border-klit-lila hover:bg-klit-lila hover:text-white" value="Desar">
@@ -46,9 +46,9 @@
 					{% endif %}
 				</div>
 			{% endfor %}
-		{% else %}
+		{% elseif usuari %}
 			<div class="text-center">
-				<p>No hi ha cites, afegeix-ne!</p>
+				<p>No hi ha cites. Afegeix-ne!</p>
 			</div>
 		{% endif %}
 	</div>

@@ -1,4 +1,8 @@
 document.getElementById("add-cita-boto").addEventListener("click", function () {
+    window.scrollTo({
+        top: document.getElementById("cites-block").offsetTop,
+        behavior: "smooth",
+    })
     const citaNovaDiv = document.getElementById("cita-nova");
     citaNovaDiv.classList.toggle("hidden");
 });

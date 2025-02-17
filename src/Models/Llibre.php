@@ -178,7 +178,11 @@ class Llibre
             "id" => $this->getId(),
             "titol" => $this->getTitol(),
             "autors" => $this->getAutors(),
-            "obresId" => array_map(fn(Obra $obra) => $obra->getId(), $this->getObres()->toArray()),
+            "obres" => array_map(fn(Obra $obra) => [
+                "id" => $obra->getId(),
+                "titolOriginal" => $obra->getTitolOriginal(),
+                "titolCatala" => $obra->getTitolCatala(),
+            ], $this->getObres()->toArray()),
             "coberta" => $this->getCobertaBase64(),
             "isbn" => $this->getIsbn(),
             "editorial" => $this->getEditorial(),

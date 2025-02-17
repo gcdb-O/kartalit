@@ -36,8 +36,10 @@
     border-radius: var(--radius-sm);
     box-shadow: inset -5px 0 var(--color-klit-dark),inset 4px 0 0px -1px var(--color-klit-dark),inset 0 -4px 1px -1px var(--color-klit-light);
 }
-
 li#desplegable:hover > ul,
 li#desplegable:focus-within > ul {
     display: block;
+}
+.input-item {
+    @apply shadow-xs shadow-klit-dark rounded-lg p-2
 }
