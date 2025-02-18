@@ -15,7 +15,9 @@ readonly class ApiResponseService
         $response->getBody()->write(json_encode($apiResponse(), JSON_PRETTY_PRINT));
         if ($status !== null && $status !== 0) {
             $statusCode = $status instanceof HttpStatusCode ? $status->value : $status;
-            $response = $response->withStatus($statusCode);
+            if ($statusCode !== null) {
+                $response = $response->withStatus($statusCode);
+            }
         }
         return $response;
     }

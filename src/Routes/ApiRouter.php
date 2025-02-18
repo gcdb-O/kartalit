@@ -6,6 +6,7 @@ namespace Kartalit\Routes;
 
 use Kartalit\Routes\api\AuthRouter;
 use Kartalit\Routes\api\AutorRouter;
+use Kartalit\Routes\api\BibliotecaRouter;
 use Kartalit\Routes\api\CalendariRouter;
 use Kartalit\Routes\api\CitaRouter;
 use Kartalit\Routes\api\MapaRouter;
@@ -29,6 +30,7 @@ class ApiRouter extends Router
         });
         $group->group("/auth", new AuthRouter($this->app));
         $group->group("/autor", AutorRouter::class);
+        $group->group("/biblioteca", BibliotecaRouter::class);
         $group->group("/calendari", CalendariRouter::class);
         $group->group("/cita", CitaRouter::class);
         $group->group("/mapa", MapaRouter::class);

@@ -20,6 +20,7 @@ use Slim\Exception\HttpNotFoundException;
 use Slim\Interfaces\ErrorHandlerInterface;
 use Slim\Psr7\Response;
 use Throwable;
+use TypeError;
 
 class ErrorHandler implements ErrorHandlerInterface
 {
@@ -64,6 +65,14 @@ class ErrorHandler implements ErrorHandlerInterface
         );
         if ($this->displayErrorDetails) {
             $apiResponse->setExcepion($throwable);
+        }
+        switch (get_class($throwable)) {
+            case TypeError::class:
+                $response = $response->withStatus(HttpStatusCode::BAD_REQUEST->value);
+                break;
+            default:
+                $response = $response->withStatus(HttpStatusCode::SERVER_ERROR->value);
+                break;
         }
 
         $response = $this->apiResponseService->toJson($response, $apiResponse, $throwable->getCode());

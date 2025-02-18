@@ -32,4 +32,19 @@ class BibliotecaService extends EntityService
             ->getQuery()
             ->getOneOrNullResult();
     }
+    public function create(
+        Llibre $llibre,
+        Usuari $usuari,
+        bool $privat = false
+    ): Biblioteca {
+        $biblioteca = new Biblioteca();
+        $biblioteca->setLlibre($llibre);
+        $biblioteca->setUsuari($usuari);
+        $biblioteca->setPrivat($privat);
+
+        $this->em->persist($biblioteca);
+        $this->em->flush();
+
+        return $biblioteca;
+    }
 }

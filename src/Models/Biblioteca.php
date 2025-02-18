@@ -25,22 +25,22 @@ class Biblioteca
     #[JoinColumn(name: "user", referencedColumnName: "userID")]
     private Usuari $usuari;
     #[Column]
-    private bool $privat;
+    private bool $privat = false;
     #[Column]
     private string $condicio = "Propi";
     #[Column]
-    private ?string $obtingut;
+    private ?string $obtingut = null;
     #[Column]
-    private ?string $motiu;
+    private ?string $motiu = null;
     // Afegir lloc compra
     #[Column(type: "float", precision: 2)]
-    private ?float $preu;
+    private ?float $preu = null;
     #[Column(name: "estat_actual")]
-    private ?string $estatActual;
+    private ?string $estatActual = null;
     #[Column(type: "text")]
-    private ?string $notes;
+    private ?string $notes = null;
     #[Column(name: "data_obtencio", type: "date")]
-    private ?DateTime $dataObtencio;
+    private ?DateTime $dataObtencio = null;
 
     #region Getters and setters
     public function getLlibre(): Llibre

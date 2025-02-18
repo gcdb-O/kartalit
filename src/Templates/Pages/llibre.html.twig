@@ -17,7 +17,7 @@
 			<img class="object-contain rounded-md shadow-klit-dark shadow-lg" src="data:image/jpg;base64,{{llibre.coberta}}" alt="{{llibre.titol}}">
 			{% if usuari and biblioteca == null %}
 				<div class="mt-3 grid justify-items-center">
-					<div class="w-fit p-2 border-3 border-klit-dark hover:bg-klit-dark text-klit-text hover:text-white rounded-2xl">
+					<div id="nou_biblioteca" class="w-fit px-2 py-1 border-2 border-klit-lila hover:bg-klit-lila hover:text-white rounded-2xl cursor-pointer">
 						<p>Afegir a la biblioteca</p>
 					</div>
 				</div>
@@ -83,6 +83,9 @@
 	{% include "Components/Llibre/cites.html.twig" %}
 {% endif %}{% endblock %}{% block js %}
 <script src="{{basePath}}/js/constants.js"></script>
+{% if usuari %}
+	<script src="{{basePath}}/js/llibreUsuari.js"></script>
+{% endif %}
 {% if mapaLiterari or usuari %}
 	<script src="{{basePath}}/js/mapaLiterari.js"></script>
 {% endif %}
