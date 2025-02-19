@@ -28,4 +28,13 @@ abstract class EntityService implements EntityServiceInterface
     {
         return $this->repository->find($id);
     }
+    public function persist(object $entity): void
+    {
+        $this->em->persist($entity);
+    }
+    public function persistAndFlush(object $entity): void
+    {
+        $this->em->persist($entity);
+        $this->em->flush();
+    }
 }

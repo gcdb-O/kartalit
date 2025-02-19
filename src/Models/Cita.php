@@ -123,6 +123,7 @@ class Cita
             "ordre" => $this->getOrdre(),
             "cita" => $this->getCita(),
             "comentari" => $this->getComentari(),
+            "usuari" => $this->getUsuari()->getId(),
         ];
     }
     public function getCitaObraArray(): array

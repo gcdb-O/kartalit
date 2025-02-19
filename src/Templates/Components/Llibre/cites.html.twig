@@ -36,13 +36,33 @@
 		</div>
 		{% if cites %}
 			{% for cita in cites %}
-				{% set privateClass = cita.privat ? "text-klit-dark" : "" %}
-				<div id="cita_{{cita.id}}" class="mb-4 p-2 rounded-lg shadow-xs hover:shadow-sm shadow-klit-dark {{privateClass}}">
-					<p class="indent-4 text-justify">{{cita.cita|nl2br}}</p>
-					<p class="text-right italic">Pag.
-						{{cita.pagina}}</p>
-					{% if cita.comentari %}
-						<p class="indent-4 text-justify text-sm">({{cita.comentari}})</p>
+				<div class="flex flex-row mb-4">
+					{% set privateClass = cita.privat ? "text-klit-dark" : "" %}
+					<div id="cita_{{cita.id}}" class="grow p-2 rounded-lg shadow-xs hover:shadow-sm shadow-klit-dark {{privateClass}}">
+						<p class="indent-4 text-justify">{{cita.cita|nl2br}}</p>
+						<p class="text-right italic">Pag.
+							{{cita.pagina}}</p>
+						{% if cita.comentari %}
+							<p class="indent-4 text-justify text-sm">({{cita.comentari}})</p>
+						{% endif %}
+					</div>
+					{% if usuari and biblioteca != null and cita.usuari == usuari.id %}
+						<div class="flex-none flex flex-col justify-center mx-2 text-klit-dark">
+							<div class="p-1">
+								<button id="edit-cita-{{cita.id}}" class="cursor-pointer hover:text-klit-lila">
+									<i class="fa-solid fa-pen-to-square" title="Edita la cita"></i>
+								</button>
+							</div>
+							<div class="p-1">
+								<button id="privat-cita-{{cita.id}}" class="cursor-pointer hover:text-klit-lila" onclick="citaPrivat({{cita.id}}, {{cita.privat|json_encode}})">
+									{% if cita.privat %}
+										<i class="fa-solid fa-unlock" title="Marca la cita com a no privada"></i>
+									{% else %}
+										<i class="fa-solid fa-lock" title="Marca la cita com a privada"></i>
+									{% endif %}
+								</button>
+							</div>
+						</div>
 					{% endif %}
 				</div>
 			{% endfor %}

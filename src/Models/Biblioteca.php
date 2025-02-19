@@ -135,6 +135,7 @@ class Biblioteca
             "estatActual" => $this->getEstatActual(),
             "notes" => $this->getNotes(),
             "dataObtencio" => $this->getDataObtencio()?->format("Y-m-d"),
+            "usuari" => $this->getUsuari()->getId(),
         ];
     }
 }

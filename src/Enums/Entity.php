@@ -7,6 +7,7 @@ namespace Kartalit\Enums;
 enum Entity: string
 {
     case AUTOR = "autor";
+    case CITA = "cita";
     case LLIBRE = "llibre";
     case OBRA = "obra";
     case USUARI = "usuari";
@@ -15,6 +16,7 @@ enum Entity: string
     {
         return match ($this) {
             Entity::LLIBRE => 'el ' . $this->value,
+            Entity::CITA => 'la ' . $this->value,
             Entity::AUTOR,
             Entity::OBRA,
             Entity::USUARI => "l'" . $this->value,

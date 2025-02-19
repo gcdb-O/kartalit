@@ -13,6 +13,8 @@ class CitaRouter
     public function __invoke(RouteCollectorProxy $group): void
     {
         $group->get("/random", [CitaController::class, "getRandom"]);
+        $group->patch("/{id:[0-9]+}", [CitaController::class, "patchById"])
+            ->add(AuthMiddleware::class);
         $group->post("/llibre/{llibreId:[0-9]+}/obra/{obraId:[0-9]+}", [CitaController::class, "postByLlibreObra"])
             ->add(AuthMiddleware::class);
     }

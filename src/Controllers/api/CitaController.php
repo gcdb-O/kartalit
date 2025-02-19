@@ -7,6 +7,8 @@ namespace Kartalit\Controllers\api;
 use Kartalit\Enums\Entity;
 use Kartalit\Enums\HttpStatusCode;
 use Kartalit\Errors\EntityNotFoundException;
+use Kartalit\Errors\ForbiddenException;
+use Kartalit\Models\Cita;
 use Kartalit\Models\Usuari;
 use Kartalit\Schemas\ApiResponse;
 use Kartalit\Services\ApiResponseService;
@@ -59,5 +61,29 @@ class CitaController
         );
         $apiRes = new ApiResponse($novaCita->getArray(), "Cita creada correctament");
         return $this->apiResponseService->toJson($res, $apiRes, HttpStatusCode::CREATED);
+    }
+
+    public function patchById(Request $req, Response $res, array $args): Response
+    {
+        $citaId = (int) $args["id"];
+        /** @var ?Cita $cita */
+        $cita = $this->citaService->getById($citaId);
+        if (!$cita) {
+            throw new EntityNotFoundException(Entity::CITA, $citaId);
+        }
+        /** @var Usuari $usuari */
+        $usuari = $req->getAttribute("usuari");
+        if ($cita->getUsuari()->getId() !== $usuari->getId()) {
+            throw new ForbiddenException(message: "No pots editar una cita que no has creat tu.");
+        }
+        $citaData = $req->getParsedBody();
+        if (isset($citaData["privat"])) {
+            $cita->setPrivat((bool) $citaData["privat"]);
+        }
+        $apiJson = $cita->getArray();
+
+        $this->citaService->persistAndFlush($cita);
+        $apiRes = new ApiResponse($apiJson, "Cita editada correctament");
+        return $this->apiResponseService->toJson($res, $apiRes, HttpStatusCode::OK);
     }
 }

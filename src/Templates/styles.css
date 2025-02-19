@@ -1,4 +1,5 @@
 @import "tailwindcss" source("/");
+@source "../../public/js";
 
 @layer base {
     #llibre-info h1, #llibre-info h2, #llibre-info h3,
