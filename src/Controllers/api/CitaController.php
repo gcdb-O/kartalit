@@ -77,6 +77,16 @@ class CitaController
             throw new ForbiddenException(message: "No pots editar una cita que no has creat tu.");
         }
         $citaData = $req->getParsedBody();
+
+        if (isset($citaData["cita"])) {
+            $cita->setCita($citaData["cita"]);
+        }
+        if (isset($citaData["comentari"])) {
+            $cita->setComentari($citaData["comentari"]);
+        }
+        if (isset($citaData["pagina"])) {
+            $cita->setPagina((int) $citaData["pagina"]);
+        }
         if (isset($citaData["privat"])) {
             $cita->setPrivat((bool) $citaData["privat"]);
         }

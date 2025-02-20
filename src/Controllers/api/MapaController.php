@@ -54,6 +54,7 @@ class MapaController
             comentari: $nouMapaData["comentari"],
             adreca: isset($nouMapaData["adreca"]) ? (string) $nouMapaData["adreca"] : null,
             tipus: isset($nouMapaData["tipus"]) ? (string) $nouMapaData["tipus"] : null,
+            precisio: (bool) $nouMapaData["precisio"],
             privat: isset($nouMapaData["privat"]) ? (bool) $nouMapaData["privat"] : false,
         );
         $apiRes = new ApiResponse($nouMapa->getArray(), "Ubicació creada correctament.");

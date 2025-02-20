@@ -34,6 +34,14 @@ class ApiResponse
         }
         return $response;
     }
+    public function setData(array $data): void
+    {
+        $this->data = $data;
+    }
+    public function getData(): array
+    {
+        return $this->data;
+    }
     public function setStatus(ApiResponseStatus $status): void
     {
         $this->status = $status;

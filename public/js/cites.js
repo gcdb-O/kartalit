@@ -60,3 +60,56 @@ function citaPrivat(citaId, privat) {
             }
         })
 }
+
+function citaEdita(citaId, editar = true) {
+    const citaDiv = document.getElementById(`cita_${citaId}`);
+    if (!citaDiv) return;
+    const boto = document.getElementById(`edit-cita-${citaId}`);
+    const citaP = citaDiv.querySelector(`p#cita_${citaId}_cita`);
+    const paginaP = citaDiv.querySelector(`p#cita_${citaId}_pag`);
+    const comentariP = citaDiv.querySelector(`p#cita_${citaId}_comentari`);
+
+    if (editar) {
+        const citaNovaForm = document.getElementById("form-cita-nova");
+        const clonedForm = citaNovaForm.cloneNode(true);
+        citaDiv.appendChild(clonedForm);
+        [citaP, paginaP, comentariP].forEach(i => i?.classList.add("hidden"));
+
+        clonedForm.querySelector("input#nou_cita_pagina").value = paginaP.textContent.split(/\t/).pop();
+        // clonedForm.querySelector("input#nou_cita_privat").checked = 
+        clonedForm.querySelector("textarea#nou_cita_cita").innerText = citaP.innerText;
+        //TODO: Treure-li els parèntesis
+        clonedForm.querySelector("textarea#nou_cita_comentari").innerText = comentariP?.innerText || null;
+        const cancelButton = document.createElement("input");
+        cancelButton.type = "reset";
+        cancelButton.value = "Cancel·la";
+        cancelButton.className = "px-1 mt-2 mr-2 border-2 rounded-lg cursor-pointer border-klit-lila hover:bg-klit-lila hover:text-white";
+        cancelButton.onclick = function () { citaEdita(citaId, false) }
+        const submitButton = clonedForm.querySelector('input[type="submit"]');
+        clonedForm.querySelector('p.text-right').insertBefore(cancelButton, submitButton)
+
+        clonedForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            //TODO: Spinners
+            const formData = new FormData(clonedForm);
+            const bodyData = new URLSearchParams(formData);
+            fetch(`${BASE_PATH}/api/cita/${citaId}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: bodyData.toString()
+            }).then(res => {
+                if (res.status === 200) {
+                    paginaP.textContent = `Pàg. ${formData.get("pagina")}`
+                    citaP.innerText = formData.get("cita");
+                    // comentariP?.innerText = formData.get("comentari");
+                    citaDiv.removeChild(citaDiv.querySelector("form"));
+                    [citaP, paginaP, comentariP].forEach(i => i?.classList.remove("hidden"));
+                }
+            })
+        });
+    } else {
+        citaDiv.removeChild(citaDiv.querySelector("form"));
+        [citaP, paginaP, comentariP].forEach(i => i?.classList.remove("hidden"));
+    }
+    boto.onclick = function () { citaEdita(citaId, !editar) }
+}

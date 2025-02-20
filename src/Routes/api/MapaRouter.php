@@ -6,6 +6,8 @@ namespace Kartalit\Routes\api;
 
 use Kartalit\Controllers\api\MapaController;
 use Kartalit\Middlewares\AuthMiddleware;
+use Kartalit\Middlewares\ValidatorMiddleware;
+use Kartalit\Schemas\Validation\MapaValidator;
 use Slim\Routing\RouteCollectorProxy;
 
 class MapaRouter
@@ -14,6 +16,7 @@ class MapaRouter
     {
         $group->get("/obra/{obraId:[0-9]+}", [MapaController::class, "getByObra"]);
         $group->post("/obra/{obraId:[0-9]+}", [MapaController::class, "postByObra"])
+            ->addMiddleware(new ValidatorMiddleware(MapaValidator::class, "post"))
             ->add(AuthMiddleware::class);
     }
 }

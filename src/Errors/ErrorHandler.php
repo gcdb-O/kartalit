@@ -67,6 +67,12 @@ class ErrorHandler implements ErrorHandlerInterface
             $apiResponse->setExcepion($throwable);
         }
         switch (get_class($throwable)) {
+            case InvalidTypeException::class:
+                /** @var InvalidTypeException $throwable */
+                $data = $apiResponse->getData();
+                $data["fields"] = $throwable->getFields();
+                $apiResponse->setData($data);
+                break;
             case TypeError::class:
                 $response = $response->withStatus(HttpStatusCode::BAD_REQUEST->value);
                 break;

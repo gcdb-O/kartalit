@@ -18,12 +18,12 @@ $envConfig = new Config($_ENV);
 $app->setBasePath($envConfig->server['basePath'] ?? '');
 
 // Primer MW
+// MW In
 $app->addRoutingMiddleware();
+$app->add(ReadUserFromToken::class);
 // MW Out
 $app->addMiddleware(new AddResponseHeaders);
 $app->addErrorMiddleware(!$envConfig->server['isProd'], false, false)->setDefaultErrorHandler(ErrorHandler::class);
-// MW In
-$app->add(ReadUserFromToken::class);
 
 // Routes
 $app->group('', new Router($app));
