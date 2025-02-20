@@ -26,7 +26,7 @@
 		<div class="flex flex-wrap flex-row justify-between">
 			{% for llegit in llegits|filter(l => l.dataAcabat is not null and (socJo or l.privat == false ))|slice(0,6) %}
 				<div class="text-center">
-					{% include "Components/Atoms/coberta.html.twig" with {llibre: llegit.llibre, alcada:"200px"} %}
+					{% include "Components/Atoms/coberta.html.twig" with {llibre: llegit.llibre, alcada: 200} %}
 					<p class="mt-2">{{llegit.valoracio}}</p>
 				</div>
 			{% endfor %}
