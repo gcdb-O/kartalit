@@ -16,7 +16,7 @@ class CitaRouter
     {
         $group->get("/random", [CitaController::class, "getRandom"]);
         $group->patch("/{id:[0-9]+}", [CitaController::class, "patchById"])
-            ->addMiddleware(new ValidatorMiddleware(CitaValidator::class, "put"))
+            ->addMiddleware(new ValidatorMiddleware(CitaValidator::class, "patch"))
             ->add(AuthMiddleware::class);
         $group->post("/llibre/{llibreId:[0-9]+}/obra/{obraId:[0-9]+}", [CitaController::class, "postByLlibreObra"])
             ->addMiddleware(new ValidatorMiddleware(CitaValidator::class, "post"))

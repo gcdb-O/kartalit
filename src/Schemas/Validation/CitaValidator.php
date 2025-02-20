@@ -14,7 +14,7 @@ class CitaValidator extends Validator implements ValidatorSchemaInterface
     {
         $validator = match ($type) {
             "post" => self::post(),
-            "put" => self::put(),
+            "patch" => self::patch(),
             default => null
         };
         if ($validator) {
@@ -29,11 +29,11 @@ class CitaValidator extends Validator implements ValidatorSchemaInterface
             ->key("comentari", V::stringType(), false)
             ->key("privat", V::boolVal(), false);
     }
-    private static function put(): Validatable
+    private static function patch(): Validatable
     {
         return V::key("pagina", V::intVal(), false)
             ->key("cita", V::stringType(), false)
-            ->key("comentari", V::stringType())
+            ->key("comentari", V::stringType(), false)
             ->key("privat", V::boolVal(), false);
     }
 }
