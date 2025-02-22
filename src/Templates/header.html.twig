@@ -1,8 +1,11 @@
 <header id="header" class="bg-klit-dark w-full text-white flex justify-between items-center">
-	<div>
+	<div class="hidden sm:inline-block">
 		<a href="{{basePath}}"><img src="{{basePath}}/img/kartalit_logo.png" alt="Logo Kartalit" class="w-32 ml-1 sm:ml-5"></a>
 	</div>
-	<nav class="">
+	<div class="w-1/3 lg:w-1/2 ml-5 lg:ml-30 flex">
+		{% include "Components/buscador.html.twig" %}
+	</div>
+	<nav>
 		<ul class="list-none text-white">
 			<li class="header-item block float-left relative">
 				<a href="{{basePath}}/llibre/tots">Tots els llibres</a>

@@ -16,11 +16,7 @@ class LlibreService extends EntityService
      */
     public function getNous(int $limit = 8)
     {
-        return $this->em->createQueryBuilder()
-            ->select("l")
-            ->from(self::$entity, "l")
-            //TODO: treure aquesta condició i gestionar el front
-            ->where("l.coberta IS NOT NULL")
+        return $this->repository->createQueryBuilder("l")
             ->orderBy("l.id", "DESC")
             ->setMaxResults($limit)
             ->getQuery()
@@ -37,5 +33,24 @@ class LlibreService extends EntityService
         ))->orderBy("c.pagina", "ASC")->setParameter("usuariId", $usuariId);
         $qb = $qb->select("l, c");
         return $qb->getQuery()->getOneOrNullResult();
+    }
+    public function search(string $token, int $limit = 5)
+    {
+        $isNumeric = is_numeric($token);
+        //TODO: Optimitzar cerques?
+        $qb = $this->repository->createQueryBuilder("l")
+            ->join("l.obres", "o")
+            ->join("o.autors", "a");
+        $qb = $qb->where(
+            $qb->expr()->orX(
+                $qb->expr()->like("l.titol", ":token"),
+                $qb->expr()->like("l.isbn", ":token"),
+                $qb->expr()->like("o.titolOriginal", ":token"),
+                $qb->expr()->like("a.ordenador", ":token"),
+            )
+        )
+            ->setParameter("token", "%" . $token . "%")
+            ->setMaxResults($limit);
+        return $qb->getQuery()->getResult();
     }
 }

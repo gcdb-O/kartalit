@@ -182,6 +182,7 @@ class Llibre
                 "id" => $obra->getId(),
                 "titolOriginal" => $obra->getTitolOriginal(),
                 "titolCatala" => $obra->getTitolCatala(),
+                "anyPublicacio" => $obra->getAnyPublicacio(),
             ], $this->getObres()->toArray()),
             "coberta" => $this->getCobertaBase64(),
             "isbn" => $this->getIsbn(),

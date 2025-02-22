@@ -9,6 +9,7 @@ use Kartalit\Routes\api\AutorRouter;
 use Kartalit\Routes\api\BibliotecaRouter;
 use Kartalit\Routes\api\CalendariRouter;
 use Kartalit\Routes\api\CitaRouter;
+use Kartalit\Routes\api\LlibreRouter;
 use Kartalit\Routes\api\MapaRouter;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -33,6 +34,7 @@ class ApiRouter extends Router
         $group->group("/biblioteca", BibliotecaRouter::class);
         $group->group("/calendari", CalendariRouter::class);
         $group->group("/cita", CitaRouter::class);
+        $group->group("/llibre", LlibreRouter::class);
         $group->group("/mapa", MapaRouter::class);
     }
 }

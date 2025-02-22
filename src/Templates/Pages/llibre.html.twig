@@ -43,6 +43,18 @@
 					<dt class="table-cell font-bold">Idioma</dt>
 					<dd class="table-cell">{{llibre.idioma}}</dd>
 				</dl>
+				{% if llibre.obres|length > 1 %}
+					<dl class="table-row">
+						<dt class="table-cell font-bold break-all">Obres</dt>
+						<dd class="table-cell">
+							{% for obra in llibre.obres %}
+								<a href="" class="hover:text-klit-lila hover:underline">{{obra.titolOriginal}}
+									({{obra.anyPublicacio}})</a>
+								{{not loop.last ? ", "}}
+							{% endfor %}
+						</dd>
+					</dl>
+				{% endif %}
 				{% if biblioteca %}
 					{% if biblioteca.condicio %}
 						<dl class="table-row">
@@ -69,12 +81,13 @@
 				</dl>
 				<dl class="table-row">
 					{% if biblioteca.preu %}
-						<dt class="table-cell font-bold">Preu:</dt>
+						<dt class="table-cell font-bold">Preu</dt>
 						<dd class="table-cell">{{biblioteca.preu}}€</dd>
 					{% endif %}
 					{# TODO: Lloc de compra #}
 				</dl>
 			{% endif %}
+
 		</div>
 	</div>
 </div>
@@ -82,7 +95,6 @@
 {% if cites or usuari %}
 	{% include "Components/Llibre/cites.html.twig" %}
 {% endif %}{% endblock %}{% block js %}
-<script src="{{basePath}}/js/constants.js"></script>
 {% if usuari %}
 	<script src="{{basePath}}/js/llibreUsuari.js"></script>
 {% endif %}
