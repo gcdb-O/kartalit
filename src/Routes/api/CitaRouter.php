@@ -18,6 +18,8 @@ class CitaRouter
         $group->patch("/{id:[0-9]+}", [CitaController::class, "patchById"])
             ->addMiddleware(new ValidatorMiddleware(CitaValidator::class, "patch"))
             ->add(AuthMiddleware::class);
+        $group->delete("/{id:[0-9]+}", [CitaController::class, "deleteById"])
+            ->add(AuthMiddleware::class);
         $group->post("/llibre/{llibreId:[0-9]+}/obra/{obraId:[0-9]+}", [CitaController::class, "postByLlibreObra"])
             ->addMiddleware(new ValidatorMiddleware(CitaValidator::class, "post"))
             ->add(AuthMiddleware::class);

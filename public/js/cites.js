@@ -31,8 +31,7 @@ function citaPrivat(citaId, privat) {
 
     icon.classList.remove("fa-lock");
     icon.classList.remove("fa-unlock");
-    icon.classList.add("fa-compass");
-    icon.classList.add("animate-spin");
+    icon.classList.add("fa-compass", "animate-spin");
 
     fetch(`${BASE_PATH}/api/cita/${citaId}`, {
         method: "PATCH",
@@ -70,8 +69,19 @@ function citaEdita(citaId, editar = true) {
     const comentariP = citaDiv.querySelector(`p#cita_${citaId}_comentari`);
 
     if (editar) {
+        // Crear formulari amb dades de la cita
         const citaNovaForm = document.getElementById("form-cita-nova");
         const clonedForm = citaNovaForm.cloneNode(true);
+        // Afegir botó d'eliminar cita
+        const deleteButton = document.createElement("span");
+        deleteButton.classList.add("float-right", "m-2", "cursor-pointer");
+        deleteButton.title = "Eliminar cita";
+        const xmark = document.createElement("i");
+        xmark.classList.add("fa-solid", "fa-xmark", "text-lg", "text-klit-vermell");
+        deleteButton.appendChild(xmark);
+        deleteButton.onclick = function () { eliminaCita(citaId, xmark, citaDiv) }
+        clonedForm.children[0].appendChild(deleteButton);
+        //Afegir formulari amb dades
         citaDiv.appendChild(clonedForm);
         [citaP, paginaP, comentariP].forEach(i => i?.classList.add("hidden"));
 
@@ -112,4 +122,25 @@ function citaEdita(citaId, editar = true) {
         [citaP, paginaP, comentariP].forEach(i => i?.classList.remove("hidden"));
     }
     boto.onclick = function () { citaEdita(citaId, !editar) }
+}
+function eliminaCita(citaId, xmark, citaDiv) {
+    xmark.classList.remove("fa-xmark");
+    xmark.classList.add("fa-spinner", "animate-spin");
+    if (confirm("Vols eliminar la cita? Aquesta acció no es pot desfer.")) {
+        fetch(`${BASE_PATH}/api/cita/${citaId}`, {
+            method: "DELETE"
+        })
+            .then(res => {
+                if (res.status === 200) {
+                    citaDiv.parentNode.remove();
+                    console.log("Cita eliminada");
+                } else {
+                    xmark.classList.remove("fa-spinner", "animate-spinner");
+                    xmark.classList.add("fa-xmark");
+                }
+            })
+    } else {
+        xmark.classList.remove("fa-spinner", "animate-spinner");
+        xmark.classList.add("fa-xmark");
+    }
 }

@@ -96,4 +96,22 @@ class CitaController
         $apiRes = new ApiResponse($apiJson, "Cita editada correctament");
         return $this->apiResponseService->toJson($res, $apiRes, HttpStatusCode::OK);
     }
+    public function deleteById(Request $req, Response $res, array $args): Response
+    {
+        $citaId = (int) $args["id"];
+        /** @var ?Cita $cita */
+        $cita = $this->citaService->getById($citaId);
+        if (!$cita) {
+            throw new EntityNotFoundException(Entity::CITA, $citaId);
+        }
+        /** @var Usuari $usuari */
+        $usuari = $req->getAttribute("usuari");
+        if ($cita->getUsuari()->getId() !== $usuari->getId()) {
+            throw new ForbiddenException(message: "No pots eliminar una cita que no has creat tu.");
+        }
+        $citaJson = $cita->getArray();
+        $this->citaService->deleteById($citaId);
+        $apiRes = new ApiResponse($citaJson, "Cita elminada correctament");
+        return $this->apiResponseService->toJson($res, $apiRes, HttpStatusCode::OK);
+    }
 }
