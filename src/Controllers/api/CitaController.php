@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Kartalit\Controllers\api;
 
-use Kartalit\Enums\Entity;
 use Kartalit\Enums\HttpStatusCode;
-use Kartalit\Errors\EntityNotFoundException;
 use Kartalit\Errors\ForbiddenException;
 use Kartalit\Models\Cita;
+use Kartalit\Models\Obra;
 use Kartalit\Models\Usuari;
 use Kartalit\Schemas\ApiResponse;
 use Kartalit\Services\ApiResponseService;
@@ -41,14 +40,9 @@ class CitaController
         $obraId = (int) $args["obraId"];
         /** @var ?Usuari $usuari */
         $usuari = $req->getAttribute("usuari");
-        $llibre = $this->llibreService->getByIdWithCites($llibreId, $usuari->getId());
-        if (!$llibre) {
-            throw new EntityNotFoundException(Entity::LLIBRE, $llibreId);
-        }
-        $obra = $this->obraService->getById($obraId);
-        if (!$obra) {
-            throw new EntityNotFoundException(Entity::OBRA, $obraId);
-        }
+        $llibre = $this->llibreService->getByIdWithCites($llibreId, $usuari->getId(), true);
+        /** @var Obra $obra */
+        $obra = $this->obraService->getById($obraId, true);
         $novaCitaData = $req->getParsedBody();
         $novaCita = $this->citaService->create(
             cita: (string) $novaCitaData["cita"],
@@ -66,11 +60,8 @@ class CitaController
     public function patchById(Request $req, Response $res, array $args): Response
     {
         $citaId = (int) $args["id"];
-        /** @var ?Cita $cita */
-        $cita = $this->citaService->getById($citaId);
-        if (!$cita) {
-            throw new EntityNotFoundException(Entity::CITA, $citaId);
-        }
+        /** @var Cita $cita */
+        $cita = $this->citaService->getById($citaId, true);
         /** @var Usuari $usuari */
         $usuari = $req->getAttribute("usuari");
         if ($cita->getUsuari()->getId() !== $usuari->getId()) {
@@ -99,11 +90,8 @@ class CitaController
     public function deleteById(Request $req, Response $res, array $args): Response
     {
         $citaId = (int) $args["id"];
-        /** @var ?Cita $cita */
-        $cita = $this->citaService->getById($citaId);
-        if (!$cita) {
-            throw new EntityNotFoundException(Entity::CITA, $citaId);
-        }
+        /** @var Cita $cita */
+        $cita = $this->citaService->getById($citaId, true);
         /** @var Usuari $usuari */
         $usuari = $req->getAttribute("usuari");
         if ($cita->getUsuari()->getId() !== $usuari->getId()) {

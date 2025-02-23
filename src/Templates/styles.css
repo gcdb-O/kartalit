@@ -3,7 +3,8 @@
 
 @layer base {
     #llibre-info h1, #llibre-info h2, #llibre-info h3,
-    #obra-indfo h1, #obra-info h2, #obra-info h3{
+    #obra-info h1, #obra-info h2, #obra-info h3,
+    #buscador-info h1, #buscador-info h2, #buscador-info h3{
         @apply font-heading;
     }
     h1 {

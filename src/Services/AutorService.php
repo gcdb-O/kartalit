@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Kartalit\Services;
 
-use Kartalit\Models\Autor;
+use Kartalit\Enums\Entity;
 
 class AutorService extends EntityService
 {
-    protected static string $entity = Autor::class;
+    protected static Entity $entity = Entity::AUTOR;
 }

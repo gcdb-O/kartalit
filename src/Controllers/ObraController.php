@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Kartalit\Controllers;
 
-use Kartalit\Enums\Entity;
-use Kartalit\Errors\EntityNotFoundException;
 use Kartalit\Models\Llibre;
 use Kartalit\Models\Obra;
 use Kartalit\Schemas\TwigContext;
@@ -23,13 +21,8 @@ readonly class ObraController extends WebController
     public function getById(Request $req, Response $res, array $args): Response
     {
         $id = (int) $args["id"];
-        // /** @var ?Usuari $usuari */
-        // $usuari = $req->getAttribute("usuari");
-        /** @var ?Obra $obra */
-        $obra = $this->obraService->getById($id);
-        if (!$obra) {
-            throw new EntityNotFoundException(Entity::OBRA, $id);
-        }
+        /** @var Obra $obra */
+        $obra = $this->obraService->getById($id, true);
         $twigContextData = ["obra" => $obra->getArray()];
         $twigContextData["llibres"] = array_map(fn(Llibre $llibre) => $llibre->getCobertesBasic(), $obra->getLlibres()->toArray());
         $twigContext = new TwigContext($req, $obra->getTitolOriginal(), $twigContextData);

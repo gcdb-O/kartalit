@@ -6,13 +6,14 @@ namespace Kartalit\Services;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Query\Parameter;
+use Kartalit\Enums\Entity;
 use Kartalit\Models\Biblioteca;
 use Kartalit\Models\Llibre;
 use Kartalit\Models\Usuari;
 
 class BibliotecaService extends EntityService
 {
-    protected static string $entity = Biblioteca::class;
+    protected static Entity $entity = Entity::BIBLIOTECA;
 
     public function getBibliotecaFromLlibreUser(Llibre|int $llibre, Usuari|int $usuari): ?Biblioteca
     {

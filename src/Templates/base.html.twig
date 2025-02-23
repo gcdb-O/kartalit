@@ -17,15 +17,15 @@
 			{% include "header.html.twig" %}
 		{% endblock %}
 		<div id="content" class="px-5 sm:px-15 md:px-30 lg:px-35 xl:px-50 2xl:px-75 mt-10 min-h-[90dvh]"> {% block content %}{% endblock %}
-			</div>
-			<footer id="footer" class="text-xs text-center bottom-0 inset-x-0 w-full p-2 mt-5">
-				{% block footer %}
-					<p>Kartalit -
-						{{"now"|date("Y")}}</p>
-				{% endblock %}
-			</footer>
-			<script src="{{basePath}}/js/constants.js"></script>
-			<script src="{{basePath}}/js/buscador.js"></script>
-			{% block js %}{% endblock %}
-		</body>
-	</html>
+		</div>
+		<footer id="footer" class="text-xs text-center bottom-0 inset-x-0 w-full p-2 mt-5">
+			{% block footer %}
+				<p>Kartalit -
+					{{"now"|date("Y")}}</p>
+			{% endblock %}
+		</footer>
+		<script src="{{basePath}}/js/constants.js"></script>
+		<script src="{{basePath}}/js/buscador.js"></script>
+		{% block js %}{% endblock %}
+	</body>
+</html>

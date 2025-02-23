@@ -7,26 +7,32 @@ namespace Kartalit\Services;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Kartalit\Config\Config;
+use Kartalit\Enums\Entity;
+use Kartalit\Errors\EntityNotFoundException;
 use Kartalit\Interfaces\EntityServiceInterface;
 
 abstract class EntityService implements EntityServiceInterface
 {
-    protected static string $entity;
+    protected static Entity $entity;
     protected EntityRepository $repository;
     public function __construct(
         protected Config $config,
         protected EntityManager $em
     ) {
-        $this->repository = $this->em->getRepository(static::$entity);
+        $this->repository = $this->em->getRepository(static::$entity->getClassName());
     }
 
     public function getAll(): array
     {
         return $this->repository->findAll();
     }
-    public function getById(int $id): ?object
+    public function getById(int $id, bool $throw = false): ?object
     {
-        return $this->repository->find($id);
+        $entityObject = $this->repository->find($id);
+        if (!$entityObject && $throw) {
+            throw new EntityNotFoundException(static::$entity, $id);
+        }
+        return $entityObject;
     }
     public function deleteById(int $id): void
     {

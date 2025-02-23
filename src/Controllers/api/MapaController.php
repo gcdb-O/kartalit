@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Kartalit\Controllers\api;
 
-use Kartalit\Enums\Entity;
 use Kartalit\Enums\HttpStatusCode;
-use Kartalit\Errors\EntityNotFoundException;
 use Kartalit\Models\MapaLiterari;
 use Kartalit\Models\Obra;
 use Kartalit\Models\Usuari;
@@ -14,6 +12,7 @@ use Kartalit\Schemas\ApiResponse;
 use Kartalit\Services\ApiResponseService;
 use Kartalit\Services\MapaService;
 use Kartalit\Services\ObraService;
+use Kartalit\Services\UsuariService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -23,8 +22,22 @@ class MapaController
         private ApiResponseService $apiResponseService,
         private MapaService $mapaService,
         private ObraService $obraService,
+        private UsuariService $usuariService
     ) {}
 
+    public function getByUsuari(Request $req, Response $res, array $args): Response
+    {
+        /** @var ?Usuari $usuari */
+        $reqUser = $req->getAttribute("usuari");
+        $usuariId = (int) $args["userId"];
+        /** @var Usuari $usuari */
+        $usuari = $this->usuariService->getById($usuariId, true);
+
+        $mapaLiterari = $this->mapaService->getByUsuari($usuari, $reqUser);
+        $mapaLiterariJson = array_map(fn(MapaLiterari $mapa) => $mapa->getArray(true), $mapaLiterari);
+        $apiRes = new ApiResponse($mapaLiterariJson, "Mapa literari de l'usuari amb id: $usuariId");
+        return $this->apiResponseService->toJson($res, $apiRes, HttpStatusCode::OK);
+    }
     public function getByObra(Request $req, Response $res, array $args): Response
     {
         $obraId = (int) $args["obraId"];
@@ -40,11 +53,8 @@ class MapaController
         $obraId = (int) $args["obraId"];
         /** @var ?Usuari $usuari */
         $usuari = $req->getAttribute("usuari");
-        /** @var ?Obra $obra */
-        $obra = $this->obraService->getById($obraId);
-        if (!$obra) {
-            throw new EntityNotFoundException(Entity::OBRA, $obraId);
-        }
+        /** @var Obra $obra */
+        $obra = $this->obraService->getById($obraId, true);
         $nouMapaData = $req->getParsedBody();
         $nouMapa = $this->mapaService->create(
             obra: $obra,

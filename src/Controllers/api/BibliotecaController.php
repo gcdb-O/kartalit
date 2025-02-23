@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Kartalit\Controllers\api;
 
-use Kartalit\Enums\Entity;
 use Kartalit\Enums\HttpStatusCode;
-use Kartalit\Errors\EntityNotFoundException;
+use Kartalit\Models\Llibre;
 use Kartalit\Models\Usuari;
 use Kartalit\Schemas\ApiResponse;
 use Kartalit\Services\ApiResponseService;
@@ -26,10 +25,8 @@ class BibliotecaController
     public function postByLlibre(Request $req, Response $res, array $args): Response
     {
         $llibreId = (int) $args['llibreId'];
-        $llibre = $this->llibreService->getById($llibreId);
-        if (!$llibre) {
-            throw new EntityNotFoundException(Entity::LLIBRE, $llibreId);
-        }
+        /** @var Llibre $llibre */
+        $llibre = $this->llibreService->getById($llibreId, true);
         /** @var ?Usuari $usuari */
         $usuari = $req->getAttribute('usuari');
         $nouBiblioteca = $this->bibliotecaService->create($llibre, $usuari);

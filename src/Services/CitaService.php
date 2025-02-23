@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kartalit\Services;
 
+use Kartalit\Enums\Entity;
 use Kartalit\Models\Cita;
 use Kartalit\Models\Llibre;
 use Kartalit\Models\Obra;
@@ -11,7 +12,7 @@ use Kartalit\Models\Usuari;
 
 class CitaService extends EntityService
 {
-    protected static string $entity = Cita::class;
+    protected static Entity $entity = Entity::CITA;
 
     public function getRandom(): Cita
     {

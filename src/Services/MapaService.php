@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Kartalit\Services;
 
+use Kartalit\Enums\Entity;
 use Kartalit\Models\MapaLiterari;
 use Kartalit\Models\Obra;
 use Kartalit\Models\Usuari;
 
 class MapaService extends EntityService
 {
-    protected static string $entity = MapaLiterari::class;
+    protected static Entity $entity = Entity::MAPA;
 
     public function getByObra(int $obraId, ?int $usuariId)
     {
@@ -26,6 +27,21 @@ class MapaService extends EntityService
                 )
             )->setParameter('usuariId', $usuariId);
         } else {
+            $qb = $qb->andWhere('m.privat = 0');
+        }
+        return $qb
+            ->getQuery()
+            ->getResult();
+    }
+    public function getByUsuari(Usuari|int $usuari, Usuari|int|null $reqUser)
+    {
+        $usuariId = $usuari instanceof Usuari ? $usuari->getId() : $usuari;
+        $reqUserId = $reqUser instanceof Usuari ? $reqUser->getId() : $reqUser;
+        $qb = $this->repository->createQueryBuilder('m');
+        $qb = $qb
+            ->where('m.usuari = :usuariId')
+            ->setParameter('usuariId', $usuariId);
+        if ($usuariId !== $reqUserId) {
             $qb = $qb->andWhere('m.privat = 0');
         }
         return $qb

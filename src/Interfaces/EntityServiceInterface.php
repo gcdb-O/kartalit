@@ -8,4 +8,5 @@ interface EntityServiceInterface
 {
     public function getAll(): array;
     public function getById(int $id): ?object;
+    public function deleteById(int $id): void;
 }

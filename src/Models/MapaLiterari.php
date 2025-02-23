@@ -124,10 +124,11 @@ class MapaLiterari
         $this->comentari = $comentari;
     }
     #endregion
-    public function getArray(): array
+    public function getArray(bool $extraInfo = false): array
     {
-        return [
+        $mapa = [
             "obra" => [
+                "id" => $this->obra->getId(),
                 "titolOriginal" => $this->obra->getTitolOriginal(),
                 "titolCatala" => $this->obra->getTitolCatala(),
             ],
@@ -140,5 +141,14 @@ class MapaLiterari
             "privat" => $this->getPrivat(),
             "usuari" => $this->getUsuari()->getId()
         ];
+        if ($extraInfo) {
+            $mapa["obra"]["autors"] = array_map(fn(Autor $autor) => [
+                "id" => $autor->getId(),
+                "nomComplet" => $autor->getNomComplet(),
+                "pseudonim" => $autor->getPseudonim(),
+            ], $this->obra->getAutors()->toArray());
+            // $mapa["obra"]["coberta"] = $this->obra->getLlibres()?->first()?->getCobertaBase64();
+        }
+        return $mapa;
     }
 }

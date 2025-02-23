@@ -48,7 +48,7 @@ function ensureParentResult() {
     if (!parentResultDiv) {
         parentResultDiv = document.createElement("div");
         parentResultDiv.id = parentResultId;
-        parentResultDiv.classList.add("absolute", "top-full", "pt-1", "w-auto", "min-w-full", "bg-orange-50", "max-h-[60vh]", "overflow-y-auto", "overflow-x-visible")
+        parentResultDiv.classList.add("absolute", "top-full", "pt-1", "w-auto", "min-w-full", "bg-orange-50", "max-h-[60vh]", "overflow-y-auto", "overflow-x-visible", "z-100")
         headerBuscadorParentDiv.appendChild(parentResultDiv)
     }
     parentResultDiv.innerHTML = null;
@@ -57,6 +57,7 @@ function ensureParentResult() {
 function addBookToResult(parent, llibre) {
     const llibreDiv = document.createElement("div");
     llibreDiv.classList.add("flex", "gap-4", "p-1", "pl-2", "cursor-pointer", "hover:bg-klit-vermell/25");
+    llibreDiv.id = "buscador-info";
     llibreDiv.onclick = function () { window.location.replace(`${BASE_PATH}/llibre/${llibre.id}`) }
     llibreDiv.appendChild(bookCobertaDiv(llibre));
     llibreDiv.appendChild(bookTitolDiv(llibre));
@@ -78,10 +79,10 @@ function bookCobertaDiv(llibre) {
 function bookTitolDiv(llibre) {
     const titolDiv = document.createElement("div");
     const titol = document.createElement("h1");
-    titol.classList.add("font-heading", "text-base")
+    titol.classList.add("text-base")
     titol.textContent = llibre.titol;
     const autors = document.createElement("h2");
-    autors.classList.add("font-heading", "text-sm", "italic")
+    autors.classList.add("text-sm", "italic")
     autors.textContent = llibre.autors.map(a => a.nomComplet).join(", ");
     titolDiv.appendChild(titol);
     titolDiv.appendChild(autors);

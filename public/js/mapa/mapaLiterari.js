@@ -50,51 +50,33 @@ const icones = {
     "Lloc permanent": [iconEstrella, iconEstrella],
 };
 
-const mapaCapa = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+const capaOsm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
     id: 'osm',
 })
-const [mapaPropi, mapaAltres, nouMapa] = [new L.featureGroup(), new L.featureGroup(), new L.featureGroup()];
 
 const mapaLiterari = L.map('mapa-literari', {
     maxZoom: 18,
-    layers: [mapaCapa, mapaPropi, mapaAltres, nouMapa],
+    layers: [capaOsm],
 });
 L.control.scale({ imperial: false }).addTo(mapaLiterari);
-// L.control.layers({ "OpenStreetMap": mapaCapa }, { "Propis": mapaPropi, "Altres": mapaAltres }).addTo(mapaLiterari);
 
-obres.forEach(obraId => {
-    fetch(`${BASE_PATH}/api/mapa/obra/${obraId}`)
-        .then(res => res.json())
-        .then(({ data }) => {
-            if (!data || data.length === 0) {
-                divMapaBuit.classList.remove("hidden");
-                return;
-            }
-            divMapa.classList.remove("hidden");
-            data.forEach(({ latitud, longitud, precisio, tipus, usuari, adreca, comentari }) => {
-                const markerGroup = usuari === usuariId ? mapaPropi : mapaAltres;
-                let desc = `<p>${comentari}</p>`;
-                if (adreca) { desc += `<p><i>${adreca}</i></p>`; }
-                L.marker(
-                    [latitud, longitud],
-                    {
-                        icon: icones[`${tipus}`][precisio ? 1 : 0] ?? iconLite,
-                        title: tipus,
-                        alt: tipus,
-                        riseOnHover: true,
-                    }
-                ).addTo(markerGroup).bindPopup(desc);
-            })
-            //TODO: Refactoritzar això..
-            if (usuariId === null) {
-                const marges = mapaAltres.getBounds();
-                mapaLiterari.fitBounds(marges);
-            } else {
-                const boundGroup = mapaPropi.getLayers().length === 0 ? mapaAltres : mapaPropi;
-                const marges = boundGroup.getBounds();
-                mapaLiterari.fitBounds(marges);
-            }
-        })
-});
+
+// Funcions
+function getIcona(tipus, precisio) {
+    return icones[tipus][precisio ? 1 : 0] ?? iconLite;
+}
+function crearMarcadorMapa(mapa) {
+    const { latitud, longitud, precisio, tipus } = mapa;
+
+    return L.marker(
+        [latitud, longitud],
+        {
+            icon: getIcona(tipus, precisio),
+            title: tipus,
+            alt: tipus,
+            riseOnHover: true
+        }
+    );
+}

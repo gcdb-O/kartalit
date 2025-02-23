@@ -20,6 +20,7 @@ class WebRouter extends Router
         //TODO: Separar el sense id amb MW auth?
         $group->get("/perfil[/{id:[0-9]*}]", PerfilController::class);
         $group->group("/llibre", LlibreRouter::class);
+        $group->group("/mapa-literari", MapaRouter::class);
         $group->group("/obra", ObraRouter::class);
     }
 }

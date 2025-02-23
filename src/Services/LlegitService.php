@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Kartalit\Services;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Kartalit\Models\Llegit;
+use Kartalit\Enums\Entity;
 use Kartalit\Models\Usuari;
 
 class LlegitService extends EntityService
 {
-    protected static string $entity = Llegit::class;
+    protected static Entity $entity = Entity::LLEGIT;
 
     /**
      * @param \Kartalit\Models\Usuari|int $usuari L'usuari que ha fet les lectures

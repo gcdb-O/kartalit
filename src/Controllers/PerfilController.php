@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Kartalit\Controllers;
 
-use Kartalit\Enums\Entity;
-use Kartalit\Errors\EntityNotFoundException;
 use Kartalit\Errors\UnauthorizedException;
 use Kartalit\Models\Llegit;
 use Kartalit\Models\Usuari;
@@ -31,11 +29,8 @@ readonly class PerfilController extends WebController
         if (!$perfilUsuariId) {
             throw new UnauthorizedException();
         }
-        /** @var ?Usuari $perfilUsuari */
-        $perfilUsuari = $this->usuariService->getById($perfilUsuariId);
-        if (!$perfilUsuari) {
-            throw new EntityNotFoundException(Entity::USUARI, $perfilUsuariId);
-        }
+        /** @var Usuari $perfilUsuari */
+        $perfilUsuari = $this->usuariService->getById($perfilUsuariId, true);
         $llegits = $this->llegitService->getByUsuari($perfilUsuari, $reqUsuari);
         $llegitsJson = array_map(fn(Llegit $llegit) => $llegit->getArray(), $llegits);
         $twigContextData = [

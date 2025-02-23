@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Kartalit\Services;
 
-use Kartalit\Models\Obra;
+use Kartalit\Enums\Entity;
 
 class ObraService extends EntityService
 {
-    protected static string $entity = Obra::class;
+    protected static Entity $entity = Entity::OBRA;
 }

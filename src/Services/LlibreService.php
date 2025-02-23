@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Kartalit\Services;
 
 use Doctrine\ORM\Query\Expr;
+use Kartalit\Enums\Entity;
+use Kartalit\Errors\EntityNotFoundException;
 use Kartalit\Models\Llibre;
 
 class LlibreService extends EntityService
 {
-    protected static string $entity = Llibre::class;
+    protected static Entity $entity = Entity::LLIBRE;
 
     /**
      * Retorna els últims llibres afegits
@@ -22,7 +24,7 @@ class LlibreService extends EntityService
             ->getQuery()
             ->getResult();
     }
-    public function getByIdWithCites(int $id, ?int $usuariId = null): ?Llibre
+    public function getByIdWithCites(int $id, ?int $usuariId = null, bool $throw = false): ?Llibre
     {
         $qb = $this->repository->createQueryBuilder("l");
         $qb = $qb->where("l.id = :id")->setParameter("id", $id);
@@ -32,7 +34,11 @@ class LlibreService extends EntityService
             $qb->expr()->eq("c.privat", "0")
         ))->orderBy("c.pagina", "ASC")->setParameter("usuariId", $usuariId);
         $qb = $qb->select("l, c");
-        return $qb->getQuery()->getOneOrNullResult();
+        $llibre = $qb->getQuery()->getOneOrNullResult();
+        if (!$llibre && $throw) {
+            throw new EntityNotFoundException(static::$entity, $id);
+        }
+        return $llibre;
     }
     public function search(string $token, int $limit = 5)
     {

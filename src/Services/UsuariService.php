@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace Kartalit\Services;
 
+use Kartalit\Enums\Entity;
 use Kartalit\Models\Usuari;
 
 class UsuariService extends EntityService
 {
-    protected static string $entity = Usuari::class;
+    protected static Entity $entity = Entity::USUARI;
 
     public function getByUsername(string $username): ?Usuari
     {
-        return $this->em->createQueryBuilder()
-            ->select('u')
-            ->from(self::$entity, 'u')
+        return $this->repository->createQueryBuilder("u")
             ->where('u.usuari = :username')
             ->setParameter('username', $username)
             ->getQuery()

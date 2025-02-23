@@ -48,7 +48,7 @@
 						<dt class="table-cell font-bold break-all">Obres</dt>
 						<dd class="table-cell">
 							{% for obra in llibre.obres %}
-								<a href="" class="hover:text-klit-lila hover:underline">{{obra.titolOriginal}}
+								<a href="{{basePath}}/obra/{{obra.id}}" class="hover:text-klit-lila hover:underline">{{obra.titolOriginal}}
 									({{obra.anyPublicacio}})</a>
 								{{not loop.last ? ", "}}
 							{% endfor %}
@@ -99,9 +99,10 @@
 	<script src="{{basePath}}/js/llibreUsuari.js"></script>
 {% endif %}
 {% if mapaLiterari or usuari %}
-	<script src="{{basePath}}/js/mapaLiterari.js"></script>
+	<script src="{{basePath}}/js/mapa/mapaLiterari.js"></script>
+	<script src="{{basePath}}/js/mapa/mapaLiterariLlibre.js"></script>
 {% endif %}
 {% if usuari and biblioteca %}
 	<script src="{{basePath}}/js/cites.js"></script>
-	<script src="{{basePath}}/js/mapaLiterariDin.js"></script>
+	<script src="{{basePath}}/js/mapa/mapaLiterariDin.js"></script>
 {% endif %}{% endblock %}

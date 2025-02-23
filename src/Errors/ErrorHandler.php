@@ -88,6 +88,7 @@ class ErrorHandler implements ErrorHandlerInterface
     private function handleWebError(Request $request, Throwable $throwable): ResponseInterface
     {
         //TODO: Separar els 404 dels 401, 403, 500
+        //TODO: Gestionar EntityNotFound al front
         $response = new Response();
         $twigContextData = [
             "code" => HttpStatusCode::SERVER_ERROR->value,

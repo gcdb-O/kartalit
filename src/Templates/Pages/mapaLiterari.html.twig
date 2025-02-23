@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+
+{% block head %}
+    {{ parent() }}
+    <meta name="usuariMapa" value="{{ usuariMapa.id }}">
+    {% include "leaflet.twig" %}
+{% endblock %}
+
+{% block content %}
+    <div id="mapa-literari" class="min-h-[450px] h-[80vh] w-full rounded-sm z-0"></div>
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script src="{{basePath}}/js/mapa/mapaLiterari.js"></script>
+    <script src="{{basePath}}/js/mapa/mapaLiterariUsuari.js"></script>
+{% endblock %}
