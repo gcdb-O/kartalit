@@ -87,8 +87,6 @@ class ErrorHandler implements ErrorHandlerInterface
     }
     private function handleWebError(Request $request, Throwable $throwable): ResponseInterface
     {
-        //TODO: Separar els 404 dels 401, 403, 500
-        //TODO: Gestionar EntityNotFound al front
         $response = new Response();
         $twigContextData = [
             "code" => HttpStatusCode::SERVER_ERROR->value,
@@ -103,6 +101,7 @@ class ErrorHandler implements ErrorHandlerInterface
                     ->withStatus(HttpStatusCode::REDIRECT_TEMP->value)
                     ->withHeader("Location", $this->config->server["basePath"]);
             case UnauthorizedException::class:
+            case InvalidTokenException::class:
                 return $response
                     ->withStatus(HttpStatusCode::REDIRECT_TEMP->value)
                     ->withHeader("Location", $this->config->server["basePath"] . "/login");
@@ -110,6 +109,11 @@ class ErrorHandler implements ErrorHandlerInterface
                 $twigContextData["code"] = HttpStatusCode::NOT_FOUND->value;
                 $twigContextData['message'] = "Pàgina no trobada";
                 $response = $response->withStatus(HttpStatusCode::NOT_FOUND->value);
+                break;
+            case EntityNotFoundException::class:
+                $twigContextData["code"] = $throwable->getCode();
+                $twigContextData['message'] = $throwable->getMessage();
+                $response = $response->withStatus($throwable->getCode());
                 break;
             default:
                 $response = $response->withStatus(HttpStatusCode::SERVER_ERROR->value);

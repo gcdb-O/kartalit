@@ -14,13 +14,8 @@ class AuthRouter extends Router
 {
     public function __invoke(RouteCollectorProxy $group): void
     {
-        $container = $this->app->getContainer();
-        /** @var AuthServiceInterface $authService */
-        $authService = $container->get(AuthServiceInterface::class);
-
         $group->post("/login", [AuthController::class, "login"])->setName("login");
-        //TODO: Protegir ruta logout?
         $group->any("/logout", [AuthController::class, "logout"])
-            ->add(new AuthMiddleware($authService));
+            ->add(AuthMiddleware::class);
     }
 }

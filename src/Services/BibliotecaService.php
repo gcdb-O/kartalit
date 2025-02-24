@@ -15,13 +15,13 @@ class BibliotecaService extends EntityService
 {
     protected static Entity $entity = Entity::BIBLIOTECA;
 
-    public function getBibliotecaFromLlibreUser(Llibre|int $llibre, Usuari|int $usuari): ?Biblioteca
+    public function getBibliotecaFromLlibreUser(Llibre|int $llibre, Usuari|int $usuari, Usuari|int|null $reqUser): ?Biblioteca
     {
         $llibreId = $llibre instanceof Llibre ? $llibre->getId() : $llibre;
         $usuariId = $usuari instanceof Usuari ? $usuari->getId() : $usuari;
-        // TODO: Gestionar llibre privat
-        return $this->repository->createQueryBuilder("b")
-            ->select("b")
+        $reqUserId = $reqUser instanceof Usuari ? $reqUser->getId() : $reqUser;
+
+        $qb = $this->repository->createQueryBuilder("b")
             ->where("b.llibre = :llibreId")
             ->andWhere("b.usuari = :usuariId")
             ->setParameters(
@@ -29,8 +29,11 @@ class BibliotecaService extends EntityService
                     new Parameter("llibreId", $llibreId),
                     new Parameter("usuariId", $usuariId)
                 ))
-            )
-            ->getQuery()
+            );
+        if ($usuariId !== $reqUserId) {
+            $qb = $qb->andWhere("b.privat = 0");
+        }
+        return $qb->getQuery()
             ->getOneOrNullResult();
     }
     public function create(

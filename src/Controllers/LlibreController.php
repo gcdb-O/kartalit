@@ -44,7 +44,7 @@ readonly class LlibreController extends WebController
         $twigContextData["mapaLiterari"] = array_map(fn(MapaLiterari $ubicacio) => $ubicacio->getArray(), $mapaLiterari->toArray());
         $twigContextData["cites"] = array_map(fn(Cita $cita) => $cita->getArray(), $llibre->getCites()->toArray());
         if ($usuari !== null) {
-            $twigContextData["biblioteca"] = $this->bibliotecaService->getBibliotecaFromLlibreUser($llibre, $usuari)?->getArray();
+            $twigContextData["biblioteca"] = $this->bibliotecaService->getBibliotecaFromLlibreUser($llibre, $usuari, $usuari)?->getArray();
         }
         $twigContext = new TwigContext($req, $llibre->getTitol(), $twigContextData);
         return $this->twigService->render(
