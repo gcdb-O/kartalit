@@ -6,6 +6,7 @@ namespace Kartalit\Errors;
 
 use Kartalit\Config\Config;
 use Kartalit\Enums\ApiResponseStatus;
+use Kartalit\Enums\Cookie;
 use Kartalit\Enums\HttpStatusCode;
 use Kartalit\Interfaces\AuthServiceInterface;
 use Kartalit\Schemas\ApiResponse;
@@ -96,7 +97,7 @@ class ErrorHandler implements ErrorHandlerInterface
         ];
         switch (get_class($throwable)) {
             case ExpiredTokenException::class:
-                $this->authService->deleteCookie();
+                $this->authService->deleteCookie(Cookie::AUTH->value);
                 return $response
                     ->withStatus(HttpStatusCode::REDIRECT_TEMP->value)
                     ->withHeader("Location", $this->config->server["basePath"]);

@@ -10,13 +10,15 @@ use Kartalit\Interfaces\TokenServiceInterface;
 use Kartalit\Models\Usuari;
 use Kartalit\Schemas\TokenPayload;
 
-readonly class AuthService implements AuthServiceInterface
+readonly class AuthService extends CookieService implements AuthServiceInterface
 {
     public function __construct(
         private Config $config,
         public TokenServiceInterface $tokenService,
         private UsuariService $usuariService
-    ) {}
+    ) {
+        parent::__construct($config);
+    }
 
     // #region Token
     public function createToken(Usuari $usuari, int $expirationTime = 3600): string
@@ -35,31 +37,4 @@ readonly class AuthService implements AuthServiceInterface
         }
     }
     // #endregion
-    // #region Cookie
-    public function setCookie(string $value, string $name = "token"): void
-    {
-        //TODO: Controlar si hauria de posar la propietat SameSite
-        setcookie(
-            name: $name,
-            value: $value,
-            httponly: true,
-            secure: false,
-            domain: $this->config->server["domain"],
-            path: $this->config->server["basePath"],
-            expires_or_options: time() + (365 * 24 * 60 * 60),
-        );
-    }
-    public function deleteCookie(string $name = "token"): void
-    {
-        setcookie(
-            name: $name,
-            value: "",
-            domain: $this->config->server["domain"],
-            path: $this->config->server["basePath"],
-            expires_or_options: time() - (60 * 60 * 24),
-        );
-        unset($_COOKIE[$name]);
-    }
-    // #endregion
-
 }

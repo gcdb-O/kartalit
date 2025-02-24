@@ -17,4 +17,5 @@ interface TokenServiceInterface
      * @throws \Kartalit\Errors\ExpiredTokenException
      */
     public function decodeToken(string $token): TokenPayload;
+    public function updateToken(string $token, int $expirationTime): string;
 }

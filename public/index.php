@@ -6,6 +6,7 @@ use Kartalit\Config\Config;
 use Kartalit\Errors\ErrorHandler;
 use Kartalit\Middlewares\AddResponseHeaders;
 use Kartalit\Middlewares\ReadUserFromToken;
+use Kartalit\Middlewares\SessionMiddleware;
 use Kartalit\Routes\Router;
 use Slim\App;
 
@@ -20,6 +21,7 @@ $app->setBasePath($envConfig->server['basePath'] ?? '');
 // Primer MW
 // MW In
 $app->addRoutingMiddleware();
+$app->add(SessionMiddleware::class);
 $app->add(ReadUserFromToken::class);
 // MW Out
 $app->addMiddleware(new AddResponseHeaders);

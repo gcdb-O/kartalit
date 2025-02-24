@@ -50,4 +50,9 @@ class JwtService implements TokenServiceInterface
             }
         }
     }
+    public function updateToken(string $jwt, ?int $expirationTime = 3600): string
+    {
+        $decodedPayload = $this->decodeToken($jwt);
+        return $this->encodeToken($decodedPayload, $expirationTime);
+    }
 }

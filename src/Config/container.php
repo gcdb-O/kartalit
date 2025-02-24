@@ -9,11 +9,14 @@ use Doctrine\ORM\ORMSetup;
 use Kartalit\Config\Config;
 use Kartalit\Helpers\RandomSort;
 use Kartalit\Interfaces\AuthServiceInterface;
+use Kartalit\Interfaces\CookieServiceInterface;
+use Kartalit\Interfaces\SessionServiceInterface;
 use Kartalit\Interfaces\TokenServiceInterface;
 use Kartalit\Services\AuthService;
+use Kartalit\Services\CookieService;
 use Kartalit\Services\JwtService;
+use Kartalit\Services\SessionService;
 use Slim\Views\Twig;
-
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Adapter\PhpFilesAdapter;
 use function DI\create;
@@ -52,6 +55,8 @@ $container_bindings = [
     },
     AuthServiceInterface::class => get(AuthService::class),
     TokenServiceInterface::class => get(JwtService::class),
+    CookieServiceInterface::class => get(CookieService::class),
+    SessionServiceInterface::class => get(SessionService::class),
 ];
 
 $containerBuilder = new ContainerBuilder();
