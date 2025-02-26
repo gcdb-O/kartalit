@@ -12,11 +12,10 @@ obres.forEach(obraId => {
                 return;
             }
             divMapa.classList.remove("hidden");
-            data.forEach(({ latitud, longitud, precisio, tipus, usuari, adreca, comentari }) => {
-                const markerGroup = usuari === usuariId ? mapaPropi : mapaAltres;
-                let desc = `<p>${comentari}</p>`;
-                if (adreca) { desc += `<p><i>${adreca}</i></p>`; }
-                const marcador = crearMarcadorMapa({ latitud, longitud, precisio, tipus });
+            data.forEach((mapa) => {
+                const markerGroup = mapa.usuari === usuariId ? mapaPropi : mapaAltres;
+                const marcador = crearMarcadorMapa(mapa);
+                const desc = generaDescripcio(mapa);
                 marcador.addTo(markerGroup).bindPopup(desc);
             })
             //TODO: Refactoritzar això..

@@ -40,7 +40,7 @@
 					{% set privateClass = cita.privat ? "text-klit-dark" : "" %}
 					<div id="cita_{{cita.id}}" class="grow p-2 rounded-lg shadow-xs hover:shadow-sm shadow-klit-dark {{privateClass}}">
 						<p id="cita_{{cita.id}}_cita" class="indent-4 text-justify">{{cita.cita|nl2br}}</p>
-						<p id="cita_{{cita.id}}_pag" class="text-right italic">Pag.{{cita.pagina}}</p>
+						<p id="cita_{{cita.id}}_pag" class="text-right italic">Pag.&nbsp{{cita.pagina}}</p>
 						{% set hiddenClass = cita.comentari ? "" : "hidden" %}
 						<p id="cita_{{cita.id}}_comentari" class="indent-4 text-justify text-sm {{hiddenClass}}">({{cita.comentari}})</p>
 					</div>

@@ -46,3 +46,6 @@ li#desplegable:focus-within > ul {
 .input-item {
     @apply shadow-xs shadow-klit-dark rounded-lg p-2
 }
+.input-warning {
+    @apply border-2 border-klit-vermell
+}

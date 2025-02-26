@@ -8,8 +8,12 @@ if (nouBibliotecaDiv) {
             .then(res => {
                 if (res.status === 201) {
                     window.location.reload();
+                } else {
+                    reject();
                 }
             })
-        //TODO: Gestionar error.
+            .catch(() => {
+                alert("Alguna cosa ha fallat i no s'ha pogut afehir el llibra a la biblioteca.");
+            })
     });
 }

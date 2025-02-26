@@ -40,45 +40,93 @@ nouMapaBoto.addEventListener("click", () => {
 });
 
 const formMapaNou = document.getElementById("form-mapa-nou");
+addListenersToFormMapa(formMapaNou);
 formMapaNou.addEventListener("submit", (e) => {
     e.preventDefault();
-    //TODO: Vaidar dades
+    const formData = validarFormMapa(formMapaNou);
+    if (formData) {
+        fetch(`${BASE_PATH}/api/mapa/obra/${formData.get("obra")}`, {
+            method: "POST",
+            body: formData
+        }).then(res => {
+            if (res.status === 201) {
+                window.location.reload();
+            } else {
+                reject();
+            }
+        }).catch(() => {
+            alert("Alguna cosa ha fallat i no s'ha pogut crear la ubicació.");
+        })
+    }
+})
 
-    const formData = new FormData(formMapaNou);
+/** @param {HTMLFormElement} */
+function addListenersToFormMapa(formMapa) {
+    const inputLat = formMapa.querySelector("input#nou_mapa_lat");
+    const inputLon = formMapa.querySelector("input#nou_mapa_lon");
+    const inputAdreca = formMapa.querySelector("input#nou_mapa_adreca");
+    const inputComentari = formMapa.querySelector("textarea#nou_mapa_comentari");
+    inputLat.addEventListener("input", e => {
+        const lat = e.target.value;
+        if (lat.length === 0) {
+            removeInputWarning(e.target)
+        } else {
+            isValidFloat(lat) && Math.abs(parseFloat(lat)) <= 90 ? removeInputWarning(e.target) : addInputWarning(e.target);
+        }
+    });
+    inputLon.addEventListener("input", e => {
+        const lon = e.target.value;
+        if (lon.length === 0) {
+            removeInputWarning(e.target)
+        } else {
+            isValidFloat(lon) && Math.abs(parseFloat(lon)) <= 180 ? removeInputWarning(e.target) : addInputWarning(e.target);
+        }
+    });
+    inputComentari.addEventListener("input", e => {
+        removeInputWarning(e.target)
+    });
+    inputAdreca.addEventListener("input", e => {
+        const adreca = e.target.value;
+        if (adreca.length <= 100) {
+            removeInputWarning(e.target)
+        } else {
+            addInputWarning(e.target);
+        }
+    });
+
+}
+/**
+ * @param {HTMLFormElement} formMapa 
+ * @returns {FormData|null}
+ */
+function validarFormMapa(formMapa) {
+    const formData = new FormData(formMapa);
     let invalidData = 0;
-    if (!formData.get("latitud")) {
-        addInputWarning(document.getElementById("nou_mapa_lat").classList);
+    if (!formData.get("tipus") || formData.get("tipus").length > 50) {
+        addInputWarning(document.getElementById("nou_mapa_tipus"));
         invalidData++;
     }
-    if (!formData.get("longitud")) {
-        addInputWarning(document.getElementById("nou_mapa_lon").classList);
+    if (!formData.get("latitud") ||
+        !isValidFloat(formData.get("latitud")) ||
+        Math.abs(parseFloat(formData.get("latitud"))) > 90
+    ) {
+        addInputWarning(document.getElementById("nou_mapa_lat"));
+        invalidData++;
+    }
+    if (!formData.get("longitud") ||
+        !isValidFloat(formData.get("longitud")) ||
+        Math.abs(parseFloat(formData.get("longitud"))) > 180
+    ) {
+        addInputWarning(document.getElementById("nou_mapa_lon"));
         invalidData++;
     }
     if (!formData.get("comentari")) {
-        addInputWarning(document.getElementById("nou_mapa_comentari").classList);
+        addInputWarning(document.getElementById("nou_mapa_comentari"));
         invalidData++;
     }
-    if (!formData.get("obra")) {
-        addInputWarning(document.getElementById("nou_mapa_obra").classList);
+    if (!formData.get("obra") || isValidInt(formData.get("obra"))) {
+        addInputWarning(document.getElementById("nou_mapa_obra"));
         invalidData++;
     }
-    if (invalidData > 0) return
-
-    fetch(`${BASE_PATH}/api/mapa/obra/${formData.get("obra")}`, {
-        method: "POST",
-        body: formData
-    }).then(res => {
-        if (res.status === 201) {
-            window.location.reload();
-        }
-    })
-    //TODO: Gestionar error.
-
-
-
-})
-
-function addInputWarning(input) {
-    input.add("border-2");
-    input.add("border-klit-light");
+    return invalidData === 0 ? formData : null;
 }

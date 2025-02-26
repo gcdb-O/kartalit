@@ -80,3 +80,43 @@ function crearMarcadorMapa(mapa) {
         }
     );
 }
+function generaDescripcio(mapa, infoObra = false) {
+    const { comentari, adreca } = mapa;
+    const popUpDiv = document.createElement("div");
+    popUpDiv.classList.add("inline-block", "p-1");
+    const desc = document.createElement("div");
+    if (infoObra) {
+        const { obra } = mapa;
+        popUpDiv.id = "obra-info";
+        // Titol
+        const titol = document.createElement("h1");
+        titol.classList.add("text-sm", "text-klit-dark", "hover:text-klit-lila", "hover:underline");
+        titol.textContent = obra.titolOriginal;
+        const titolLink = document.createElement("a");
+        titolLink.href = `${BASE_PATH}/obra/${obra.id}`;
+        if (obra.titolCatala) {
+            titolLink.title = obra.titolCatala;
+        }
+        titolLink.appendChild(titol);
+        desc.appendChild(titolLink);
+        // Autors
+        const autors = document.createElement("h2");
+        autors.classList.add("text-xs", "italic");
+        autors.textContent = obra.autors.map(a => a.nomComplet).join(", ");
+        desc.appendChild(autors);
+    }
+    // Comentari
+    const comentariP = document.createElement("p");
+    comentariP.classList.add("text-xs");
+    comentariP.textContent = comentari;
+    desc.appendChild(comentariP);
+    // Adreça
+    if (adreca) {
+        const adrecaP = document.createElement("p");
+        adrecaP.classList.add("text-xs", "italic");
+        adrecaP.textContent = adreca;
+        desc.appendChild(adrecaP);
+    }
+    popUpDiv.appendChild(desc);
+    return popUpDiv;
+}

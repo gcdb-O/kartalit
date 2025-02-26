@@ -9,7 +9,6 @@ headerBuscador.addEventListener("input", buscador => {
         buscadorTimeout = setTimeout(() => {
             const spinner = headerBuscadorParentDiv.querySelector("span");
             spinner.classList.remove("hidden");
-            console.log(token);
             fetch(`${BASE_PATH}/api/llibre/busca/${token}`, {
                 method: "GET"
             })
@@ -18,7 +17,6 @@ headerBuscador.addEventListener("input", buscador => {
                     return res.json()
                 })
                 .then(resJson => {
-                    console.log(resJson);
                     const resultLlibres = resJson.data ?? [];
                     if (resultLlibres.length > 0) {
                         const parentResultDiv = ensureParentResult();

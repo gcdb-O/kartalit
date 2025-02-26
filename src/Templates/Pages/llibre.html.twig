@@ -95,6 +95,7 @@
 {% if cites or usuari %}
 	{% include "Components/Llibre/cites.html.twig" %}
 {% endif %}{% endblock %}{% block js %}
+{{ parent() }}
 {% if usuari %}
 	<script src="{{basePath}}/js/llibreUsuari.js"></script>
 {% endif %}

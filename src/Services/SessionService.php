@@ -19,7 +19,8 @@ class SessionService implements SessionServiceInterface
     {
         session_set_cookie_params([
             "domain" => $this->config->server["domain"],
-            "path" => $this->config->server["basePath"]
+            "path" => $this->config->server["basePath"],
+            "secure" => true
         ]);
         session_name($this->sessionName);
         session_start();
