@@ -11,10 +11,11 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
+use Kartalit\Interfaces\ModelInterface;
 
 #[Entity]
 #[Table(name: "mapa_literari")]
-class MapaLiterari
+class MapaLiterari implements ModelInterface
 {
     #[Id]
     #[GeneratedValue]
@@ -124,7 +125,7 @@ class MapaLiterari
         $this->comentari = $comentari;
     }
     #endregion
-    public function getArray(bool $extraInfo = false): array
+    public function toArray(bool $extraInfo = false): array
     {
         $mapa = [
             "obra" => [

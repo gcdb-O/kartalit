@@ -1,0 +1,76 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+	<h1>Biblioteca</h1>
+	<h2>Tens
+		{{bibliotecaTotal}}
+		llibres</h2>
+	{# {% include "Components/carrousselLlibres.html.twig" with {llibres: biblioteca} %} #}
+	<table class="hidden table-auto border-separate border-spacing-2 w-full font-text">
+		<thead>
+			<tr>
+				<th>Títol</th>
+				<th>Autores</th>
+				<th class="hidden sm:table-cell">Editorial</th>
+				<th class="hidden lg:table-cell">Pàgs.</th>
+				<th class="hidden lg:table-cell">ISBN</th>
+				<th class="hidden sm:table-cell">Idioma</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for llibre in biblioteca %}
+				<tr>
+					<td>
+						<a href="{{basePath}}/llibre/{{llibre.id}}" class="hover:text-klit-lila hover:underline">{{llibre.titol}}</a>
+					</td>
+					<td>{{llibre.autors|map(a => a.nomComplet)|join(", ")}}</td>
+					<td class="hidden sm:table-cell">{{llibre.editorial}}</td>
+					<td class="hidden lg:table-cell text-center">{{llibre.pagines}}</td>
+					<td class="hidden lg:table-cell text-center">{{llibre.isbn}}</td>
+					<td class="hidden sm:table-cell">{{llibre.idioma}}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div class="flex flex-col gap-2 mt-2">
+		{% for llibre in biblioteca %}
+			<div id="llibre-info" class="w-full grid grid-cols-[auto_1fr] gap-4">
+				<div>{% include "Components/Atoms/coberta.html.twig" with {llibre, alcada: 100} %}</div>
+				<div>
+					<h1 class="text-base sm:text-lg">
+						<a class="hover:text-klit-lila hover:underline" href="{{basePath}}/llibre/{{llibre.id}}">{{llibre.titol}}</a>
+					</h1>
+					<h2 class="text-sm sm:text-base">{{llibre.autors|map(a => a.nomComplet)|join(", ")}}</h2>
+					<p class="text-sm sm:text-base">
+						{% if llibre.pagines %}
+							<span class="inline-block">
+								<b>Pàgs.</b>
+								{{llibre.pagines}}
+							</span>
+						{% endif %}
+						{% if llibre.editorial %}
+							<span class="inline-block">
+								<b>Editorial</b>
+								{{llibre.editorial}}
+							</span>
+						{% endif %}
+						{% if llibre.isbn %}
+							<span class="inline-block">
+								<b>ISBN</b>
+								{{llibre.isbn}}
+							</span>
+						{% endif %}
+						{% if llibre.idioma %}
+							<span class="inline-block">
+								<b>Idioma</b>
+								{{llibre.idioma}}
+							</span>
+						{% endif %}
+
+
+					</p>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

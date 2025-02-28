@@ -12,10 +12,11 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
+use Kartalit\Interfaces\ModelInterface;
 
 #[Entity]
 #[Table(name: "llegits")]
-class Llegit
+class Llegit implements ModelInterface
 {
     #[Id]
     #[GeneratedValue]
@@ -103,7 +104,7 @@ class Llegit
         $this->usuari = $usuari;
     }
     #endregion
-    public function getArray(): array
+    public function toArray(): array
     {
         return [
             "id" => $this->getId(),

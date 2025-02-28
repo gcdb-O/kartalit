@@ -23,7 +23,7 @@ readonly class ObraController extends WebController
         $id = (int) $args["id"];
         /** @var Obra $obra */
         $obra = $this->obraService->getById($id, true);
-        $twigContextData = ["obra" => $obra->getArray()];
+        $twigContextData = ["obra" => $obra->toArray()];
         $twigContextData["llibres"] = array_map(fn(Llibre $llibre) => $llibre->getCobertesBasic(), $obra->getLlibres()->toArray());
         $twigContext = new TwigContext($req, $obra->getTitolOriginal(), $twigContextData);
         return $this->twigService->render(

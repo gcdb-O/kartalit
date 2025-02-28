@@ -13,10 +13,11 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\Table;
+use Kartalit\Interfaces\ModelInterface;
 
 #[Entity]
 #[Table(name: 'autors')]
-class Autor
+class Autor implements ModelInterface
 {
     #[Id]
     #[Column(name: 'autorID')]
@@ -128,7 +129,7 @@ class Autor
         $this->obres->add($obra);
     }
     #endregion
-    public function getArray(): array
+    public function toArray(): array
     {
         return [
             "id" => $this->getId(),

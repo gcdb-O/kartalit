@@ -5,7 +5,7 @@ let buscadorTimeout;
 headerBuscador.addEventListener("input", buscador => {
     clearTimeout(buscadorTimeout);
     const token = buscador.target.value;
-    if (token.length > 3) {
+    if (token.length >= 3) {
         buscadorTimeout = setTimeout(() => {
             const spinner = headerBuscadorParentDiv.querySelector("span");
             spinner.classList.remove("hidden");

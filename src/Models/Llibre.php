@@ -16,10 +16,11 @@ use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
+use Kartalit\Interfaces\ModelInterface;
 
 #[Entity]
 #[Table(name: "llibres")]
-class Llibre
+class Llibre implements ModelInterface
 {
     #[Id]
     #[GeneratedValue]
@@ -172,7 +173,7 @@ class Llibre
     {
         return is_resource($this->getCoberta()) ? base64_encode(stream_get_contents($this->getCoberta(), -1, 0)) : null;
     }
-    public function getArray(): array
+    public function toArray(): array
     {
         return [
             "id" => $this->getId(),

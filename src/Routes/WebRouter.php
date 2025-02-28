@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kartalit\Routes;
 
 use Kartalit\Config\Config;
+use Kartalit\Controllers\BibliotecaController;
 use Kartalit\Controllers\IndexController;
 use Kartalit\Controllers\PerfilController;
 use Kartalit\Controllers\WebController;
@@ -19,6 +20,8 @@ class WebRouter extends Router
         $config = $this->app->getContainer()->get(Config::class);
 
         $group->get("[/]", IndexController::class);
+        $group->get("/biblioteca", BibliotecaController::class)
+            ->add(AuthMiddleware::class);
         $group->get("/login", [WebController::class, "login"])
             ->addMiddleware(new RedirectToMain($config, true));
         $group->get("/perfil/[{id:[0-9]+}]", PerfilController::class);

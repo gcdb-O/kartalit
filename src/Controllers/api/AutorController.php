@@ -23,7 +23,7 @@ class AutorController
     public function getAll(Request $_, Response $res): Response
     {
         $autors = $this->autorService->getAll();
-        $autorsJson = array_map(fn(Autor $autor) => $autor->getArray(), $autors);
+        $autorsJson = array_map(fn(Autor $autor) => $autor->toArray(), $autors);
         $apiRes = new ApiResponse($autorsJson, "Tots els autors.");
         return $this->apiResponseService->toJson($res, $apiRes, HttpStatusCode::OK);
     }
@@ -32,8 +32,8 @@ class AutorController
         $id = (int) $args["id"];
         /** @var Autor $autor */
         $autor = $this->autorService->getById($id, true);
-        $autorJson = $autor->getArray();
-        $autorJson["obres"] = array_map(fn(Obra $obra) => $obra->getArray(), $autor->getObres()->getValues());
+        $autorJson = $autor->toArray();
+        $autorJson["obres"] = array_map(fn(Obra $obra) => $obra->toArray(), $autor->getObres()->getValues());
         $apiRes = new ApiResponse(data: $autorJson);
         return $this->apiResponseService->toJson($res, $apiRes, HttpStatusCode::OK);
     }

@@ -11,10 +11,11 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
+use Kartalit\Interfaces\ModelInterface;
 
 #[Entity]
 #[Table(name: "llibre_user")]
-class Biblioteca
+class Biblioteca implements ModelInterface
 {
     #[Id]
     #[ManyToOne(targetEntity: Llibre::class, inversedBy: "biblioteca")]
@@ -124,7 +125,7 @@ class Biblioteca
         $this->dataObtencio = $dataObtencio;
     }
     #endregion
-    public function getArray(): array
+    public function toArray(): array
     {
         return [
             "privat" => $this->getPrivat(),

@@ -10,7 +10,7 @@ use Throwable;
 class ApiResponse
 {
     public function __construct(
-        private array $data = [],
+        private array|PaginatedData $data = [],
         private ?string $message = null,
         private ApiResponseStatus $status = ApiResponseStatus::SUCCESS,
         private ?Throwable $exception = null,
@@ -20,7 +20,7 @@ class ApiResponse
         $response = [
             "status" => $this->status->value,
             "message" => $this->message,
-            "data" => $this->data,
+            "data" => $this->data instanceof PaginatedData ? $this->data->toArray() : $this->data,
         ];
         if (
             $this->status->value > 399 &&
@@ -34,9 +34,9 @@ class ApiResponse
         }
         return $response;
     }
-    public function setData(array $data): void
+    public function setData(array|PaginatedData $data): void
     {
-        $this->data = $data;
+        $this->data = $data instanceof PaginatedData ? $data->toArray() : $data;
     }
     public function getData(): array
     {

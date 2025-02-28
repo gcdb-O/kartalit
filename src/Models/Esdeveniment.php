@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
+use Kartalit\Interfaces\ModelInterface;
 
 #[Entity]
 #[Table(name: 'esdeveniments')]
@@ -31,6 +32,7 @@ class Esdeveniment
     #[ManyToOne(targetEntity: Obra::class, inversedBy: 'esdeveniments')]
     #[JoinColumn(name: 'obra', referencedColumnName: 'obraID')]
     private ?Obra $obra;
+    // #region Getters and setters
     public function getId(): int
     {
         return $this->id;
@@ -79,4 +81,5 @@ class Esdeveniment
     {
         $this->obra = $obra;
     }
+    // #endregion
 }

@@ -1,5 +1,6 @@
 {# Requereix llibre, alcada #}
 {# max-h-[200px] #}
+{# max-h-[100px] #}
 {% set alcadaClass = alcada > 0 ? "max-h-[" ~ alcada ~ "px]" : "max-h-[175px]" %}
 	<div class="mb-4"> <a href="{{basePath}}/llibre/{{llibre.id}}">
 		<img class="{{alcadaClass}} object-contain rounded-sm shadow-klit-dark shadow-lg hover:shadow-xl" src="data:image/jpg;base64,{{llibre.coberta}}" title="{{llibre.titol}}" alt="{{llibre.titol}}" onerror="this.src='{{basePath}}/img/no_coberta.png'">

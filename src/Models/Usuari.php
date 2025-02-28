@@ -13,10 +13,11 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
+use Kartalit\Interfaces\ModelInterface;
 
 #[Entity]
 #[Table(name: "user")]
-class Usuari
+class Usuari implements ModelInterface
 {
     #[Id]
     #[GeneratedValue]
@@ -144,7 +145,7 @@ class Usuari
         $this->llegits->add($llegit);
     }
     #endregion
-    public function getArray(Usuari|int|null $reqUsuari): array
+    public function toArray(Usuari|int|null $reqUsuari = null): array
     {
         $reqUsuariId = $reqUsuari instanceof Usuari ? $reqUsuari->getId() : $reqUsuari;
         $arrayUsuari = [

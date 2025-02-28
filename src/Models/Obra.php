@@ -16,10 +16,11 @@ use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
+use Kartalit\Interfaces\ModelInterface;
 
 #[Entity]
 #[Table(name: 'obres')]
-class Obra
+class Obra implements ModelInterface
 {
     #[Id]
     #[GeneratedValue]
@@ -145,7 +146,7 @@ class Obra
         $this->esdeveniments->add($esdeveniment);
     }
     #endregion
-    public function getArray(): array
+    public function toArray(): array
     {
         return [
             "id" => $this->getId(),

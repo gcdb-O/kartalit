@@ -37,14 +37,14 @@ readonly class LlibreController extends WebController
         $usuari = $req->getAttribute("usuari");
         $llibre = $this->llibreService->getByIdWithCites($id, $usuari?->getId() ?? null, true);
         //TODO: Hauria d'incloure ja també en una sola crida les obres, cites, esdeveniments, mapa literari?
-        $twigContextData = ["llibre" => $llibre->getArray()];
+        $twigContextData = ["llibre" => $llibre->toArray()];
         $mapaLiterari = $llibre->getMapaLiterari()->filter(function (MapaLiterari $mapa) use ($usuari) {
             return $mapa->getUsuari()->getId() === $usuari?->getId() || $mapa->getPrivat() === false;
         });
-        $twigContextData["mapaLiterari"] = array_map(fn(MapaLiterari $ubicacio) => $ubicacio->getArray(), $mapaLiterari->toArray());
-        $twigContextData["cites"] = array_map(fn(Cita $cita) => $cita->getArray(), $llibre->getCites()->toArray());
+        $twigContextData["mapaLiterari"] = array_map(fn(MapaLiterari $ubicacio) => $ubicacio->toArray(), $mapaLiterari->toArray());
+        $twigContextData["cites"] = array_map(fn(Cita $cita) => $cita->toArray(), $llibre->getCites()->toArray());
         if ($usuari !== null) {
-            $twigContextData["biblioteca"] = $this->bibliotecaService->getBibliotecaFromLlibreUser($llibre, $usuari, $usuari)?->getArray();
+            $twigContextData["biblioteca"] = $this->bibliotecaService->getBibliotecaFromLlibreUser($llibre, $usuari, $usuari)?->toArray();
         }
         $twigContext = new TwigContext($req, $llibre->getTitol(), $twigContextData);
         return $this->twigService->render(

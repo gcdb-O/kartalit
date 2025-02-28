@@ -8,6 +8,7 @@ use Doctrine\ORM\Query\Expr;
 use Kartalit\Enums\Entity;
 use Kartalit\Errors\EntityNotFoundException;
 use Kartalit\Models\Llibre;
+use Kartalit\Models\Usuari;
 
 class LlibreService extends EntityService
 {
@@ -40,22 +41,46 @@ class LlibreService extends EntityService
         }
         return $llibre;
     }
+    public function getBibliotecaByUsuari(Usuari|int $usuari, Usuari|int|null $reqUser, int $limit = 20, int $pagina = 0): PaginatorService
+    {
+        $usuariId = $usuari instanceof Usuari ? $usuari->getId() : $usuari;
+        $reqUserId = $reqUser instanceof Usuari ? $reqUser->getId() : $reqUser;
+
+        $firstResult = $pagina * $limit;
+
+        $qb = $this->repository->createQueryBuilder("l")
+            ->innerJoin("l.biblioteca", "b", Expr\Join::WITH, "b.usuari = :usuariId")
+            ->join("l.obres", "o")
+            ->leftJoin("o.autors", "a")
+            ->setParameter("usuariId", $usuariId);
+        if ($usuariId !== $reqUserId) {
+            $qb->andWhere("b.privat = 0");
+        }
+        $qb->groupBy("l.id")
+            ->addOrderBy("a.ordenador", "ASC")
+            ->addOrderBy("o.anyPublicacio", "ASC");
+        $query = $qb->getQuery()->setMaxResults($limit)->setFirstResult($firstResult);
+        return new PaginatorService($query, false);
+    }
     public function search(string $token, int $limit = 5)
     {
         $isNumeric = is_numeric($token);
         //TODO: Optimitzar cerques?
         $qb = $this->repository->createQueryBuilder("l")
             ->join("l.obres", "o")
-            ->join("o.autors", "a");
-        $qb = $qb->where(
+            ->leftJoin("o.autors", "a");
+        $qb->where(
             $qb->expr()->orX(
                 $qb->expr()->like("l.titol", ":token"),
                 $qb->expr()->like("l.isbn", ":token"),
                 $qb->expr()->like("o.titolOriginal", ":token"),
                 $qb->expr()->like("a.ordenador", ":token"),
             )
-        )
-            ->setParameter("token", "%" . $token . "%")
+        )->setParameter("token", "%" . $token . "%");
+
+        $qb->groupBy("l.id")
+            ->addOrderBy("a.ordenador", "ASC")
+            ->addOrderBy("o.anyPublicacio", "ASC")
             ->setMaxResults($limit);
         return $qb->getQuery()->getResult();
     }

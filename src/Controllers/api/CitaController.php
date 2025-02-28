@@ -53,7 +53,7 @@ class CitaController
             obra: $obra,
             privat: isset($novaCitaData["privat"]) ? (bool) $novaCitaData["privat"] : false
         );
-        $apiRes = new ApiResponse($novaCita->getArray(), "Cita creada correctament");
+        $apiRes = new ApiResponse($novaCita->toArray(), "Cita creada correctament");
         return $this->apiResponseService->toJson($res, $apiRes, HttpStatusCode::CREATED);
     }
 
@@ -81,7 +81,7 @@ class CitaController
         if (isset($citaData["privat"])) {
             $cita->setPrivat((bool) $citaData["privat"]);
         }
-        $apiJson = $cita->getArray();
+        $apiJson = $cita->toArray();
 
         $this->citaService->persistAndFlush($cita);
         $apiRes = new ApiResponse($apiJson, "Cita editada correctament");
@@ -97,7 +97,7 @@ class CitaController
         if ($cita->getUsuari()->getId() !== $usuari->getId()) {
             throw new ForbiddenException(message: "No pots eliminar una cita que no has creat tu.");
         }
-        $citaJson = $cita->getArray();
+        $citaJson = $cita->toArray();
         $this->citaService->deleteById($citaId);
         $apiRes = new ApiResponse($citaJson, "Cita elminada correctament");
         return $this->apiResponseService->toJson($res, $apiRes, HttpStatusCode::OK);

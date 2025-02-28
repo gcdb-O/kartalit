@@ -34,7 +34,7 @@ class MapaController
         $usuari = $this->usuariService->getById($usuariId, true);
 
         $mapaLiterari = $this->mapaService->getByUsuari($usuari, $reqUser);
-        $mapaLiterariJson = array_map(fn(MapaLiterari $mapa) => $mapa->getArray(true), $mapaLiterari);
+        $mapaLiterariJson = array_map(fn(MapaLiterari $mapa) => $mapa->toArray(true), $mapaLiterari);
         $apiRes = new ApiResponse($mapaLiterariJson, "Mapa literari de l'usuari amb id: $usuariId");
         return $this->apiResponseService->toJson($res, $apiRes, HttpStatusCode::OK);
     }
@@ -44,7 +44,7 @@ class MapaController
         /** @var ?Usuari $usuari */
         $usuari = $req->getAttribute("usuari");
         $mapaLiterari = $this->mapaService->getByObra($obraId, $usuari?->getId() ?? null);
-        $mapaLiterariJson = array_map(fn(MapaLiterari $mapa) => $mapa->getArray(), $mapaLiterari);
+        $mapaLiterariJson = array_map(fn(MapaLiterari $mapa) => $mapa->toArray(), $mapaLiterari);
         $apiRes = new ApiResponse($mapaLiterariJson, "Mapa literari de l'obra amb id: $obraId");
         return $this->apiResponseService->toJson($res, $apiRes, HttpStatusCode::OK);
     }
@@ -67,7 +67,7 @@ class MapaController
             precisio: (bool) $nouMapaData["precisio"],
             privat: isset($nouMapaData["privat"]) ? (bool) $nouMapaData["privat"] : false,
         );
-        $apiRes = new ApiResponse($nouMapa->getArray(), "Ubicació creada correctament.");
+        $apiRes = new ApiResponse($nouMapa->toArray(), "Ubicació creada correctament.");
         return $this->apiResponseService->toJson($res, $apiRes, HttpStatusCode::CREATED);
     }
 }

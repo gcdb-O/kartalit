@@ -34,7 +34,7 @@ readonly class MapaController extends WebController
         /** @var Usuari $usuari */
         $usuari = $this->usuariService->getById($userId, true);
         // $mapaLiterari = $this->mapaService->getByUsuari($usuari, $reqUser);
-        $twigContextData = ["usuariMapa" => $usuari->getArray(null)];
+        $twigContextData = ["usuariMapa" => $usuari->toArray()];
 
         return $this->twigService->render($res, "Pages/mapaLiterari.html.twig", new TwigContext($req, "Mapa Literari", $twigContextData));
     }
