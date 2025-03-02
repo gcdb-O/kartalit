@@ -163,6 +163,7 @@ class Llibre implements ModelInterface
                 array_push($autors, [
                     "id" => $autor->getId(),
                     "nomComplet" => $autor->getNomComplet(),
+                    "completNom" => $autor->getCompletNom(),
                     "pseudonim" => $autor->getPseudonim(),
                 ]);
             }

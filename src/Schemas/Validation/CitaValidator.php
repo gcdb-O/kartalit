@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Kartalit\Schemas\Validation;
 
 use Kartalit\Interfaces\ValidatorSchemaInterface;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Respect\Validation\Validatable;
 use Respect\Validation\Validator as V;
 
 class CitaValidator extends Validator implements ValidatorSchemaInterface
 {
-    public static function validate(array $data, ?string $type = null): void
+    public static function validate(Request &$request, ?string $type = null): void
     {
         $validator = match ($type) {
             "post" => self::post(),
@@ -18,6 +19,7 @@ class CitaValidator extends Validator implements ValidatorSchemaInterface
             default => null
         };
         if ($validator) {
+            $data = $request->getParsedBody();
             parent::execute($validator, $data);
         }
     }

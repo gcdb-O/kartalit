@@ -28,6 +28,7 @@ readonly class BibliotecaController extends WebController
         $twigContext = new TwigContext($request, data: [
             "biblioteca" => $biblioteca->toArray(),
             "bibliotecaTotal" => count($biblioteca),
+            "pagina" => $pagina
         ]);
         return $this->twigService->render($response, "Pages/biblioteca.html.twig", $twigContext);
     }

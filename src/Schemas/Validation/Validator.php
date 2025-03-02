@@ -10,12 +10,19 @@ use Respect\Validation\Validatable;
 
 abstract class Validator
 {
-    protected static function execute(Validatable $validator, array $data): void
+    protected static function execute(Validatable $validator, array $data, bool $silent = false): array
     {
         try {
             $validator->assert($data);
         } catch (NestedValidationException $th) {
-            throw new InvalidTypeException($th->getMessages(), $th);
+            $messages = $th->getMessages();
+            if (!$silent) {
+                throw new InvalidTypeException($messages, $th);
+            }
+            foreach ($messages as $key => $_) {
+                unset($data[$key]);
+            }
         }
+        return $data;
     }
 }

@@ -22,8 +22,7 @@ class ValidatorMiddleware implements MiddlewareInterface
 
     public function process(Request $request, RequestHandler $handler): Response
     {
-        $bodyData = $request->getParsedBody();
-        $this->validatorSchema::validate($bodyData, $this->type);
+        $this->validatorSchema::validate($request, $this->type);
         return $handler->handle($request);
     }
 }

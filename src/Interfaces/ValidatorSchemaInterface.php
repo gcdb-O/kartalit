@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Kartalit\Interfaces;
 
+use Psr\Http\Message\ServerRequestInterface;
+
 interface ValidatorSchemaInterface
 {
-    public static function validate(array $data, ?string $type = null): void;
+    public static function validate(ServerRequestInterface &$request): void;
 }

@@ -153,4 +153,14 @@ class Autor implements ModelInterface
         }
         return $nomComplet;
     }
+    public function getCompletNom(): string
+    {
+        $completNom = "";
+        $cognoms = $this->getCognoms();
+        if ($cognoms) {
+            $completNom .= $cognoms . ", ";
+        }
+        $completNom .= $this->getNom();
+        return $completNom;
+    }
 }

@@ -23,7 +23,7 @@
 					<td>
 						<a href="{{basePath}}/llibre/{{llibre.id}}" class="hover:text-klit-lila hover:underline">{{llibre.titol}}</a>
 					</td>
-					<td>{{llibre.autors|map(a => a.nomComplet)|join(", ")}}</td>
+					<td>{{llibre.autors|map(a => a.completNom)|join(", ")}}</td>
 					<td class="hidden sm:table-cell">{{llibre.editorial}}</td>
 					<td class="hidden lg:table-cell text-center">{{llibre.pagines}}</td>
 					<td class="hidden lg:table-cell text-center">{{llibre.isbn}}</td>
@@ -40,7 +40,7 @@
 					<h1 class="text-base sm:text-lg">
 						<a class="hover:text-klit-lila hover:underline" href="{{basePath}}/llibre/{{llibre.id}}">{{llibre.titol}}</a>
 					</h1>
-					<h2 class="text-sm sm:text-base">{{llibre.autors|map(a => a.nomComplet)|join(", ")}}</h2>
+					<h2 class="text-sm sm:text-base">{{llibre.autors|map(a => a.completNom)|join(", ")}}</h2>
 					<p class="text-sm sm:text-base">
 						{% if llibre.pagines %}
 							<span class="inline-block">
