@@ -1,11 +1,11 @@
 {% extends "base.html.twig" %}
-
+{% from "Components/Macros/pagination.html.twig" import pagination %}
 {% block content %}
 	<h1>Biblioteca</h1>
 	<h2>Tens
 		{{bibliotecaTotal}}
 		llibres</h2>
-	{# {% include "Components/carrousselLlibres.html.twig" with {llibres: biblioteca} %} #}
+	{{ pagination(pagina, paginaTotal, "biblioteca") }}
 	<table class="hidden table-auto border-separate border-spacing-2 w-full font-text">
 		<thead>
 			<tr>
@@ -73,4 +73,5 @@
 			</div>
 		{% endfor %}
 	</div>
+	{{ pagination(pagina, paginaTotal, "biblioteca") }}
 {% endblock %}

@@ -1,0 +1,51 @@
+{% macro pagination(pagina, paginaTotal, id = "entity") %}
+	<div class="grid grid-cols-[auto_60%_auto]">
+		<div class="flex flex-row justify-end">
+			<div class="pagination">
+				<a href="?pagina=1">
+					<i class="fa-solid fa-backward"></i>
+				</a>
+			</div>
+			<div class="pagination">
+				<a href="?pagina={{pagina - 1}}">
+					<i class="fa-solid fa-backward-step"></i>
+				</a>
+			</div>
+		</div>
+		<div id="pagination-{{id}}-pages" class="flex flex-row justify-between">
+			{% set selPage = "bg-klit-dark text-orange-50" %}
+			{% if pagina <= 30 %}
+				{% for i in 1..5 %}
+					{% set addSelPageClass = i == pagina ? selPage : "" %}
+					<div id="pag-{{i}}" class="pagination {{addSelPageClass}} hover:shadow-lg">
+						<a href="?pagina={{i}}">
+							{{i}}
+						</a>
+					</div>
+				{% endfor %}
+				<div class="pagination cursor-text hover:shadow-md">...</div>
+				{% for j in 4..0 %}
+					{% set i = paginaTotal - j %}
+					{% set addSelPageClass = i == pagina ? selPage : "" %}
+					<div id="pag-{{i}}" class="pagination {{addSelPageClass}} hover:shadow-lg">
+						<a href="?pagina={{i}}">
+							{{i}}
+						</a>
+					</div>
+				{% endfor %}
+			{% endif %}
+		</div>
+		<div class="flex flex-row justify-start">
+			<div class="pagination">
+				<a href="?pagina={{pagina + 1}}">
+					<i class="fa-solid fa-forward-step"></i>
+				</a>
+			</div>
+			<div class="pagination">
+				<a href="?pagina={{paginaTotal}}">
+					<i class="fa-solid fa-forward"></i>
+				</a>
+			</div>
+		</div>
+	</div>
+{% endmacro %}

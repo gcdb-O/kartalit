@@ -23,12 +23,16 @@ readonly class BibliotecaController extends WebController
         $usuari = $request->getAttribute('usuari');
         $queryParams = $request->getQueryParams();
         $pagina = isset($queryParams['pagina']) ? (int) $queryParams['pagina'] : 1;
-        $biblioteca = $this->llibreService->getBibliotecaByUsuari($usuari, $usuari, 20, $pagina - 1);
+        $limit = 20;
+        $biblioteca = $this->llibreService->getBibliotecaByUsuari($usuari, $usuari, $limit, $pagina - 1);
+        $bibliotecaTotal = count($biblioteca);
+        $paginaTotal = ceil($bibliotecaTotal / $limit);
 
         $twigContext = new TwigContext($request, data: [
             "biblioteca" => $biblioteca->toArray(),
-            "bibliotecaTotal" => count($biblioteca),
-            "pagina" => $pagina
+            "bibliotecaTotal" => $bibliotecaTotal,
+            "pagina" => $pagina,
+            "paginaTotal" => $paginaTotal
         ]);
         return $this->twigService->render($response, "Pages/biblioteca.html.twig", $twigContext);
     }

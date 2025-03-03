@@ -1,6 +1,17 @@
 @import "tailwindcss" source("/");
 @source "../../public/js";
 
+@theme {
+    --color-klit: #ff8847;
+    --color-klit-dark: #32373b;
+    --color-klit-text: #131516;
+    --color-klit-lila: #332233;
+    --color-klit-light: #30E7ED;
+    --color-klit-vermell: #AA1945;
+    /* --color-klit-oposite-klit: #47b2ff */
+    --font-heading: "Fondamento", serif;
+    --font-text: "EB Garamond", serif;
+}
 @layer base {
     #llibre-info h1, #llibre-info h2, #llibre-info h3,
     #obra-info h1, #obra-info h2, #obra-info h3,
@@ -13,18 +24,15 @@
     h2 {
         @apply text-xl lg:text-2xl
     }
-}
-
-@theme {
-    --color-klit: #ff8847;
-    --color-klit-dark: #32373b;
-    --color-klit-text: #131516;
-    --color-klit-lila: #332233;
-    --color-klit-light: #30E7ED;
-    --color-klit-vermell: #AA1945;
-    /* --color-klit-oposite-klit: #47b2ff */
-    --font-heading: "Fondamento", serif;
-    --font-text: "EB Garamond", serif;
+    .input-item {
+        @apply shadow-xs shadow-klit-dark rounded-lg p-2
+    }
+    .input-warning {
+        @apply border-2 border-klit-vermell
+    }
+    .pagination {
+        @apply mx-1 aspect-square place-content-center text-center p-2 rounded-xl font-semibold cursor-pointer shadow-md shadow-klit-lila hover:shadow-lg
+    }
 }
 
 .header-item {
@@ -42,10 +50,4 @@
 div#desplegable:hover > ul,
 div#desplegable:focus-within > ul {
     display: block;
-}
-.input-item {
-    @apply shadow-xs shadow-klit-dark rounded-lg p-2
-}
-.input-warning {
-    @apply border-2 border-klit-vermell
 }
