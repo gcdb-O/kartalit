@@ -1,11 +1,19 @@
 {% extends "base.html.twig" %}
 {% from "Components/Macros/pagination.html.twig" import pagination %}
+
+{% block head %}
+	{{ parent() }}
+	<meta name="pagina" value="{{pagina}}">
+	<meta name="paginaTotal" value="{{paginaTotal}}">
+{% endblock %}
 {% block content %}
 	<h1>Biblioteca</h1>
 	<h2>Tens
 		{{bibliotecaTotal}}
 		llibres</h2>
-	{{ pagination(pagina, paginaTotal, "biblioteca") }}
+	<div class="my-3">
+		{{ pagination(pagina, paginaTotal, "biblioteca") }}
+	</div>
 	<table class="hidden table-auto border-separate border-spacing-2 w-full font-text">
 		<thead>
 			<tr>
@@ -43,25 +51,25 @@
 					<h2 class="text-sm sm:text-base">{{llibre.autors|map(a => a.completNom)|join(", ")}}</h2>
 					<p class="text-sm sm:text-base">
 						{% if llibre.pagines %}
-							<span class="inline-block">
+							<span class="inline-block mr-2">
 								<b>Pàgs.</b>
 								{{llibre.pagines}}
 							</span>
 						{% endif %}
 						{% if llibre.editorial %}
-							<span class="inline-block">
+							<span class="inline-block mr-2">
 								<b>Editorial</b>
 								{{llibre.editorial}}
 							</span>
 						{% endif %}
 						{% if llibre.isbn %}
-							<span class="inline-block">
+							<span class="inline-block mr-2">
 								<b>ISBN</b>
 								{{llibre.isbn}}
 							</span>
 						{% endif %}
 						{% if llibre.idioma %}
-							<span class="inline-block">
+							<span class="inline-block mr-2">
 								<b>Idioma</b>
 								{{llibre.idioma}}
 							</span>
@@ -73,5 +81,11 @@
 			</div>
 		{% endfor %}
 	</div>
-	{{ pagination(pagina, paginaTotal, "biblioteca") }}
+	<div class="my-3">
+		{{ pagination(pagina, paginaTotal, "biblioteca") }}
+	</div>
+{% endblock %}
+{% block js %}
+	{# {{ parent() }} #}
+	<script src="{{basePath}}/js/biblioteca.js"></script>
 {% endblock %}

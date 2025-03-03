@@ -31,7 +31,7 @@
         @apply border-2 border-klit-vermell
     }
     .pagination {
-        @apply mx-1 aspect-square place-content-center text-center p-2 rounded-xl font-semibold cursor-pointer shadow-md shadow-klit-lila hover:shadow-lg
+        @apply mx-1 p-2.5 aspect-2/1 place-content-center text-center rounded-xl font-semibold cursor-pointer shadow-md shadow-klit-lila hover:shadow-lg
     }
 }
 
