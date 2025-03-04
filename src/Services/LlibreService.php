@@ -25,6 +25,16 @@ class LlibreService extends EntityService
             ->getQuery()
             ->getResult();
     }
+    public function getAllPage(int $limit = 20, int $pagina = 0): PaginatorService
+    {
+        $firstResult = $pagina * $limit;
+        $qb = $this->repository->createQueryBuilder("l");
+        $qb->orderBy("l.id", "ASC");
+        $query = $qb->getQuery()->setFirstResult($firstResult)->setMaxResults($limit);
+
+        return new PaginatorService($query);
+    }
+
     public function getByIdWithCites(int $id, ?int $usuariId = null, bool $throw = false): ?Llibre
     {
         $qb = $this->repository->createQueryBuilder("l");

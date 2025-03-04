@@ -14,7 +14,15 @@ class PaginatorService extends Paginator
         $result = [];
         foreach ($this as $item) {
             /** @var ModelInterface $item */
-            array_push($result, $item->toArray());
+            if (
+                $method !== null and
+                method_exists($item, $method) and
+                is_callable([$item, $method])
+            ) {
+                array_push($result, $item->{$method}());
+            } else {
+                array_push($result, $item->toArray());
+            }
         }
         return $result;
     }

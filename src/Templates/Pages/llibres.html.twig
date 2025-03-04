@@ -1,5 +1,16 @@
 {% extends "base.html.twig" %}
+{% from "Components/Macros/pagination.html.twig" import pagination %}
 
 {% block content %}
+	<div class="my-3">
+		{{ pagination(pagina, paginaTotal, "llibre") }}
+	</div>
 	{% include "Components/carrousselLlibres.html.twig" %}
+	<div class="my-3">
+		{{pagination(pagina, paginaTotal, "llibre") }}
+	</div>
+{% endblock %}
+
+{% block js %}
+	<script src="{{basePath}}/js/utils/paginacio.js"></script>
 {% endblock %}

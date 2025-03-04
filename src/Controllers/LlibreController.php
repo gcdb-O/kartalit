@@ -24,9 +24,18 @@ readonly class LlibreController extends WebController
     ) {}
     public function getAll(Request $req, Response $res): Response
     {
-        $llibres = $this->llibreService->getAll();
+        $queryParams = $req->getQueryParams();
+        $pagina = isset($queryParams['pagina']) ? (int) $queryParams['pagina'] : 1;
+        $limit = 24;
+        $llibres = $this->llibreService->getAllPage($limit, $pagina - 1);
+        $llibresTotal = count($llibres);
+        $paginaTotal = ceil($llibresTotal / $limit);
+
         $twigContext = new TwigContext($req, "Tots els llibres", [
-            "llibres" => array_map(fn(Llibre $llibre) => $llibre->getCobertesBasic(), $llibres),
+            "llibres" => $llibres->toArray("getCobertesBasic"),
+            "llibresTotal" => $llibresTotal,
+            "pagina" => $pagina,
+            "paginaTotal" => $paginaTotal
         ]);
         return $this->twigService->render($res, "Pages/llibres.html.twig", $twigContext);
     }
