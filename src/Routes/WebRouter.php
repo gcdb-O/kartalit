@@ -30,7 +30,7 @@ class WebRouter extends Router
         $group->get("/perfil/[{id:[0-9]+}]", PerfilController::class);
         $group->get("/perfil", PerfilController::class)
             ->add(AuthMiddleware::class);
-        $group->group("/llibre", LlibreRouter::class);
+        $group->group("/llibre", new LlibreRouter($this->app));
         $group->group("/mapa-literari", MapaRouter::class);
         $group->group("/obra", ObraRouter::class);
     }

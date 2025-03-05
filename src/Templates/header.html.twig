@@ -1,14 +1,24 @@
-<header class="grid grid-cols-[auto_1fr_auto] w-full bg-klit-dark text-white">
-	<div class="block w-32 ml-2 sm:ml-5 py-4">
+<header class="grid grid-cols-1 xs:grid-cols-[auto_1fr_auto] w-full bg-klit-dark text-white">
+	<div class="block w-32 ml-2 sm:ml-5 pt-4 xs:py-4">
 		<a href="{{basePath}}"><img src="{{basePath}}/img/kartalit_logo.png" alt="Logo Kartalit" class=""></a>
 	</div>
-	<div class="flex row-start-2 col-start-1 col-span-3 sm:row-start-1 sm:col-start-2 sm:col-span-1 justify-center p-4 -mt-2 sm:mt-0">
+	<div class="flex row-start-3 col-start-1 col-span-3 md:row-start-1 md:col-start-2 md:col-span-1 justify-center p-4 max-xs:pt-1 xs:mt-0">
 		{% include "Components/buscador.html.twig" %}
 	</div>
-	<nav class="flex justify-end pt-1">
+	<nav class="flex justify-start xs:justify-end xs:pt-1 row-start-2 xs:row-start-1 xs:col-start-3">
 		<div class="block header-item relative">
 			<a href="{{basePath}}/llibre/tots">Tots els llibres</a>
 		</div>
+		{% if usuari and usuari.nivell < 2 %}
+			<div id="desplegable" class="block header-item relative hover:shadow-klit-dark">
+				<a href="javascript:void(0)">Administració</a>
+				<ul>
+					<a href="{{basePath}}/llibre/nou" title="Afegir llibre">
+						<li class="header-item">Afegir llibre</li>
+					</a>
+				</ul>
+			</div>
+		{% endif %}
 		{% if usuari == null %}
 			<div class="block header-item relative">
 				<a href="{{basePath}}/login" title="Inicia la sessió">Inicia sessió</a>
@@ -16,7 +26,7 @@
 		{% else %}
 			<div id="desplegable" class="block header-item relative">
 				<a href="javascript:void(0)">{{usuari.usuari}}</a>
-				<ul class="hidden absolute bg-klit-dark right-0 w-max mt-3">
+				<ul>
 					<a href="{{basePath}}/perfil" title="Visita el teu perfil">
 						<li class="header-item">Perfil</li>
 					</a>

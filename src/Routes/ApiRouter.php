@@ -29,7 +29,7 @@ class ApiRouter extends Router
             ]));
             return $res->withStatus(200);
         });
-        $group->group("/auth", new AuthRouter($this->app));
+        $group->group("/auth", AuthRouter::class);
         $group->group("/autor", AutorRouter::class);
         $group->group("/biblioteca", BibliotecaRouter::class);
         $group->group("/calendari", CalendariRouter::class);

@@ -62,4 +62,9 @@ readonly class LlibreController extends WebController
             $twigContext
         );
     }
+    public function getNou(Request $req, Response $res): Response
+    {
+        $twigContext = new TwigContext($req, "Afegir llibre");
+        return $this->twigService->render($res, "Pages/llibreNou.html.twig", $twigContext);
+    }
 }
