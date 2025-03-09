@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace Kartalit\Models;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
+use Kartalit\Interfaces\ModelInterface;
 
 #[Entity]
 #[Table(name: "idiomes")]
-class Idioma
+class Idioma implements ModelInterface
 {
     #[Id]
     #[GeneratedValue]
@@ -69,4 +67,11 @@ class Idioma
     //     $this->llibres->add($llibre);
     // }
     #endregion
+    public function toArray(): array
+    {
+        return [
+            "id" => $this->id,
+            "idioma" => $this->idioma
+        ];
+    }
 }

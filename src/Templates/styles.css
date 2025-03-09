@@ -25,6 +25,12 @@
     h2 {
         @apply text-xl lg:text-2xl
     }
+    label {
+        @apply font-semibold
+    }
+    div.labelOnInput {
+        @apply inline-flex flex-col gap-0
+    }
     .input-item {
         @apply shadow-xs shadow-klit-dark rounded-lg p-2
     }

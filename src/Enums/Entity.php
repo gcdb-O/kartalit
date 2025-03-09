@@ -8,6 +8,7 @@ use Kartalit\Models\Autor;
 use Kartalit\Models\Biblioteca;
 use Kartalit\Models\Cita;
 use Kartalit\Models\Esdeveniment;
+use Kartalit\Models\Idioma;
 use Kartalit\Models\Llegit;
 use Kartalit\Models\Llibre;
 use Kartalit\Models\MapaLiterari;
@@ -20,6 +21,7 @@ enum Entity: string
     case BIBLIOTECA = "biblioteca";
     case CITA = "cita";
     case ESDEVENIMENT = "esdeveniment";
+    case IDIOMA = "idioma";
     case LLEGIT = "llegit";
     case LLIBRE = "llibre";
     case MAPA = "mapa";
@@ -33,6 +35,7 @@ enum Entity: string
             Entity::BIBLIOTECA => Biblioteca::class,
             Entity::CITA => Cita::class,
             Entity::ESDEVENIMENT => Esdeveniment::class,
+            Entity::IDIOMA => Idioma::class,
             Entity::LLEGIT => Llegit::class,
             Entity::LLIBRE => Llibre::class,
             Entity::MAPA => MapaLiterari::class,
@@ -50,6 +53,7 @@ enum Entity: string
             Entity::BIBLIOTECA => 'la ' . $this->value,
             Entity::AUTOR,
             Entity::ESDEVENIMENT,
+            Entity::IDIOMA,
             Entity::OBRA,
             Entity::USUARI => "l'" . $this->value,
         };

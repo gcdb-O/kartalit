@@ -19,7 +19,7 @@
 				<div id="mapa-nou" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-2 m-2 p-2 rounded-lg shadow-xs shadow-klit-dark hidden">
 					{% if llibre.obres|length > 1 %}
 						<div class="mb-2 col-span-full">
-							<label for="nou_mapa_obra" class="font-semibold">Obra</label>
+							<label for="nou_mapa_obra">Obra</label>
 							<select name="obra" id="nou_mapa_obra" placeholder="Sel·lecciona una obra">
 								<option value="" disabled selected>Tria una obra</option>
 								{% for obra in llibre.obres %}
@@ -32,12 +32,12 @@
 					{% endif %}
 
 					<div class="mb-2 col-span-full">
-						<label for="nou_mapa_tipus" class="font-semibold">Tipus</label>
+						<label for="nou_mapa_tipus">Tipus</label>
 						<select name="tipus" id="nou_mapa_tipus">
 							<option value="Ubicació general">Ubicació general</option>
 							<option value="Lloc puntual">Lloc puntual</option>
 						</select>
-						<label for="nou_mapa_privat" class="font-semibold">Privat</label>
+						<label for="nou_mapa_privat">Privat</label>
 						<input type="checkbox" name="privat" id="nou_mapa_privat">
 					</div>
 					<div class="mb-2 col-start-1 md:col-span-3">
@@ -55,7 +55,7 @@
 						<input type="text" name="longitud" id="nou_mapa_lon" class="input-item w-full" placeholder="Longitud">
 					</div>
 					<div class="mb-2 md:col-span-2">
-						<label for="nou_mapa_precis" class="font-semibold">Precís</label>
+						<label for="nou_mapa_precis">Precís</label>
 						<input type="checkbox" name="precisio" id="nou_mapa_precisio">
 					</div>
 					<div class="mb-2 col-span-full">
