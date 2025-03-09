@@ -14,6 +14,7 @@
     --font-text: "EB Garamond", serif;
 }
 @layer base {
+    #autor-info h1, #autor-info h2, #autor-info h3,
     #llibre-info h1, #llibre-info h2, #llibre-info h3,
     #obra-info h1, #obra-info h2, #obra-info h3,
     #buscador-info h1, #buscador-info h2, #buscador-info h3{

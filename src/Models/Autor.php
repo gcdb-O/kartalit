@@ -129,6 +129,17 @@ class Autor implements ModelInterface
         $this->obres->add($obra);
     }
     #endregion
+    public function getLlibres(): Collection
+    {
+        $llibres = new ArrayCollection();
+        /** @var Obra $obra */
+        foreach ($this->getObres() as $obra) {
+            foreach ($obra->getLlibres() as $llibre) {
+                $llibres->add($llibre);
+            }
+        }
+        return $llibres;
+    }
     public function toArray(): array
     {
         return [
@@ -162,5 +173,12 @@ class Autor implements ModelInterface
         }
         $completNom .= $this->getNom();
         return $completNom;
+    }
+    public function toArrayObresLlibres(): array
+    {
+        $result = $this->toArray();
+        $result["obres"] = array_map(fn(Obra $obra) => $obra->toArray(), $this->getObres()->toArray());
+        $result["llibres"] = array_map(fn(Llibre $llibre) => $llibre->getCobertesBasic(), $this->getLlibres()->toArray());
+        return $result;
     }
 }
