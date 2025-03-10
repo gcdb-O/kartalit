@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\OrderBy;
 use Doctrine\ORM\Mapping\Table;
 use Kartalit\Interfaces\ModelInterface;
 
@@ -40,6 +41,7 @@ class Autor implements ModelInterface
     #[Column(type: 'text',)]
     private ?string $notes;
     #[ManyToMany(targetEntity: Obra::class, mappedBy: 'autors')]
+    #[OrderBy(["anyPublicacio" => "ASC"])]
     private Collection $obres;
 
     public function __construct()
