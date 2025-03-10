@@ -1,4 +1,5 @@
 {% extends "base.html.twig" %}
+{% from "Components/Macros/autors.html.twig" import autorsComplet %}
 
 {% block head %}
 	{{ parent() }}
@@ -25,7 +26,7 @@
 		</div>
 		<div id="llibre-info" class="w-full sm:col-span-3 lg:col-span-4 sm:ml-8 md:ml-4 ms:ml-2">
 			<h1>{{llibre.titol}}</h1>
-			<h2 class="italic">{{llibre.autors|map(a => a.nomComplet)|join(", ", " i ")}}</h2>
+			<h2 class="italic">{{autorsComplet(llibre.autors)}}</h2>
 			<div class="table table-auto border-separate border-spacing-x-2 text-left w-auto -ml-2">
 				<dl class="table-row">
 					<dt class="table-cell font-bold">Editorial</dt>

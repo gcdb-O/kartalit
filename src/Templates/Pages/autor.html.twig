@@ -7,7 +7,8 @@
 			<h2>Obres</h2>
 			<ul>
 				{% for obra in autor.obres %}
-					<li>-<a href="{{basePath}}/obra/{{obra.id}}" class="hover:underline hover:text-klit-lila">{{obra.titolOriginal}}</a>
+					<li>-<a href="{{basePath}}/obra/{{obra.id}}" class="hover:underline hover:text-klit-lila">{{obra.titolOriginal}}
+							({{obra.anyPublicacio}})</a>
 					</li>
 				{% endfor %}
 			</ul>

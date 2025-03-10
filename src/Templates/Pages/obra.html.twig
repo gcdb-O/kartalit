@@ -1,4 +1,5 @@
 {% extends "base.html.twig" %}
+{% from "Components/Macros/autors.html.twig" import autorsComplet %}
 
 {% block content %}
 	<div class="grid grid-cols-1">
@@ -7,7 +8,7 @@
 			{% if obra.titolCatala %}
 				<h3>({{obra.titolCatala}})</h3>
 			{% endif %}
-			<h2>{{obra.autors|map(a => a.nomComplet)|join(",")}}</h2>
+			<h2>{{ autorsComplet(obra.autors) }}</h2>
 		</div>
 		<div id="llibres">
 			<h1>Llibres</h1>

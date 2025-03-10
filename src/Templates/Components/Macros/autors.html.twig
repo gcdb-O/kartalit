@@ -1,0 +1,9 @@
+{# IMPORTANT: Guardar sense formatejar per la coma! #}
+{% macro autorsComplet(autors) %}
+	{% for autor in autors %}
+		{% set coma = loop.last ? "" : ", " %}
+		<a href="{{basePath}}/autor/{{autor.id}}" class="hover:underline hover:text-klit-lila">
+			<bdi>{{autor.nomComplet}}</bdi>{{coma}}
+		</a>
+	{% endfor %}
+{% endmacro %}

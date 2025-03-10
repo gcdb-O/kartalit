@@ -1,4 +1,4 @@
-{# TODO: Afegir enllaç a autor #}
+{% from "Components/Macros/autors.html.twig" import autorsComplet %}
 <div class="mx-auto w-9/10 sm:w-4/5 md:w-3/4 xl:w-2/3">
 	<p class="text-justify italic">{{citaRandom.cita|nl2br}}</p>
 	<p class="text-right text-sm">
@@ -6,5 +6,5 @@
 			<bdi>{{citaRandom.obra.titolOriginal}}</bdi>
 		</a>
 		-
-		{{ citaRandom.obra.autors | map(a =>a.nomComplet)|join(",") }}</p>
+		{{autorsComplet(citaRandom.obra.autors)}}</p>
 </div>
