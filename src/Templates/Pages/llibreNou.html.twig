@@ -67,7 +67,7 @@
 			</div>
 			<div class="labelOnInput w-full sm:w-1/7">
 				<label for="llibre_pagines">Pàgs.</label>
-				<input type="text" class="input-item" name="llibre_pagines" name="llibre_pagines">
+				<input type="text" class="input-item" id="llibre_pagines" name="llibre_pagines">
 			</div>
 			<div class="basis-full h-0"></div>
 			<div class="labelOnInput max-xs:w-1/2 pr-4">
@@ -91,4 +91,8 @@
 		</div>
 		<input type="submit" class="float-right px-1 mt-2 border-2 rounded-lg cursor-pointer border-klit-lila hover:bg-klit-lila hover:text-orange-100" value="Afegir">
 	</form>
+{% endblock %}
+{% block js %}
+	{{parent()}}
+	<script src="{{basePath}}/js/llibre/llibreNou.js"></script>
 {% endblock %}
