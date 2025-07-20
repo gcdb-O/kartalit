@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use DI\ContainerBuilder;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 use Kartalit\Config\Config;
@@ -16,6 +17,10 @@ use Kartalit\Services\AuthService;
 use Kartalit\Services\CookieService;
 use Kartalit\Services\JwtService;
 use Kartalit\Services\SessionService;
+use LongitudeOne\Spatial\DBAL\Types\Geometry\MultiPolygonType;
+use LongitudeOne\Spatial\DBAL\Types\Geometry\PointType;
+use LongitudeOne\Spatial\ORM\Query\AST\Functions\Standard\StAsText;
+use LongitudeOne\Spatial\ORM\Query\AST\Functions\Standard\StContains;
 use Slim\Views\Twig;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Adapter\PhpFilesAdapter;
@@ -41,7 +46,12 @@ $container_bindings = [
         $doctrineConfig->setMetadataCache($metadataCache);
         //TODO: Pensar si resultCache, però com ho aplico en funció de isProd als serveis sense massa complicació...
 
+        Type::addType('point', PointType::class);
+        Type::addType('multipolygon', MultiPolygonType::class);
+
         $doctrineConfig->addCustomNumericFunction('RANDOMSORT', RandomSort::class);
+        $doctrineConfig->addCustomNumericFunction('ST_Contains', StContains::class);
+        $doctrineConfig->addCustomStringFunction('ST_AsText', StAsText::class);
         return new EntityManager(
             DriverManager::getConnection($config->db),
             $doctrineConfig

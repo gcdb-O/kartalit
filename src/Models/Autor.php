@@ -24,11 +24,11 @@ class Autor implements ModelInterface
     #[Column(name: 'autorID')]
     #[GeneratedValue]
     private int $id;
-    #[Column()]
+    #[Column]
     private string $nom;
-    #[Column()]
+    #[Column]
     private ?string $cognoms;
-    #[Column()]
+    #[Column]
     private ?string $pseudonim;
     #[Column]
     private string $ordenador;
@@ -36,7 +36,7 @@ class Autor implements ModelInterface
     private ?DateTime $dataNaixement;
     #[Column(name: 'data_defuncio', type: 'date',)]
     private ?DateTime $dataDefuncio;
-    #[Column()]
+    #[Column]
     private ?string $nacionalitat;
     #[Column(type: 'text',)]
     private ?string $notes;
