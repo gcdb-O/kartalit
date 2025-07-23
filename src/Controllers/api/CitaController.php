@@ -6,6 +6,7 @@ namespace Kartalit\Controllers\api;
 
 use Kartalit\Enums\HttpStatusCode;
 use Kartalit\Errors\ForbiddenException;
+use Kartalit\Helpers\DataValidation as DV;
 use Kartalit\Models\Cita;
 use Kartalit\Models\Obra;
 use Kartalit\Models\Usuari;
@@ -47,7 +48,7 @@ class CitaController
         $novaCita = $this->citaService->create(
             cita: (string) $novaCitaData["cita"],
             pagina: isset($novaCitaData["pagina"]) ? (int) $novaCitaData["pagina"] : null,
-            comentari: isset($novaCitaData["comentari"]) ? (string) $novaCitaData["comentari"] : null,
+            comentari: DV::issetAndNotEmptyString($novaCitaData, "comentari") ? (string) $novaCitaData["comentari"] : null,
             usuari: $usuari,
             llibre: $llibre,
             obra: $obra,

@@ -7,7 +7,6 @@ namespace Kartalit\Controllers;
 use Kartalit\Models\Autor;
 use Kartalit\Models\Cita;
 use Kartalit\Models\Idioma;
-use Kartalit\Models\Llibre;
 use Kartalit\Models\MapaLiterari;
 use Kartalit\Models\Usuari;
 use Kartalit\Schemas\TwigContext;

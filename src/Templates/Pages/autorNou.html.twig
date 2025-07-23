@@ -1,0 +1,52 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+<h1>Afegir autor/a</h1>
+<form id="form-autor-nou">
+    <div class="flex flex-row flex-wrap mx-auto">
+        <div class="basis-full">
+            <div class="flex flex-row flex-wrap">
+                <div class="labelOnInput basis-full md:basis-1/3 md:pr-4">
+                    <label for="autor_nom">Nom</label>
+                    <input class="input-item" type="text" id="autor_nom" name="nom">
+                </div>
+                <div class="labelOnInput basis-full md:basis-1/2">
+                    <label for="autor_cognoms">Cognoms</label>
+                    <input type="text" class="input-item" id="autor_cognoms" name="cognoms">
+                </div>
+            </div>
+            <div class="labelOnInput w-full sm:w-2/5 sm:pr-4">
+                <label for="autor_ordenador">Ordenador</label>
+                <input type="text" class="input-item" id="autor_ordenador" name="ordenador">
+            </div>
+            <div class="labelOnInput w-full sm:w-2/5">
+                <label for="autor_pseudonim">Pseudònim</label>
+                <input type="text" class="input-item" id="autor_pseudonim" name="pseudonim">
+            </div>
+            <div class="flex flex-row flex-wrap">
+                <div class="labelOnInput pr-4">
+                    <label for="autor_data_naixement">Data de naixement</label>
+                    <input type="date" name="data_naixement" id="autor_data_naixement" class="input-item">
+                </div>
+                <div class="labelOnInput">
+                    <label for="autor_data_defuncio">Data de defunció</label>
+                    <input type="date" name="data_defuncio" id="autor_data_defuncio" class="input-item">
+                </div>
+            </div>
+            <div class="labelOnInput basis-full">
+                <label for="autor_nacionalitat">Nacionalitat</label>
+                <input type="text" class="input-item" id="autor_nacionalitat" name="nacionalitat">
+            </div>
+            <div class="labelOnInput w-full">
+                <label for="autor_notes">Notes</label>
+                <textarea class="input-item" name="notes" id="autor_notes"></textarea>
+            </div>
+        </div>
+    </div>
+    <input type="submit" class="float-right px-1 mt-2 border-2 rounded-lg cursor-pointer border-klit-lila hover:bg-klit-lila hover:text-orange-100" value="Afegir">
+</form>
+{% endblock %}
+{% block js %}
+	{{parent()}}
+	<script src="{{basePath}}/js/autor/autorNou.js"></script>
+{% endblock %}

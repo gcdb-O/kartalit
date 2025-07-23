@@ -77,7 +77,7 @@ class Autor implements ModelInterface
     {
         return $this->pseudonim;
     }
-    public function setPseudonim(string $pseudonim): void
+    public function setPseudonim(?string $pseudonim): void
     {
         $this->pseudonim = $pseudonim;
     }
@@ -93,7 +93,7 @@ class Autor implements ModelInterface
     {
         return $this->dataNaixement;
     }
-    public function setDataNaixement(DateTime $dataNaixement): void
+    public function setDataNaixement(?DateTime $dataNaixement): void
     {
         $this->dataNaixement = $dataNaixement;
     }
@@ -101,7 +101,7 @@ class Autor implements ModelInterface
     {
         return $this->dataDefuncio;
     }
-    public function setDataDefuncio(DateTime $dataDefuncio): void
+    public function setDataDefuncio(?DateTime $dataDefuncio): void
     {
         $this->dataDefuncio = $dataDefuncio;
     }
@@ -109,7 +109,7 @@ class Autor implements ModelInterface
     {
         return $this->nacionalitat;
     }
-    public function setNacionalitat(string $nacionalitat): void
+    public function setNacionalitat(?string $nacionalitat): void
     {
         $this->nacionalitat = $nacionalitat;
     }
@@ -117,7 +117,7 @@ class Autor implements ModelInterface
     {
         return $this->notes;
     }
-    public function setNotes(string $notes): void
+    public function setNotes(?string $notes): void
     {
         $this->notes = $notes;
     }

@@ -25,4 +25,10 @@ readonly class AutorController extends WebController
         $twigContext = new TwigContext($req, $autor->getNomComplet(), $twigContextData);
         return $this->twigService->render($res, "Pages/autor.html.twig", $twigContext);
     }
+
+    public function getNou(Request $req, Response $res): Response
+    {
+        $twigContext = new TwigContext($req, "Afegir autor");
+        return $this->twigService->render($res, "Pages/autorNou.html.twig", $twigContext);
+    }
 }

@@ -22,7 +22,7 @@ class WebRouter extends Router
         $config = $this->app->getContainer()->get(Config::class);
 
         $group->get("[/]", IndexController::class);
-        $group->group("/autor", AutorRouter::class);
+        $group->group("/autor", new AutorRouter($this->app));
         $group->get("/biblioteca", BibliotecaController::class)
             ->addMiddleware(new ValidatorMiddleware(BibliotecaValidator::class))
             ->add(AuthMiddleware::class);
