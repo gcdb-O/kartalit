@@ -1,0 +1,48 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+	<h1>Afegir obra</h1>
+	<form id="form-obra-nou">
+		<div class="flex flex-row flex-wrap mx-auto">
+			<div class="basis-full">
+				<div class="labelOnInput w-full">
+					<label for="obra_titol_original">Títol original*</label>
+					<input type="text" class="input-item" id="obra_titol_original" name="titol_original">
+				</div>
+				<div class="labelOnInput w-full">
+					<label for="obra_titol_catala">Títol català</label>
+					<input type="text" class="input-item" id="obra_titol_catala" name="titol_catala" placeholder="Només si l'original no és en català.">
+				</div>
+				<div class="labelOnInput w-full">
+					<label for="obra_autor">Autor/a</label>
+					<select class="input-item max-w-[300px] md:max-w-md" name="obra_autor" id="obra_autor">
+						<option selected></option>
+						{% for autor in autors %}
+							<option value="{{autor.id}}">{{autor.cognoms}},
+								{{autor.nom}}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class="labelOnInput pr-4">
+					<label for="obra_any_publicacio">Any de publicació</label>
+					<input type="text" class="input-item" size="4" id="obra_any_publicacio" name="any_publicacio">
+				</div>
+				<div class="labelOnInput">
+					<label for="obra_idioma_original">Idioma original</label>
+					<select class="input-item" name="idioma_original" id="obra_idioma_original">
+						<option selected disbled></option>
+						{% for idioma in idiomes %}
+							<option value="{{idioma.id}}">{{idioma.idioma}}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+		</div>
+		<input type="submit" class="float-right px-1 mt-2 border-2 rounded-lg cursor-pointer border-klit-lila hover:bg-klit-lila hover:text-orange-100" value="Afegir">
+	</form>
+{% endblock %}
+
+{% block js %}
+	{{parent()}}
+	<script src="{{basePath}}/js/obra/obraNou.js"></script>
+{% endblock %}

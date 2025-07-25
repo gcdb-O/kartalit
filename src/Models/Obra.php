@@ -34,7 +34,7 @@ class Obra implements ModelInterface
     private ?int $anyPublicacio;
     #[ManyToOne(targetEntity: Idioma::class, inversedBy: 'obres')]
     #[JoinColumn(name: 'idioma_original', referencedColumnName: 'idiomaID')]
-    private ?Idioma $idiomaOriginal;
+    private Idioma $idiomaOriginal;
     #[ManyToMany(targetEntity: Autor::class, inversedBy: 'obres')]
     #[JoinTable(
         name: 'obres_autors',
@@ -92,7 +92,7 @@ class Obra implements ModelInterface
     {
         $this->anyPublicacio = $anyPublicacio;
     }
-    public function getIdiomaOriginal(): ?Idioma
+    public function getIdiomaOriginal(): Idioma
     {
         return $this->idiomaOriginal;
     }
@@ -106,7 +106,6 @@ class Obra implements ModelInterface
     }
     public function addAutor(Autor $autor): void
     {
-        $autor->addObra($this);
         $this->autors->add($autor);
     }
     public function getLlibres(): Collection
@@ -115,7 +114,6 @@ class Obra implements ModelInterface
     }
     public function addLlibre(Llibre $llibre): void
     {
-        $llibre->addObra($this);
         $this->llibres->add($llibre);
     }
     public function getCites(): Collection

@@ -33,6 +33,6 @@ class WebRouter extends Router
             ->add(AuthMiddleware::class);
         $group->group("/llibre", new LlibreRouter($this->app));
         $group->group("/mapa-literari", MapaRouter::class);
-        $group->group("/obra", ObraRouter::class);
+        $group->group("/obra", new ObraRouter($this->app));
     }
 }

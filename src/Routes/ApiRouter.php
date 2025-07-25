@@ -11,6 +11,7 @@ use Kartalit\Routes\api\CalendariRouter;
 use Kartalit\Routes\api\CitaRouter;
 use Kartalit\Routes\api\LlibreRouter;
 use Kartalit\Routes\api\MapaRouter;
+use Kartalit\Routes\api\ObraRouter;
 use Kartalit\Routes\api\UbicacioRouter;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -37,6 +38,7 @@ class ApiRouter extends Router
         $group->group("/cita", CitaRouter::class);
         $group->group("/llibre", LlibreRouter::class);
         $group->group("/mapa", MapaRouter::class);
+        $group->group("/obra", new ObraRouter($this->app));
         $group->group("/ubicacio", UbicacioRouter::class);
     }
 }

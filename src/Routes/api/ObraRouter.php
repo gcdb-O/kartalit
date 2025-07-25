@@ -2,21 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Kartalit\Routes;
+namespace Kartalit\Routes\api;
 
-use Kartalit\Controllers\ObraController;
+use Kartalit\Controllers\api\ObraController;
 use Kartalit\Interfaces\AuthServiceInterface;
 use Kartalit\Middlewares\AuthMiddleware;
+use Kartalit\Middlewares\ValidatorMiddleware;
+use Kartalit\Routes\ApiRouter;
+use Kartalit\Schemas\Validation\ObraValidator;
 use Slim\Routing\RouteCollectorProxy;
 
-class ObraRouter extends WebRouter
+class ObraRouter extends ApiRouter
 {
     public function __invoke(RouteCollectorProxy $group): void
     {
         $authService = $this->app->getContainer()->get(AuthServiceInterface::class);
 
-        $group->get("/{id:[0-9]+}", [ObraController::class, "getById"]);
-        $group->get("/nou", [ObraController::class, "getNou"])
+        $group->post("[/]", [ObraController::class, "post"])
+            ->addMiddleware(new ValidatorMiddleware(ObraValidator::class, "post"))
             ->addMiddleware(new AuthMiddleware($authService, 1));
     }
 }
