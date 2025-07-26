@@ -136,8 +136,11 @@ class Autor implements ModelInterface
         $llibres = new ArrayCollection();
         /** @var Obra $obra */
         foreach ($this->getObres() as $obra) {
+            /** @var Llibre $llibre */
             foreach ($obra->getLlibres() as $llibre) {
-                $llibres->add($llibre);
+                if (!($llibres->exists(fn($_, Llibre $l): bool => $l->getId() === $llibre->getId()))) {
+                    $llibres->add($llibre);
+                };
             }
         }
         return $llibres;
