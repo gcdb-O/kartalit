@@ -44,7 +44,10 @@ class BibliotecaController
         $llibre = $this->llibreService->getById($llibreId, true);
         /** @var ?Usuari $usuari */
         $usuari = $req->getAttribute('usuari');
-        $nouBiblioteca = $this->bibliotecaService->create($llibre, $usuari);
+        $nouBiblioteca = $this->bibliotecaService->create(
+            llibre: $llibre,
+            usuari: $usuari
+        );
         $apiRes = new ApiResponse($nouBiblioteca->toArray(), "S'ha afegit el llibre a la teva Biblioteca");
         return $this->apiResponseService->toJson($res, $apiRes, HttpStatusCode::CREATED);
     }

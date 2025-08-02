@@ -8,12 +8,14 @@ use Kartalit\Models\Autor;
 use Kartalit\Models\Cita;
 use Kartalit\Models\Idioma;
 use Kartalit\Models\MapaLiterari;
+use Kartalit\Models\Obra;
 use Kartalit\Models\Usuari;
 use Kartalit\Schemas\TwigContext;
 use Kartalit\Services\AutorService;
 use Kartalit\Services\BibliotecaService;
 use Kartalit\Services\IdiomaService;
 use Kartalit\Services\LlibreService;
+use Kartalit\Services\ObraService;
 use Kartalit\Services\TwigService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -23,6 +25,7 @@ readonly class LlibreController extends WebController
     public function __construct(
         private TwigService $twigService,
         private AutorService $autorService,
+        private ObraService $obraService,
         private IdiomaService $idiomaService,
         private LlibreService $llibreService,
         private BibliotecaService $bibliotecaService,
@@ -69,13 +72,22 @@ readonly class LlibreController extends WebController
     }
     public function getNou(Request $req, Response $res): Response
     {
+        /** @var ?Usuari $usuari */
+        $usuari = $req->getAttribute("usuari");
+
+        $obres = $this->obraService->getAll();
         $autors = $this->autorService->getAllOrdenat();
         $idiomes = $this->idiomaService->getAll();
+        $obresJson = array_map(fn(Obra $obra) => $obra->toArray(), $obres);
         $autorsJson = array_map(fn(Autor $autor) => $autor->toArray(), $autors);
         $idiomesJson = array_map(fn(Idioma $idioma) => $idioma->toArray(), $idiomes);
+        $condicionsJson = ["Meu", "eBook", "Biblioteca", "Manga", "Altres"];
+        if ($usuari !== null && $usuari->getId() === 1) array_push($condicionsJson, "Mama i Jaume");
         $twigContext = new TwigContext($req, "Afegir llibre", [
+            "obres" => $obresJson,
             "autors" => $autorsJson,
-            "idiomes" => $idiomesJson
+            "idiomes" => $idiomesJson,
+            "condicions" => $condicionsJson
         ]);
         return $this->twigService->render($res, "Pages/llibreNou.html.twig", $twigContext);
     }

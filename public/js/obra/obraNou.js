@@ -5,21 +5,22 @@ addListenersToObraNouForm(formObraNou);
 formObraNou.addEventListener("submit", e => {
     e.preventDefault();
     const formData = validarFormObraNou(formObraNou);
+    let statusRes;
     if (formData) {
         fetch(`${BASE_PATH}/api/obra`, {
             method: "POST",
             body: formData
         }).then(res => {
-            if (res.status === 201) {
-                console.log(res);
-                res.json().then(({ data }) => {
-                    window.location.href = `${BASE_PATH}/obra/${data.id}`;
-                })
+            statusRes = res.status;
+            return res.json();
+        }).then(({ data = "" }) => {
+            if (statusRes === 201) {
+                window.location.href = `${BASE_PATH}/obra/${data.id}`;
             } else {
-                reject();
+                alert("Alguna cosa ha fallat i no s'ha pogut crear el llibre. " + JSON.stringify(data));
             }
         }).catch(() => {
-            alert("Alguna cosa ha fallat i no s'ha pogut crear l'obra.");
+            alert("Alguna cosa ha fallat i no s'ha pogut crear el llibre.");
         })
     }
 })

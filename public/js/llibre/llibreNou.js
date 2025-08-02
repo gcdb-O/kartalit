@@ -1,18 +1,22 @@
 const formLlibreNou = document.getElementById("form-llibre-nou");
+const invalidLlibreData = {};
 addListenersToLlibreNouForm(formLlibreNou);
 formLlibreNou.addEventListener("submit", (e) => {
     e.preventDefault();
     const formData = validarFormLlibreNou(formLlibreNou);
+    let statusRes;
     if (formData) {
         fetch(`${BASE_PATH}/api/llibre`, {
             method: "POST",
             body: formData
         }).then(res => {
-            if (res.status === 201) {
-                //TODO: Redirigir al llibre nou
-                window.location.reload();
+            statusRes = res.status;
+            return res.json();
+        }).then(({ data = "" }) => {
+            if (statusRes === 201) {
+                window.location.href = `${BASE_PATH}/llibre/${data.llibre}`;
             } else {
-                reject();
+                alert("Alguna cosa ha fallat i no s'ha pogut crear el llibre. " + JSON.stringify(data));
             }
         }).catch(() => {
             alert("Alguna cosa ha fallat i no s'ha pogut crear el llibre.");
@@ -31,8 +35,10 @@ function addListenersToLlibreNouForm(formLlibreNou) {
         inputTitol.addEventListener("input", e => {
             const titol = e.target.value;
             if (titol.length <= 150) {
-                removeInputWarning(e.target)
+                invalidLlibreData[inputTitol.id] = false;
+                removeInputWarning(e.target);
             } else {
+                invalidLlibreData[inputTitol.id] = true;
                 addInputWarning(e.target);
             }
         });
@@ -46,11 +52,30 @@ function addListenersToLlibreNouForm(formLlibreNou) {
         inputInteger.addEventListener("input", e => {
             const inputInt = e.target.value;
             if (inputInt.length === 0) {
-                removeInputWarning(e.target)
+                invalidLlibreData[inputInteger.id] = false;
+                removeInputWarning(e.target);
             } else {
-                isValidInt(inputInt) ? removeInputWarning(e.target) : addInputWarning(e.target);
+                if (isValidInt(inputInt)) {
+                    invalidLlibreData[inputInteger.id] = false;
+                    removeInputWarning(e.target);
+                } else {
+                    invalidLlibreData[inputInteger.id] = true;
+                    addInputWarning(e.target);
+                }
             }
         });
+    })
+
+    // Selects
+    const inputLlibreIdioma = formLlibreNou.querySelector("select#llibre_idioma");
+    inputLlibreIdioma.addEventListener("change", e => {
+        if (e.target.value !== "") {
+            invalidLlibreData[inputLlibreIdioma.id] = false;
+            removeInputWarning(e.target);
+        } else {
+            invalidLlibreData[inputLlibreIdioma.id] = true;
+            addInputWarning(e.target);
+        }
     })
 }
 
@@ -61,4 +86,29 @@ function addListenersToLlibreNouForm(formLlibreNou) {
 function validarFormLlibreNou(formLlibreNou) {
     const formData = new FormData(formLlibreNou);
     let invalidData = 0;
+
+    // Camps obligatoris
+    if (!formData.get("titol")) {
+        invalidLlibreData["llibre_titol"] = true;
+        addInputWarning(document.getElementById("llibre_titol"));
+    }
+    if (!formData.get("idioma")) {
+        invalidLlibreData["llibre_idioma"] = true;
+        addInputWarning(document.getElementById("llibre_idioma"));
+    }
+
+    Object.entries(invalidLlibreData).forEach(([key, value]) => {
+        if (value) {
+            invalidData++;
+            return;
+        }
+    })
+
+    formData.entries().forEach(([key, value]) => {
+        if (!value || value === "") {
+            formData.delete(key);
+        }
+    })
+
+    return invalidData === 0 ? formData : null;
 }

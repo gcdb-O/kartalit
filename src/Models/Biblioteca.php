@@ -137,6 +137,7 @@ class Biblioteca implements ModelInterface
             "notes" => $this->getNotes(),
             "dataObtencio" => $this->getDataObtencio()?->format("Y-m-d"),
             "usuari" => $this->getUsuari()->getId(),
+            "llibre" => $this->getLlibre()->getId(),
         ];
     }
 }
