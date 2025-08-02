@@ -13,7 +13,7 @@ if (nouBibliotecaDiv) {
                 }
             })
             .catch(() => {
-                alert("Alguna cosa ha fallat i no s'ha pogut afehir el llibra a la biblioteca.");
+                alert("Alguna cosa ha fallat i no s'ha pogut afegir el llibra a la biblioteca.");
             })
     });
 }

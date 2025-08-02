@@ -23,12 +23,12 @@ class ObraValidator extends Validator implements ValidatorSchemaInterface
         }
     }
 
-    private static function post(): Validatable
+    public static function post(): Validatable
     {
         return V::key("titol_original", V::stringType()->length(1, 150), true)
-            ->key("titol_catala", V::stringType()->length(0, 150), false)
-            ->key("any_publicacio", V::anyOf(V::intVal(), V::not(V::notEmpty())), false)
-            ->key("idioma_original", V::intVal(), true)
-            ->key("obra_autor", V::anyOf(V::intVal(), V::not(V::notEmpty())), false);
+            ->key("titol_catala", V::optional(V::stringType()->length(1, 150)), false)
+            ->key("any_publicacio", V::optional(V::intVal()), false)
+            ->key("idioma_original", V::intVal()->min(0), true)
+            ->key("obra_autor", V::optional(V::intVal()), false);
     }
 }

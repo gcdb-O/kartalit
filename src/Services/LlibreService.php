@@ -7,13 +7,38 @@ namespace Kartalit\Services;
 use Doctrine\ORM\Query\Expr;
 use Kartalit\Enums\Entity;
 use Kartalit\Errors\EntityNotFoundException;
+use Kartalit\Models\Idioma;
 use Kartalit\Models\Llibre;
+use Kartalit\Models\Obra;
 use Kartalit\Models\Usuari;
 
 class LlibreService extends EntityService
 {
     protected static Entity $entity = Entity::LLIBRE;
 
+    public function create(
+        string $titol,
+        ?string $isbn,
+        ?string $editorial,
+        ?int $pagines,
+        Idioma $idioma,
+        ?Obra $obra
+    ): Llibre {
+        $llibre = new Llibre();
+        $llibre->setTitol($titol);
+        $llibre->setIsbn($isbn);
+        $llibre->setEditorial($editorial);
+        $llibre->setPagines($pagines);
+        $llibre->setIdioma($idioma);
+        if ($obra) {
+            $llibre->addObra($obra);
+        }
+
+        $this->em->persist($llibre);
+        $this->em->flush();
+
+        return $llibre;
+    }
     /**
      * Retorna els últims llibres afegits
      */

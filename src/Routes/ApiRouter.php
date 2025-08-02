@@ -36,7 +36,7 @@ class ApiRouter extends Router
         $group->group("/biblioteca", BibliotecaRouter::class);
         $group->group("/calendari", CalendariRouter::class);
         $group->group("/cita", CitaRouter::class);
-        $group->group("/llibre", LlibreRouter::class);
+        $group->group("/llibre", new LlibreRouter($this->app));
         $group->group("/mapa", MapaRouter::class);
         $group->group("/obra", new ObraRouter($this->app));
         $group->group("/ubicacio", UbicacioRouter::class);
