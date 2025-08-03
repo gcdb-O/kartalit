@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kartalit\Services;
+namespace Kartalit\Services\Entity;
 
 use Kartalit\Enums\Entity;
 use Kartalit\Models\MapaLiterari;

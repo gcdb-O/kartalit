@@ -2,14 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Kartalit\Services;
+namespace Kartalit\Services\Entity;
 
+use Doctrine\ORM\EntityManager;
+use Kartalit\Config\Config;
 use Kartalit\Enums\Entity;
 use Kartalit\Models\Usuari;
 
 class UsuariService extends EntityService
 {
     protected static Entity $entity = Entity::USUARI;
+
+    public function __construct(
+        protected EntityManager $em,
+        private Config $config
+    ) {
+        parent::__construct($em);
+    }
 
     public function getByUsername(string $username): ?Usuari
     {

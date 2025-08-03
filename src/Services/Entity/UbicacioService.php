@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Kartalit\Services;
+namespace Kartalit\Services\Entity;
 
 use Kartalit\Enums\Entity;
 use Kartalit\Models\Ubicacio;
-use LongitudeOne\Spatial\DBAL\Types\Geometry\PointType;
 use LongitudeOne\Spatial\PHP\Types\Geometry\Point;
 
 class UbicacioService extends EntityService

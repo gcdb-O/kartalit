@@ -6,9 +6,9 @@ namespace Kartalit\Controllers;
 
 use Kartalit\Models\Usuari;
 use Kartalit\Schemas\TwigContext;
-use Kartalit\Services\MapaService;
+use Kartalit\Services\Entity\MapaService;
+use Kartalit\Services\Entity\UsuariService;
 use Kartalit\Services\TwigService;
-use Kartalit\Services\UsuariService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 

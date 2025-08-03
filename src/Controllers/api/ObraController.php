@@ -8,9 +8,9 @@ use Kartalit\Enums\HttpStatusCode;
 use Kartalit\Helpers\DataValidation as DV;
 use Kartalit\Schemas\ApiResponse;
 use Kartalit\Services\ApiResponseService;
-use Kartalit\Services\AutorService;
-use Kartalit\Services\IdiomaService;
-use Kartalit\Services\ObraService;
+use Kartalit\Services\Entity\AutorService;
+use Kartalit\Services\Entity\IdiomaService;
+use Kartalit\Services\Entity\ObraService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 

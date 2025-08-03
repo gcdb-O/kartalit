@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Kartalit\Services;
+namespace Kartalit\Services\Entity;
 
 use Doctrine\ORM\EntityManager;
-use Kartalit\Config\Config;
 use Kartalit\Enums\Entity;
 use Kartalit\Helpers\DataValidation as DV;
 use Kartalit\Models\Autor;
@@ -17,12 +16,11 @@ class ObraService extends EntityService
     protected static Entity $entity = Entity::OBRA;
 
     public function __construct(
-        protected Config $config,
         protected EntityManager $em,
         private AutorService $autorService,
         private IdiomaService $idiomaService
     ) {
-        parent::__construct($config, $em);
+        parent::__construct($em);
     }
 
     public function create(

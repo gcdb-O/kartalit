@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Kartalit\Services;
+namespace Kartalit\Services\Entity;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Kartalit\Config\Config;
 use Kartalit\Enums\Entity;
 use Kartalit\Errors\EntityNotFoundException;
 use Kartalit\Interfaces\EntityServiceInterface;
@@ -16,7 +15,6 @@ abstract class EntityService implements EntityServiceInterface
     protected static Entity $entity;
     protected EntityRepository $repository;
     public function __construct(
-        protected Config $config,
         protected EntityManager $em
     ) {
         $this->repository = $this->em->getRepository(static::$entity->getClassName());

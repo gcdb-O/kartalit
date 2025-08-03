@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Kartalit\Controllers;
 
 use Kartalit\Schemas\TwigContext;
-use Kartalit\Services\AutorService;
+use Kartalit\Services\Entity\AutorService;
 use Kartalit\Services\TwigService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;

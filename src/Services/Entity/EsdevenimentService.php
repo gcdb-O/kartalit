@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kartalit\Services;
+namespace Kartalit\Services\Entity;
 
 use DateTime;
 use Kartalit\Enums\Entity;

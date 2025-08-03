@@ -9,13 +9,14 @@ use Kartalit\Interfaces\AuthServiceInterface;
 use Kartalit\Interfaces\TokenServiceInterface;
 use Kartalit\Models\Usuari;
 use Kartalit\Schemas\TokenPayload;
+use Kartalit\Services\Entity\UsuariService;
 
 readonly class AuthService extends CookieService implements AuthServiceInterface
 {
     public function __construct(
         private Config $config,
+        private UsuariService $usuariService,
         public TokenServiceInterface $tokenService,
-        private UsuariService $usuariService
     ) {
         parent::__construct($config);
     }

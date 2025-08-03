@@ -12,10 +12,10 @@ use Kartalit\Models\Obra;
 use Kartalit\Models\Usuari;
 use Kartalit\Schemas\ApiResponse;
 use Kartalit\Services\ApiResponseService;
-use Kartalit\Services\BibliotecaService;
-use Kartalit\Services\IdiomaService;
-use Kartalit\Services\LlibreService;
-use Kartalit\Services\ObraService;
+use Kartalit\Services\Entity\BibliotecaService;
+use Kartalit\Services\Entity\IdiomaService;
+use Kartalit\Services\Entity\LlibreService;
+use Kartalit\Services\Entity\ObraService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 

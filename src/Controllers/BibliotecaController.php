@@ -6,7 +6,7 @@ namespace Kartalit\Controllers;
 
 use Kartalit\Models\Usuari;
 use Kartalit\Schemas\TwigContext;
-use Kartalit\Services\LlibreService;
+use Kartalit\Services\Entity\LlibreService;
 use Kartalit\Services\TwigService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;

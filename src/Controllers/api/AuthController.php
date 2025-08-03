@@ -10,7 +10,7 @@ use Kartalit\Enums\HttpStatusCode;
 use Kartalit\Errors\BadRequestException;
 use Kartalit\Interfaces\AuthServiceInterface;
 use Kartalit\Interfaces\SessionServiceInterface;
-use Kartalit\Services\UsuariService;
+use Kartalit\Services\Entity\UsuariService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 

@@ -7,7 +7,7 @@ namespace Kartalit\Controllers\api;
 use Kartalit\Enums\HttpStatusCode;
 use Kartalit\Schemas\ApiResponse;
 use Kartalit\Services\ApiResponseService;
-use Kartalit\Services\UbicacioService;
+use Kartalit\Services\Entity\UbicacioService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 

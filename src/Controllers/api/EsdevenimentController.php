@@ -10,7 +10,7 @@ use Kartalit\Enums\HttpStatusCode;
 use Kartalit\Models\Esdeveniment;
 use Kartalit\Schemas\ApiResponse;
 use Kartalit\Services\ApiResponseService;
-use Kartalit\Services\EsdevenimentService;
+use Kartalit\Services\Entity\EsdevenimentService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 

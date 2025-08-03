@@ -6,8 +6,8 @@ namespace Kartalit\Controllers;
 
 use Kartalit\Models\Llibre;
 use Kartalit\Schemas\TwigContext;
-use Kartalit\Services\CitaService;
-use Kartalit\Services\LlibreService;
+use Kartalit\Services\Entity\CitaService;
+use Kartalit\Services\Entity\LlibreService;
 use Kartalit\Services\TwigService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;

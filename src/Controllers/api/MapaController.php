@@ -10,9 +10,9 @@ use Kartalit\Models\Obra;
 use Kartalit\Models\Usuari;
 use Kartalit\Schemas\ApiResponse;
 use Kartalit\Services\ApiResponseService;
-use Kartalit\Services\MapaService;
-use Kartalit\Services\ObraService;
-use Kartalit\Services\UsuariService;
+use Kartalit\Services\Entity\MapaService;
+use Kartalit\Services\Entity\ObraService;
+use Kartalit\Services\Entity\UsuariService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kartalit\Services;
+namespace Kartalit\Services\Entity;
 
 use Doctrine\ORM\Query\Expr;
 use Kartalit\Enums\Entity;
@@ -11,6 +11,7 @@ use Kartalit\Models\Idioma;
 use Kartalit\Models\Llibre;
 use Kartalit\Models\Obra;
 use Kartalit\Models\Usuari;
+use Kartalit\Services\PaginatorService;
 
 class LlibreService extends EntityService
 {

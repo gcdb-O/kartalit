@@ -11,7 +11,7 @@ use Kartalit\Models\Autor;
 use Kartalit\Models\Obra;
 use Kartalit\Schemas\ApiResponse;
 use Kartalit\Services\ApiResponseService;
-use Kartalit\Services\AutorService;
+use Kartalit\Services\Entity\AutorService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
