@@ -1,6 +1,6 @@
 /** @param any input */
 function isValidInt(input) {
-    return !(isNaN(input) || Number(input) != parseInt(input))
+    return !isNaN(input) && parseInt(Number(input)) == input && !isNaN(parseInt(input, 10));
 }
 /** @param any input */
 function isValidFloat(input) {

@@ -124,7 +124,7 @@ function validarFormMapa(formMapa) {
         addInputWarning(document.getElementById("nou_mapa_comentari"));
         invalidData++;
     }
-    if (!formData.get("obra") || isValidInt(formData.get("obra"))) {
+    if (!formData.get("obra") || !isValidInt(formData.get("obra"))) {
         addInputWarning(document.getElementById("nou_mapa_obra"));
         invalidData++;
     }
