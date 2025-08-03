@@ -14,6 +14,7 @@ use Kartalit\Models\Llibre;
 use Kartalit\Models\MapaLiterari;
 use Kartalit\Models\Obra;
 use Kartalit\Models\Ubicacio;
+use Kartalit\Models\UbicacioGeo;
 use Kartalit\Models\Usuari;
 
 enum Entity: string
@@ -28,6 +29,7 @@ enum Entity: string
     case MAPA = "mapa";
     case OBRA = "obra";
     case UBICACIO = "ubicacio";
+    case UBICACIOGEO = "ubicacio geomètrica";
     case USUARI = "usuari";
 
     public function getClassName(): string
@@ -43,6 +45,7 @@ enum Entity: string
             Entity::MAPA => MapaLiterari::class,
             Entity::OBRA => Obra::class,
             Entity::UBICACIO => Ubicacio::class,
+            Entity::UBICACIOGEO => UbicacioGeo::class,
             Entity::USUARI => Usuari::class,
         };
     }
@@ -54,7 +57,8 @@ enum Entity: string
             Entity::MAPA => 'el ' . $this->value,
             Entity::CITA,
             Entity::BIBLIOTECA,
-            Entity::UBICACIO => 'la ' . $this->value,
+            Entity::UBICACIO,
+            Entity::UBICACIOGEO => 'la ' . $this->value,
             Entity::AUTOR,
             Entity::ESDEVENIMENT,
             Entity::IDIOMA,

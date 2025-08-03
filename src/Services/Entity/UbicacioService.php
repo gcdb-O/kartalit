@@ -17,9 +17,11 @@ class UbicacioService extends EntityService
         $point = new Point($lat, $lon);
         $point->setLatitude($lat)->setLongitude($lon);
         return $this->repository->createQueryBuilder("u")
-            ->where("ST_Contains(u.poligon, :point) = 1")
+            ->join("u.ubicacioGeo", "ug")
+            ->where("ST_Contains(ug.poligon, :point) = 1")
             ->setParameter("point", $point, "point")
             ->orderBy("u.nivell", "DESC")
+            ->select("u")
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();

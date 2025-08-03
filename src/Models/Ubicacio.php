@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\Table;
 use Kartalit\Interfaces\ModelInterface;
 use LongitudeOne\Spatial\PHP\Types\Geometry\MultiPolygon;
@@ -28,18 +29,19 @@ class Ubicacio implements ModelInterface
     private ?string $nomOriginal = null;
     #[Column]
     private int $nivell;
-    #[ManyToOne(targetEntity: Ubicacio::class)]
+    #[ManyToOne(targetEntity: Ubicacio::class, fetch: "EXTRA_LAZY")]
     #[JoinColumn(name: "parent", referencedColumnName: "ubicacioID")]
-    private Ubicacio $parent;
-    #[ManyToOne(targetEntity: Ubicacio::class)]
+    private ?Ubicacio $parent = null;
+    #[ManyToOne(targetEntity: Ubicacio::class, fetch: "EXTRA_LAZY")]
     #[JoinColumn(name: "pais", referencedColumnName: "ubicacioID")]
-    private Ubicacio $pais;
+    private ?Ubicacio $pais = null;
     #[Column]
     private ?string $bandera = null;
     #[Column]
     private ?int $osm = null;
-    #[Column(type: "multipolygon")]
-    private ?MultiPolygon $poligon = null;
+    #[OneToOne(targetEntity: UbicacioGeo::class, inversedBy: "ubicacio", fetch: "EXTRA_LAZY")]
+    #[JoinColumn(name: "ubicacioID", referencedColumnName: "ubicacioID")]
+    private ?UbicacioGeo $ubicacioGeo = null;
     #region Getters and setters
     public function getId(): int
     {
@@ -107,11 +109,11 @@ class Ubicacio implements ModelInterface
     }
     public function getPoligon(): ?MultiPolygon
     {
-        return $this->poligon;
+        return $this->ubicacioGeo?->getPoligon();
     }
     public function setPoligon(?MultiPolygon $poligon): void
     {
-        $this->poligon = $poligon;
+        $this->ubicacioGeo?->setPoligon($poligon);
     }
     #endregion
     public function toArray(): array
@@ -120,11 +122,23 @@ class Ubicacio implements ModelInterface
             "id" => $this->getId(),
             "nom" => $this->getNom(),
             "nomOriginal" => $this->getNomOriginal(),
+            "nomLlarg" => $this->nom_llarg(),
+            "nomLlargOriginal" => $this->nom_llarg(true),
             "nivell" => $this->getNivell(),
-            "parent" => $this->getParent()?->getId(),
-            "pais" => $this->getPais()?->getId(),
+            "parent" => $this->getParent()?->getId() ?? null,
+            "pais" => $this->getPais()?->getId() ?? null,
             "bandera" => $this->getBandera(),
             "osm" => $this->getOsm(),
         ];
+    }
+    public function nom_llarg($original = false): array
+    {
+        $nom_llarg = [];
+        $parent = $this;
+        while ($parent != null) {
+            array_push($nom_llarg, $original ? $parent->getNomOriginal() ?? "" : $parent->getNom() ?? "");
+            $parent = $parent->getParent();
+        }
+        return $nom_llarg;
     }
 }
