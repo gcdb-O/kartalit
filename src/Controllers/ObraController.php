@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kartalit\Controllers;
 
+use Kartalit\Helpers\DataValidation as DV;
 use Kartalit\Models\Autor;
 use Kartalit\Models\Idioma;
 use Kartalit\Models\Llibre;
@@ -24,6 +25,22 @@ readonly class ObraController extends WebController
         private IdiomaService $idiomaService,
         private ObraService $obraService,
     ) {}
+    public function getAll(Request $req, Response $res): Response
+    {
+        $queryParams = $req->getQueryParams();
+        $pagina = DV::issetAndNotEmptyString($queryParams, "pagina") ? (int) $queryParams['pagina'] : 1;
+        $limit = 50;
+        $obres = $this->obraService->getAllPaginated($limit, $pagina - 1);
+        $obresTotal = count($obres);
+        $paginaTotal = ceil($obresTotal / $limit);
+        $twigContext = new TwigContext($req, "Totes les obres", [
+            "obres" => $obres->toArray(),
+            "obresTotal" => $obresTotal,
+            "pagina" => $pagina,
+            "paginaTotal" => $paginaTotal
+        ]);
+        return $this->twigService->render($res, "Pages/obres.html.twig", $twigContext);
+    }
     public function getById(Request $req, Response $res, array $args): Response
     {
         $id = (int) $args["id"];

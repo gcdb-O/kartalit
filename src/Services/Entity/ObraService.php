@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Kartalit\Services\Entity;
 
+use Doctrine\Common\Collections\Order;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
 use Kartalit\Enums\Entity;
 use Kartalit\Helpers\DataValidation as DV;
 use Kartalit\Models\Autor;
 use Kartalit\Models\Idioma;
 use Kartalit\Models\Obra;
+use Kartalit\Services\PaginatorService;
 
 class ObraService extends EntityService
 {
@@ -54,5 +57,20 @@ class ObraService extends EntityService
             autor: DV::issetAndNotEmptyString($obraObject, "autor") ? $this->autorService->getById((int) $obraObject["autor"]) : null
         );
     }
+    public function getAllPaginated(int $limit = 20, int $pagina = 0): PaginatorService
+    {
+        $firstResult = $pagina * $limit;
+        $qb = $this->qbAllOrderedByAutor();
+        $query = $qb->getQuery()->setFirstResult($firstResult)->setMaxResults($limit);
+
+        return new PaginatorService($query);
+    }
     // TODO: getAllOrdenat. Per a usar a la pàgina d'afegir llibre nou.
+    private function qbAllOrderedByAutor(Order $order = Order::Ascending, string $obra = "o", string $autor = "a"): QueryBuilder
+    {
+        return $this->repository->createQueryBuilder($obra)
+            ->leftJoin("{$obra}.autors", $autor)
+            ->addOrderBy("{$autor}.ordenador", $order->value)
+            ->addOrderBy("{$obra}.anyPublicacio", Order::Ascending->value);
+    }
 }
