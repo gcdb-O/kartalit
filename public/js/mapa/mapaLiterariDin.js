@@ -128,5 +128,8 @@ function validarFormMapa(formMapa) {
         addInputWarning(document.getElementById("nou_mapa_obra"));
         invalidData++;
     }
+    if (!formData.get("precisio")) {
+        formData.set("precisio", "false");
+    }
     return invalidData === 0 ? formData : null;
 }
