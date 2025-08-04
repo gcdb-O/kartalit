@@ -7,17 +7,17 @@ namespace Kartalit\Controllers;
 use Kartalit\Errors\UnauthorizedException;
 use Kartalit\Models\Llegit;
 use Kartalit\Models\Usuari;
-use Kartalit\Schemas\TwigContext;
+use Kartalit\Schemas\RenderContext;
 use Kartalit\Services\Entity\LlegitService;
 use Kartalit\Services\Entity\UsuariService;
-use Kartalit\Services\TwigService;
+use Kartalit\Interfaces\RenderServiceInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 readonly class PerfilController extends WebController
 {
     public function __construct(
-        private TwigService $twigService,
+        private RenderServiceInterface $renderService,
         private UsuariService $usuariService,
         private LlegitService $llegitService,
     ) {}
@@ -33,11 +33,11 @@ readonly class PerfilController extends WebController
         $perfilUsuari = $this->usuariService->getById($perfilUsuariId, true);
         $llegits = $this->llegitService->getByUsuari($perfilUsuari, $reqUsuari);
         $llegitsJson = array_map(fn(Llegit $llegit) => $llegit->toArray(), $llegits);
-        $twigContextData = [
+        $renderContextData = [
             "perfilUsuari" => $perfilUsuari->toArray($reqUsuari),
             "llegits" => $llegitsJson,
         ];
-        $twigContext = new TwigContext($request, "Perfil", $twigContextData);
-        return $this->twigService->render($response, "Pages/perfil.html.twig", $twigContext);
+        $renderContext = new RenderContext($request, "Perfil", $renderContextData);
+        return $this->renderService->render($response, "Pages/perfil.html.twig", $renderContext);
     }
 }

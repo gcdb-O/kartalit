@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Kartalit\Controllers;
 
 use Kartalit\Models\Usuari;
-use Kartalit\Schemas\TwigContext;
+use Kartalit\Schemas\RenderContext;
 use Kartalit\Services\Entity\LlibreService;
-use Kartalit\Services\TwigService;
+use Kartalit\Interfaces\RenderServiceInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 readonly class BibliotecaController extends WebController
 {
     public function __construct(
-        private TwigService $twigService,
+        private RenderServiceInterface $renderService,
         private LlibreService $llibreService,
     ) {}
     public function __invoke(Request $request, Response $response): Response
@@ -28,12 +28,12 @@ readonly class BibliotecaController extends WebController
         $bibliotecaTotal = count($biblioteca);
         $paginaTotal = ceil($bibliotecaTotal / $limit);
 
-        $twigContext = new TwigContext($request, data: [
+        $renderContext = new RenderContext($request, data: [
             "biblioteca" => $biblioteca->toArray(),
             "bibliotecaTotal" => $bibliotecaTotal,
             "pagina" => $pagina,
             "paginaTotal" => $paginaTotal
         ]);
-        return $this->twigService->render($response, "Pages/biblioteca.html.twig", $twigContext);
+        return $this->renderService->render($response, "Pages/biblioteca.html.twig", $renderContext);
     }
 }

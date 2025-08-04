@@ -10,20 +10,20 @@ use Kartalit\Models\Idioma;
 use Kartalit\Models\MapaLiterari;
 use Kartalit\Models\Obra;
 use Kartalit\Models\Usuari;
-use Kartalit\Schemas\TwigContext;
+use Kartalit\Schemas\RenderContext;
 use Kartalit\Services\Entity\AutorService;
 use Kartalit\Services\Entity\BibliotecaService;
 use Kartalit\Services\Entity\IdiomaService;
 use Kartalit\Services\Entity\LlibreService;
 use Kartalit\Services\Entity\ObraService;
-use Kartalit\Services\TwigService;
+use Kartalit\Interfaces\RenderServiceInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 readonly class LlibreController extends WebController
 {
     public function __construct(
-        private TwigService $twigService,
+        private RenderServiceInterface $renderService,
         private AutorService $autorService,
         private ObraService $obraService,
         private IdiomaService $idiomaService,
@@ -39,13 +39,13 @@ readonly class LlibreController extends WebController
         $llibresTotal = count($llibres);
         $paginaTotal = ceil($llibresTotal / $limit);
 
-        $twigContext = new TwigContext($req, "Tots els llibres", [
+        $renderContext = new RenderContext($req, "Tots els llibres", [
             "llibres" => $llibres->toArray("getCobertesBasic"),
             "llibresTotal" => $llibresTotal,
             "pagina" => $pagina,
             "paginaTotal" => $paginaTotal
         ]);
-        return $this->twigService->render($res, "Pages/llibres.html.twig", $twigContext);
+        return $this->renderService->render($res, "Pages/llibres.html.twig", $renderContext);
     }
     public function getById(Request $req, Response $res, array $args): Response
     {
@@ -54,20 +54,20 @@ readonly class LlibreController extends WebController
         $usuari = $req->getAttribute("usuari");
         $llibre = $this->llibreService->getByIdWithCites($id, $usuari?->getId() ?? null, true);
         //TODO: Hauria d'incloure ja també en una sola crida les obres, cites, esdeveniments, mapa literari?
-        $twigContextData = ["llibre" => $llibre->toArray()];
+        $renderContextData = ["llibre" => $llibre->toArray()];
         $mapaLiterari = $llibre->getMapaLiterari()->filter(function (MapaLiterari $mapa) use ($usuari) {
             return $mapa->getUsuari()->getId() === $usuari?->getId() || $mapa->getPrivat() === false;
         });
-        $twigContextData["mapaLiterari"] = array_map(fn(MapaLiterari $ubicacio) => $ubicacio->toArray(), $mapaLiterari->toArray());
-        $twigContextData["cites"] = array_map(fn(Cita $cita) => $cita->toArray(), $llibre->getCites()->toArray());
+        $renderContextData["mapaLiterari"] = array_map(fn(MapaLiterari $ubicacio) => $ubicacio->toArray(), $mapaLiterari->toArray());
+        $renderContextData["cites"] = array_map(fn(Cita $cita) => $cita->toArray(), $llibre->getCites()->toArray());
         if ($usuari !== null) {
-            $twigContextData["biblioteca"] = $this->bibliotecaService->getBibliotecaFromLlibreUser($llibre, $usuari, $usuari)?->toArray();
+            $renderContextData["biblioteca"] = $this->bibliotecaService->getBibliotecaFromLlibreUser($llibre, $usuari, $usuari)?->toArray();
         }
-        $twigContext = new TwigContext($req, $llibre->getTitol(), $twigContextData);
-        return $this->twigService->render(
+        $renderContext = new RenderContext($req, $llibre->getTitol(), $renderContextData);
+        return $this->renderService->render(
             $res,
             "Pages/llibre.html.twig",
-            $twigContext
+            $renderContext
         );
     }
     public function getNou(Request $req, Response $res): Response
@@ -83,12 +83,12 @@ readonly class LlibreController extends WebController
         $idiomesJson = array_map(fn(Idioma $idioma) => $idioma->toArray(), $idiomes);
         $condicionsJson = ["Meu", "eBook", "Biblioteca", "Manga", "Altres"];
         if ($usuari !== null && $usuari->getId() === 1) array_push($condicionsJson, "Mama i Jaume");
-        $twigContext = new TwigContext($req, "Afegir llibre", [
+        $renderContext = new RenderContext($req, "Afegir llibre", [
             "obres" => $obresJson,
             "autors" => $autorsJson,
             "idiomes" => $idiomesJson,
             "condicions" => $condicionsJson
         ]);
-        return $this->twigService->render($res, "Pages/llibreNou.html.twig", $twigContext);
+        return $this->renderService->render($res, "Pages/llibreNou.html.twig", $renderContext);
     }
 }

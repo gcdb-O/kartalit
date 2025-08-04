@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace Kartalit\Controllers;
 
 use Kartalit\Models\Llibre;
-use Kartalit\Schemas\TwigContext;
+use Kartalit\Schemas\RenderContext;
 use Kartalit\Services\Entity\CitaService;
 use Kartalit\Services\Entity\LlibreService;
-use Kartalit\Services\TwigService;
+use Kartalit\Interfaces\RenderServiceInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 readonly class IndexController extends WebController
 {
     public function __construct(
-        private TwigService $twigService,
+        private RenderServiceInterface $renderService,
         private CitaService $citaService,
         private LlibreService $llibreService,
     ) {}
@@ -23,10 +23,10 @@ readonly class IndexController extends WebController
     {
         $citaRandom = $this->citaService->getRandom();
         $llibresNous = $this->llibreService->getNous();
-        $twigContext = new TwigContext($request, data: [
+        $renderContext = new RenderContext($request, data: [
             "citaRandom" => $citaRandom->getCitaObraArray(),
             "llibresNous" => array_map(fn(Llibre $llibre) => $llibre->getCobertesBasic(), $llibresNous)
         ]);
-        return $this->twigService->render($response, "Pages/index.html.twig", $twigContext);
+        return $this->renderService->render($response, "Pages/index.html.twig", $renderContext);
     }
 }
