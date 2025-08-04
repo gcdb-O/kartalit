@@ -1,0 +1,32 @@
+{% extends "base.html.twig" %}
+{% from "Components/Macros/pagination.html.twig" import pagination %}
+{% from "Components/Macros/autors.html.twig" import autorsComplet %}
+
+{% block content %}
+	{% if usuari and usuari.nivell < 2 %}
+		<a href="{{basePath}}/autor/nou" title="Afegir autor">
+			Afegir autor
+		</a>
+	{% endif %}
+	<div class="my-3">
+		{{ pagination(pagina, paginaTotal, "autor") }}
+	</div>
+    <table>
+    {% for autor in autors %}
+        <tr>
+            <td>{{autor.nom}}</td>
+            <td>{{autor.cognoms}}</td>
+            <td>{{autor.pseudonim}}</td>
+            <td>{{autor.dataNaixement}}</td>
+			<td>{{autor.dataDefuncio}}</td>
+        </tr>
+    {% endfor %}
+    </table>
+	<div class="my-3">
+		{{pagination(pagina, paginaTotal, "autor") }}
+	</div>
+{% endblock %}
+
+{% block js %}
+	<script src="{{basePath}}/js/utils/paginacio.js"></script>
+{% endblock %}

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Kartalit\Services\Entity;
 
+use Doctrine\Common\Collections\Order;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query\Expr;
 use Kartalit\Enums\Entity;
 use Kartalit\Errors\EntityNotFoundException;
@@ -51,11 +53,10 @@ class LlibreService extends EntityService
             ->getQuery()
             ->getResult();
     }
-    public function getAllPage(int $limit = 20, int $pagina = 0): PaginatorService
+    public function getAllPaginated(int $limit = 20, int $pagina = 0): PaginatorService
     {
         $firstResult = $pagina * $limit;
-        $qb = $this->repository->createQueryBuilder("l");
-        $qb->orderBy("l.id", "ASC");
+        $qb = $this->qbAllOrdererByAutor();
         $query = $qb->getQuery()->setFirstResult($firstResult)->setMaxResults($limit);
 
         return new PaginatorService($query);
@@ -119,5 +120,13 @@ class LlibreService extends EntityService
             ->addOrderBy("o.anyPublicacio", "ASC")
             ->setMaxResults($limit);
         return $qb->getQuery()->getResult();
+    }
+    private function qbAllOrdererByAutor(Order $order = Order::Ascending,  string $llibre = "l", string $obra = "o", string $autor = "a"): QueryBuilder
+    {
+        return $this->repository->createQueryBuilder($llibre)
+            ->join("{$llibre}.obres", $obra)
+            ->leftJoin("{$obra}.autors", $autor)
+            ->addOrderBy("{$autor}.ordenador", $order->value)
+            ->addOrderBy("{$obra}.anyPublicacio", Order::Ascending->value);
     }
 }

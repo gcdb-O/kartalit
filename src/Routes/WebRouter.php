@@ -12,7 +12,7 @@ use Kartalit\Controllers\WebController;
 use Kartalit\Middlewares\AuthMiddleware;
 use Kartalit\Middlewares\RedirectToMain;
 use Kartalit\Middlewares\ValidatorMiddleware;
-use Kartalit\Schemas\Validation\BibliotecaValidator;
+use Kartalit\Schemas\Validation\PaginationValidator;
 use Slim\Routing\RouteCollectorProxy;
 
 class WebRouter extends Router
@@ -24,7 +24,7 @@ class WebRouter extends Router
         $group->get("[/]", IndexController::class);
         $group->group("/autor", new AutorRouter($this->app));
         $group->get("/biblioteca", BibliotecaController::class)
-            ->addMiddleware(new ValidatorMiddleware(BibliotecaValidator::class))
+            ->addMiddleware(new ValidatorMiddleware(PaginationValidator::class))
             ->add(AuthMiddleware::class);
         $group->get("/login", [WebController::class, "login"])
             ->addMiddleware(new RedirectToMain($config, true));
