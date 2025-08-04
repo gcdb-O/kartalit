@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kartalit\Controllers;
 
 use Kartalit\Helpers\DataValidation as DV;
+use Kartalit\Interfaces\RenderServiceInterface;
 use Kartalit\Models\Autor;
 use Kartalit\Models\Cita;
 use Kartalit\Models\Idioma;
@@ -17,7 +18,6 @@ use Kartalit\Services\Entity\BibliotecaService;
 use Kartalit\Services\Entity\IdiomaService;
 use Kartalit\Services\Entity\LlibreService;
 use Kartalit\Services\Entity\ObraService;
-use Kartalit\Interfaces\RenderServiceInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -57,13 +57,13 @@ readonly class LlibreController extends WebController
         $llibresTotal = count($llibres);
         $paginaTotal = ceil($llibresTotal / $limit);
 
-        $twigContext = new TwigContext($req, "Tots els llibres", [
+        $renderContext = new RenderContext($req, "Tots els llibres", [
             "llibres" => $llibres->toArray(),
             "llibresTotal" => $llibresTotal,
             "pagina" => $pagina,
             "paginaTotal" => $paginaTotal
         ]);
-        return $this->twigService->render($res, "Pages/llibresLlista.html.twig", $twigContext);
+        return $this->renderService->render($res, "Pages/llibresLlista.html.twig", $renderContext);
     }
     public function getById(Request $req, Response $res, array $args): Response
     {

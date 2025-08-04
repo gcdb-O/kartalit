@@ -26,13 +26,13 @@ readonly class AutorController extends WebController
         $autors = $this->autorService->getAllPaginated($limit, $pagina - 1);
         $autorsTotal = count($autors);
         $paginaTotal = ceil($autorsTotal / $limit);
-        $twigContext = new RenderContext($req, "Tots els autors", [
+        $renderContext = new RenderContext($req, "Tots els autors", [
             "autors" => $autors->toArray(),
             "autorsTotal" => $autorsTotal,
             "pagina" => $pagina,
             "paginaTotal" => $paginaTotal
         ]);
-        return $this->renderService->render($res, "Pages/autors.html.twig", $twigContext);
+        return $this->renderService->render($res, "Pages/autors.html.twig", $renderContext);
     }
     public function getById(Request $req, Response $res, array $args): Response
     {
