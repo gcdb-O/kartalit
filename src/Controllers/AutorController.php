@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Kartalit\Controllers;
 
 use Kartalit\Helpers\DataValidation as DV;
-use Kartalit\Schemas\TwigContext;
+use Kartalit\Interfaces\RenderServiceInterface;
+use Kartalit\Schemas\RenderContext;
 use Kartalit\Services\Entity\AutorService;
-use Kartalit\Services\TwigService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 readonly class AutorController extends WebController
 {
     public function __construct(
-        private TwigService $twigService,
+        private RenderServiceInterface $renderService,
         private AutorService $autorService
     ) {}
 
@@ -26,26 +26,26 @@ readonly class AutorController extends WebController
         $autors = $this->autorService->getAllPaginated($limit, $pagina - 1);
         $autorsTotal = count($autors);
         $paginaTotal = ceil($autorsTotal / $limit);
-        $twigContext = new TwigContext($req, "Tots els autors", [
+        $renderContext = new RenderContext($req, "Tots els autors", [
             "autors" => $autors->toArray(),
             "autorsTotal" => $autorsTotal,
             "pagina" => $pagina,
             "paginaTotal" => $paginaTotal
         ]);
-        return $this->twigService->render($res, "Pages/autors.html.twig", $twigContext);
+        return $this->renderService->render($res, "Pages/autors.html.twig", $renderContext);
     }
     public function getById(Request $req, Response $res, array $args): Response
     {
         $id = (int) $args["id"];
         $autor = $this->autorService->getById($id, true);
-        $twigContextData = ["autor" => $autor->toArrayObresLlibres()];
-        $twigContext = new TwigContext($req, $autor->getNomComplet(), $twigContextData);
-        return $this->twigService->render($res, "Pages/autor.html.twig", $twigContext);
+        $renderContextData = ["autor" => $autor->toArrayObresLlibres()];
+        $renderContext = new RenderContext($req, $autor->getNomComplet(), $renderContextData);
+        return $this->renderService->render($res, "Pages/autor.html.twig", $renderContext);
     }
 
     public function getNou(Request $req, Response $res): Response
     {
-        $twigContext = new TwigContext($req, "Afegir autor");
-        return $this->twigService->render($res, "Pages/autorNou.html.twig", $twigContext);
+        $renderContext = new RenderContext($req, "Afegir autor");
+        return $this->renderService->render($res, "Pages/autorNou.html.twig", $renderContext);
     }
 }

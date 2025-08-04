@@ -5,22 +5,22 @@ declare(strict_types=1);
 namespace Kartalit\Controllers;
 
 use Kartalit\Helpers\DataValidation as DV;
+use Kartalit\Interfaces\RenderServiceInterface;
 use Kartalit\Models\Autor;
 use Kartalit\Models\Idioma;
 use Kartalit\Models\Llibre;
 use Kartalit\Models\Obra;
-use Kartalit\Schemas\TwigContext;
+use Kartalit\Schemas\RenderContext;
 use Kartalit\Services\Entity\AutorService;
 use Kartalit\Services\Entity\IdiomaService;
 use Kartalit\Services\Entity\ObraService;
-use Kartalit\Services\TwigService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 readonly class ObraController extends WebController
 {
     public function __construct(
-        private TwigService $twigService,
+        private RenderServiceInterface $renderService,
         private AutorService $autorService,
         private IdiomaService $idiomaService,
         private ObraService $obraService,
@@ -33,26 +33,26 @@ readonly class ObraController extends WebController
         $obres = $this->obraService->getAllPaginated($limit, $pagina - 1);
         $obresTotal = count($obres);
         $paginaTotal = ceil($obresTotal / $limit);
-        $twigContext = new TwigContext($req, "Totes les obres", [
+        $renderContext = new RenderContext($req, "Totes les obres", [
             "obres" => $obres->toArray(),
             "obresTotal" => $obresTotal,
             "pagina" => $pagina,
             "paginaTotal" => $paginaTotal
         ]);
-        return $this->twigService->render($res, "Pages/obres.html.twig", $twigContext);
+        return $this->renderService->render($res, "Pages/obres.html.twig", $renderContext);
     }
     public function getById(Request $req, Response $res, array $args): Response
     {
         $id = (int) $args["id"];
         /** @var Obra $obra */
         $obra = $this->obraService->getById($id, true);
-        $twigContextData = ["obra" => $obra->toArray()];
-        $twigContextData["llibres"] = array_map(fn(Llibre $llibre) => $llibre->getCobertesBasic(), $obra->getLlibres()->toArray());
-        $twigContext = new TwigContext($req, $obra->getTitolOriginal(), $twigContextData);
-        return $this->twigService->render(
+        $renderContextData = ["obra" => $obra->toArray()];
+        $renderContextData["llibres"] = array_map(fn(Llibre $llibre) => $llibre->getCobertesBasic(), $obra->getLlibres()->toArray());
+        $renderContext = new RenderContext($req, $obra->getTitolOriginal(), $renderContextData);
+        return $this->renderService->render(
             $res,
             "Pages/obra.html.twig",
-            $twigContext
+            $renderContext
         );
     }
     public function getNou(Request $req, Response $res): Response
@@ -62,10 +62,10 @@ readonly class ObraController extends WebController
         $autorsJson = array_map(fn(Autor $autor) => $autor->toArray(), $autors);
         $idiomesJson = array_map(fn(Idioma $idioma) => $idioma->toArray(), $idiomes);
 
-        $twigContext = new TwigContext($req, "Afegir obra", [
+        $renderContext = new RenderContext($req, "Afegir obra", [
             "autors" => $autorsJson,
             "idiomes" => $idiomesJson,
         ]);
-        return $this->twigService->render($res, "Pages/obraNou.html.twig", $twigContext);
+        return $this->renderService->render($res, "Pages/obraNou.html.twig", $renderContext);
     }
 }

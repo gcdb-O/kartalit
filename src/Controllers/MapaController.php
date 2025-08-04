@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace Kartalit\Controllers;
 
+use Kartalit\Interfaces\RenderServiceInterface;
 use Kartalit\Models\Usuari;
-use Kartalit\Schemas\TwigContext;
+use Kartalit\Schemas\RenderContext;
 use Kartalit\Services\Entity\MapaService;
 use Kartalit\Services\Entity\UsuariService;
-use Kartalit\Services\TwigService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 readonly class MapaController extends WebController
 {
     public function __construct(
-        private TwigService $twigService,
+        private RenderServiceInterface $renderService,
         private MapaService $mapaService,
         private UsuariService $usuariService,
     ) {
-        parent::__construct($twigService);
+        parent::__construct($renderService);
     }
     public function getByUsuari(Request $req, Response $res, array $args): Response
     {
@@ -34,8 +34,8 @@ readonly class MapaController extends WebController
         /** @var Usuari $usuari */
         $usuari = $this->usuariService->getById($userId, true);
         // $mapaLiterari = $this->mapaService->getByUsuari($usuari, $reqUser);
-        $twigContextData = ["usuariMapa" => $usuari->toArray()];
+        $renderContextData = ["usuariMapa" => $usuari->toArray()];
 
-        return $this->twigService->render($res, "Pages/mapaLiterari.html.twig", new TwigContext($req, "Mapa Literari", $twigContextData));
+        return $this->renderService->render($res, "Pages/mapaLiterari.html.twig", new RenderContext($req, "Mapa Literari", $renderContextData));
     }
 }

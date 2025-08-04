@@ -9,11 +9,11 @@ use Kartalit\Enums\ApiResponseStatus;
 use Kartalit\Enums\Cookie;
 use Kartalit\Enums\HttpStatusCode;
 use Kartalit\Interfaces\AuthServiceInterface;
+use Kartalit\Interfaces\RenderServiceInterface;
 use Kartalit\Schemas\ApiResponse;
 use Kartalit\Schemas\ExceptionDisplayDetails;
-use Kartalit\Schemas\TwigContext;
+use Kartalit\Schemas\RenderContext;
 use Kartalit\Services\ApiResponseService;
-use Kartalit\Services\TwigService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
@@ -28,7 +28,7 @@ class ErrorHandler implements ErrorHandlerInterface
     private bool $displayErrorDetails = false;
     public function __construct(
         private Config $config,
-        private TwigService $twig,
+        private RenderServiceInterface $renderService,
         private ApiResponseService $apiResponseService,
         private AuthServiceInterface $authService,
         protected ?LoggerInterface $logger = null,
@@ -89,7 +89,7 @@ class ErrorHandler implements ErrorHandlerInterface
     private function handleWebError(Request $request, Throwable $throwable): ResponseInterface
     {
         $response = new Response();
-        $twigContextData = [
+        $renderContextData = [
             "code" => HttpStatusCode::SERVER_ERROR->value,
             "message" => "Alguna cosa ha fallat.",
             "displayErrorDetails" => $this->displayErrorDetails,
@@ -107,20 +107,20 @@ class ErrorHandler implements ErrorHandlerInterface
                     ->withStatus(HttpStatusCode::REDIRECT_TEMP->value)
                     ->withHeader("Location", $this->config->server["basePath"] . "/login");
             case HttpNotFoundException::class:
-                $twigContextData["code"] = HttpStatusCode::NOT_FOUND->value;
-                $twigContextData['message'] = "Pàgina no trobada";
+                $renderContextData["code"] = HttpStatusCode::NOT_FOUND->value;
+                $renderContextData['message'] = "Pàgina no trobada";
                 $response = $response->withStatus(HttpStatusCode::NOT_FOUND->value);
                 break;
             case EntityNotFoundException::class:
-                $twigContextData["code"] = $throwable->getCode();
-                $twigContextData['message'] = $throwable->getMessage();
+                $renderContextData["code"] = $throwable->getCode();
+                $renderContextData['message'] = $throwable->getMessage();
                 $response = $response->withStatus($throwable->getCode());
                 break;
             default:
                 $response = $response->withStatus(HttpStatusCode::SERVER_ERROR->value);
                 break;
         }
-        $twigContext = new TwigContext($request, "Error", $twigContextData);
-        return $this->twig->render($response, "Pages/notFound.html.twig", $twigContext);
+        $renderContext = new RenderContext($request, "Error", $renderContextData);
+        return $this->renderService->render($response, "Pages/notFound.html.twig", $renderContext);
     }
 }

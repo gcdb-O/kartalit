@@ -7,7 +7,7 @@ namespace Kartalit\Schemas;
 use Kartalit\Models\Usuari;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class TwigContext
+class RenderContext
 {
     private ?Usuari $usuari;
     public function __construct(

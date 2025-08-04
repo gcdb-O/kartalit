@@ -11,12 +11,14 @@ use Kartalit\Config\Config;
 use Kartalit\Helpers\RandomSort;
 use Kartalit\Interfaces\AuthServiceInterface;
 use Kartalit\Interfaces\CookieServiceInterface;
+use Kartalit\Interfaces\RenderServiceInterface;
 use Kartalit\Interfaces\SessionServiceInterface;
 use Kartalit\Interfaces\TokenServiceInterface;
 use Kartalit\Services\AuthService;
 use Kartalit\Services\CookieService;
 use Kartalit\Services\JwtService;
 use Kartalit\Services\SessionService;
+use Kartalit\Services\TwigService;
 use LongitudeOne\Spatial\DBAL\Types\Geometry\MultiPolygonType;
 use LongitudeOne\Spatial\DBAL\Types\Geometry\PointType;
 use LongitudeOne\Spatial\ORM\Query\AST\Functions\Standard\StAsText;
@@ -64,9 +66,10 @@ $container_bindings = [
         return $twig;
     },
     AuthServiceInterface::class => get(AuthService::class),
-    TokenServiceInterface::class => get(JwtService::class),
     CookieServiceInterface::class => get(CookieService::class),
+    RenderServiceInterface::class => get(TwigService::class),
     SessionServiceInterface::class => get(SessionService::class),
+    TokenServiceInterface::class => get(JwtService::class),
 ];
 
 $containerBuilder = new ContainerBuilder();
