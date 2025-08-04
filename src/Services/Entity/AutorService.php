@@ -6,8 +6,10 @@ namespace Kartalit\Services\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\Order;
+use Doctrine\ORM\QueryBuilder;
 use Kartalit\Enums\Entity;
 use Kartalit\Models\Autor;
+use Kartalit\Services\PaginatorService;
 
 class AutorService extends EntityService
 {
@@ -40,8 +42,20 @@ class AutorService extends EntityService
     }
     public function getAllOrdenat($ordre = Order::Ascending): array
     {
-        $qb = $this->repository->createQueryBuilder("a");
-        $qb->orderBy("a.ordenador", $ordre->value);
+        $qb = $this->qbAllOrdered($ordre);
         return $qb->getQuery()->getResult();
+    }
+    public function getAllPaginated(int $limit = 10, int $pagina = 1, Order $ordre = Order::Ascending): PaginatorService
+    {
+        $firstResult = $pagina * $limit;
+        $qb = $this->qbAllOrdered(order: $ordre);
+        $query = $qb->getQuery()->setFirstResult($firstResult)->setMaxResults($limit);
+        // var_dump($query->getSQL());
+        return new PaginatorService($query, false);
+    }
+    private function qbAllOrdered(Order $order = Order::Ascending, string $autor = "a"): QueryBuilder
+    {
+        return $this->repository->createQueryBuilder($autor)
+            ->orderBy("{$autor}.ordenador", $order->value);
     }
 }

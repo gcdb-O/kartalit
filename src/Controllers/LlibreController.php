@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kartalit\Controllers;
 
+use Kartalit\Helpers\DataValidation as DV;
 use Kartalit\Models\Autor;
 use Kartalit\Models\Cita;
 use Kartalit\Models\Idioma;
@@ -33,9 +34,9 @@ readonly class LlibreController extends WebController
     public function getAll(Request $req, Response $res): Response
     {
         $queryParams = $req->getQueryParams();
-        $pagina = isset($queryParams['pagina']) ? (int) $queryParams['pagina'] : 1;
+        $pagina = DV::issetAndNotEmptyString($queryParams, "pagina") ? (int) $queryParams['pagina'] : 1;
         $limit = 24;
-        $llibres = $this->llibreService->getAllPage($limit, $pagina - 1);
+        $llibres = $this->llibreService->getAllPaginated($limit, $pagina - 1);
         $llibresTotal = count($llibres);
         $paginaTotal = ceil($llibresTotal / $limit);
 
@@ -46,6 +47,23 @@ readonly class LlibreController extends WebController
             "paginaTotal" => $paginaTotal
         ]);
         return $this->renderService->render($res, "Pages/llibres.html.twig", $renderContext);
+    }
+    public function listAll(Request $req, Response $res): Response
+    {
+        $queryParams = $req->getQueryParams();
+        $pagina = DV::issetAndNotEmptyString($queryParams, "pagina") ? (int) $queryParams['pagina'] : 1;
+        $limit = 50;
+        $llibres = $this->llibreService->getAllPaginated($limit, $pagina - 1);
+        $llibresTotal = count($llibres);
+        $paginaTotal = ceil($llibresTotal / $limit);
+
+        $twigContext = new TwigContext($req, "Tots els llibres", [
+            "llibres" => $llibres->toArray(),
+            "llibresTotal" => $llibresTotal,
+            "pagina" => $pagina,
+            "paginaTotal" => $paginaTotal
+        ]);
+        return $this->twigService->render($res, "Pages/llibresLlista.html.twig", $twigContext);
     }
     public function getById(Request $req, Response $res, array $args): Response
     {

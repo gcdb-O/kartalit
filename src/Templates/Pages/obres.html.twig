@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+{% from "Components/Macros/pagination.html.twig" import pagination %}
+{% from "Components/Macros/autors.html.twig" import autorsComplet %}
+
+{% block content %}
+	{% if usuari and usuari.nivell < 2 %}
+		<a href="{{basePath}}/obra/nou" title="Afegir obra">
+			Afegir obra
+		</a>
+	{% endif %}
+	<div class="my-3">
+		{{ pagination(pagina, paginaTotal, "obra") }}
+	</div>
+    <table>
+    {% for obra in obres %}
+        <tr>
+            <td>{{obra.titolOriginal}}</td>
+            <td>{{obra.titolCatala}}</td>
+            <td>{{autorsComplet(obra.autors)}}</td>
+            <td>{{obra.anyPublicacio}}</td>
+        </tr>
+    {% endfor %}
+    </table>
+	<div class="my-3">
+		{{pagination(pagina, paginaTotal, "obra") }}
+	</div>
+{% endblock %}
+
+{% block js %}
+	<script src="{{basePath}}/js/utils/paginacio.js"></script>
+{% endblock %}
